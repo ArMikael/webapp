@@ -329,6 +329,53 @@ input[type=radio]:checked ~ label ~ .content {
 	z-index: 1;
 }
 
+/* 
+   Reports Block
+   ========================================================================== */
+
+.reports {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	display: none;
+	z-index: 10;
+}
+
+input[type=checkbox] {
+	display: none;
+}
+
+label.mobile-nav {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	display: block;
+	
+	z-index: 10;
+	border: 1px solid #d9d9d9;
+	border-radius: 5px;
+	text-decoration: none;
+	background-color: #E2E2E2;
+}
+
+.settings-btn {
+	right: 60px;
+	top: 60px;
+	background: url(../img/icons/expand.png) no-repeat 50% 50%;
+}
+
+.reports-btn {
+	right: 20px;
+	top: 60px;
+	background: url(../img/icons/settings.png) no-repeat 50% 50%;
+}
+
+label.mobile-nav:hover {
+	background-color: #fff;
+	cursor: pointer;
+}
+
+
 #sites-list {
 	margin: 30px 0;
 	width: 160px;
