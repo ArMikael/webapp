@@ -335,17 +335,28 @@ input[type=radio]:checked ~ label ~ .content {
 
 .reports {
 	position: absolute;
-	left: 10px;
-	top: 10px;
+	left: 20px;
+	top: 50px;
 	display: none;
 	z-index: 10;
+	background-color: white;
+	width: 90%;
+	height: 300px;
+	padding: 10px;
+	border: 1px solid #d9d9d9;
+}
+
+.report-row {
+	margin: 10px;
+	padding: 10px;
+	background-color: #d9d9d9;
 }
 
 input[type=checkbox] {
 	display: none;
 }
 
-label.mobile-nav {
+label.app-button {
 	position: absolute;
 	width: 30px;
 	height: 30px;
@@ -358,7 +369,7 @@ label.mobile-nav {
 	background-color: #E2E2E2;
 }
 
-.settings-btn {
+.new-tab-btn {
 	right: 60px;
 	top: 60px;
 	background: url(../img/icons/expand.png) no-repeat 50% 50%;
@@ -370,14 +381,14 @@ label.mobile-nav {
 	background: url(../img/icons/settings.png) no-repeat 50% 50%;
 }
 
-label.mobile-nav:hover {
+label.app-button:hover {
 	background-color: #fff;
 	cursor: pointer;
 }
 
 
 #sites-list {
-	margin: 30px 0;
+	margin: 10px 0;
 	width: 160px;
 }
 
