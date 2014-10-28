@@ -102,8 +102,8 @@ body {
 	background-size: auto 100%;
 	margin: 0;
 	position: relative;
-	height: 1000px;
-	overflow: hidden;
+	height: 1600px;
+	/*overflow: hidden;*/
 }
 
 .layout-wrap, .page-body {
@@ -267,7 +267,7 @@ header a img {
 .tabs {
 	position: relative;   
 	margin: 10px auto;
-	min-height: 440px;
+	min-height: 1200px;
 	margin: 0 1% 2% 1%;
 	width: 97%;
 }
@@ -335,8 +335,12 @@ input[type=radio]:checked ~ label ~ .content {
 }
 
 .site-frame	{
-	height: 300px;
-	background-color: pink;
+	height: 1200px;
+}
+
+.iframe {
+	overflow: hidden;
+	height: 100%;
 }
 
 
