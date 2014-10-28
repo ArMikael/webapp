@@ -126,7 +126,7 @@ header {
 
 #search {
 	position: absolute;
-	top:20px;
+	top: 20px;
 	right: 100px;
 }
 
@@ -153,15 +153,38 @@ header a img {
 	left: 0;
 }
 
+.notifications {
+	background-color: #E2E2E2;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 2%;
+	margin: 0 1%;
+	width: 93%;
+}
+
 .menu-hint {
 	background-color: #E2E2E2;
 	height: 40px;
-	text-align: center;
+	text-align: left;
 	line-height: 40px;
+	position: relative;
+	padding-left: 2%;
 }
 
 .menu-hint p {
 	margin: 0;
+}
+
+.fa {
+	position: absolute;
+	right: 4%;
+	top: 6px;
+	font-size: 1.6rem;
+}
+
+.nav-section:hover .fa {
+	transform: rotate(180deg);
+	transition: transform .5s;
 }
 
 .nav-section {
@@ -196,18 +219,12 @@ header a img {
 	background-image: url(../img/icons/actions-help.png);
 }
 
-.nav-section a {
-	display: block;
-	background-color: #E2E2E2;
-	text-decoration: none;
-	color: grey;
-}
-
 .nav-section ul {
-	display: none;
+	height: 0;
 	width: 100%;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 	list-style: none;
 	position: absolute;
 	left: 0;
@@ -215,10 +232,31 @@ header a img {
 	color: #E2E2E2;
 }
 
-
 .nav-section:hover ul {
-	display:block;
+	height: 160px;
+	transition: height .3s;
+	z-index: 2;
 }
+
+.nav-section a {
+	display: block;
+	background-color: #FFF;
+	text-decoration: none;
+	color: grey;
+	padding-left: 20px;
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px solid grey;
+}
+
+.nav-section a:hover {
+	display: block;
+	background-color: #E2E2E2;
+	text-decoration: none;
+	color: grey;
+	padding-left: 20px;
+}
+
 
 
 /* ==========================================================================
