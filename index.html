@@ -27,7 +27,7 @@
 			<a href="#">netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
 
 			<form id="search" method="get" action="http://www.google.com">
-				<input type="search" name="q" placeholder="search">
+				<input type="search" name="q" placeholder="Search">
 			</form>
 		  </div>
 		</header>
@@ -37,7 +37,7 @@
 			</div>
 
 			<nav class="main-nav clearfix">
-				<div class="nav-section">
+				<div class="nav-section cat-reports">
 					<p>Select Reporting Platform</p>
 
 					<div class="menu">
@@ -56,7 +56,7 @@
 					</div>
 				</div>
 
-				<div class="nav-section">
+				<div class="nav-section cat-dashboard">
 					<p>Select Dashboard</p>
 
 					<div class="menu">
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 
-				<div class="nav-section">
+				<div class="nav-section cat-help">
 					<p>Help &amp; Tutorials</p>
 
 					<div class="menu">
@@ -95,38 +95,58 @@
 				</div>
 			</nav>
 
-			<div class="tabs">
-				<ul>
-					<li><a href="#quick-reports">Quick Reports</a>
-						<div class="report-row">
-							<span>Report 01</span>
-							<label for="name1">Name</label>
-							<input type="text" name="name1" id="name1" required="required" >
-							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1" required="required" >
+			<div class="tabs clearfix">
+				<ul class="tabs-list">
+					<li class="tab">
+						<input type="radio" id="tab-1" name="tab-group-1" checked>
+       					<label for="tab-1">Quick Reports</label>
+						<div class="content">		
+							<div class="report-row">
+								<span>Report 01</span>
+								<label for="name1">Name</label>
+								<input type="text" name="name1" id="name1" required="required" >
+								<label for="url1">URL</label>
+								<input type="url" name="url1" id="url1" required="required" >
+							</div>
+
+							<div class="report-row">
+								<span>Report 02</span>
+								<label for="name2">Name</label>
+								<input type="text" name="name2" id="name2" required="required" >
+								<label for="url1">URL</label>
+								<input type="url" name="url1" id="url1" required="required" >
+							</div>
+
+							<div class="report-row">
+								<span>Report 03</span>
+								<label for="name3">Name</label>
+								<input type="text" name="name3" id="name3" required="required" >
+								<label for="url1">URL</label>
+								<input type="url" name="url1" id="url1" required="required" >
+							</div>	
 						</div>
 
-						<div class="report-row">
-							<span>Report 02</span>
-							<label for="name2">Name</label>
-							<input type="text" name="name2" id="name2" required="required" >
-							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1" required="required" >
-						</div>
-
-						<div class="report-row">
-							<span>Report 03</span>
-							<label for="name3">Name</label>
-							<input type="text" name="name3" id="name3" required="required" >
-							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1" required="required" >
+					</li>
+					<li class="tab">
+						<input type="radio" id="tab-2" name="tab-group-1" checked>
+       					<label for="tab-2">My Folders</label>
+						<div class="content">
+							
 						</div>
 					</li>
-					<li><a href="#fmy-folders">My Folders</a>
+					<li class="tab">
+						<input type="radio" id="tab-3" name="tab-group-1" checked>
+       					<label for="tab-3">My Team Folders</label>
+						<div class="content">
+							
+						</div>
 					</li>
-					<li><a href="#my-team-folders">My Team Folders</a>
-					</li>
-					<li><a href="#public-folders">Public Folders</a>
+					<li class="tab">
+						<input type="radio" id="tab-4" name="tab-group-1" checked>
+       					<label for="tab-4">Public Folders</label>
+						<div class="content">
+							
+						</div>
 					</li>
 				</ul>
 
