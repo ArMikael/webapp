@@ -104,6 +104,7 @@ body {
 	position: relative;
 	height: 1600px;
 	/*overflow: hidden;*/
+	min-width: 800px;
 }
 
 .layout-wrap, .page-body {
@@ -273,31 +274,29 @@ header a img {
 }
 
 .tab {
-	margin-right: 2%;
+	float: left;
+	height: 200px;
+	width: 23%;
+	margin-right: 2.66%;
+	border-bottom: 0;
 }
 
 .tab:last-child {
 	margin-right: 0;
-	float: right;
-}
-
-.tab {
-	float: left;
-	height: 200px;
-	width: 23%;
 }
 
 .tab-label {
 	display: inline-block;
-}
-
-.tab > label {
-	background: #eee; 
+	background: #646464; 
+	color: #fff;
 	padding: 10px 15%; 
-	border: 1px solid #ccc; 
 	/*position: relative;*/
 	left: 0; 
 	cursor: pointer;
+	width: 70%;
+	margin: 0 auto;
+	text-align: center;
+	min-width: 123px;
 }
 
 .tab input[type=radio] {
@@ -306,19 +305,19 @@ header a img {
 
 .content {
 	position: absolute;
-	top: 46px;
+	top: 42px;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	background: white;
 	padding: 20px;
-	border: 1px solid #ccc; 
 }
 
 input[type=radio]:checked ~ label {
 	background: white;
 	border-bottom: 1px solid white;
 	z-index: 2;
+	color: #000;
 }
 
 input[type=radio]:checked ~ label ~ .content {
