@@ -178,7 +178,7 @@ header a img {
 	margin: 0;
 }
 
-.fa {
+.fa-caret-down {
 	position: absolute;
 	right: 4%;
 	top: 6px;
@@ -278,7 +278,7 @@ header a img {
 	height: 200px;
 	width: 23%;
 	margin-right: 2.66%;
-	border-bottom: 0;
+	/*position: relative;*/
 }
 
 .tab:last-child {
@@ -290,7 +290,6 @@ header a img {
 	background: #646464; 
 	color: #fff;
 	padding: 10px 15%; 
-	/*position: relative;*/
 	left: 0; 
 	cursor: pointer;
 	width: 70%;
@@ -301,6 +300,10 @@ header a img {
 
 .tab input[type=radio] {
 	display: none;   
+}
+
+.tab-icon {
+	font-size: 1rem;
 }
 
 .content {
