@@ -116,17 +116,17 @@ header {
 	background-color: black;
 	height: 40px;
 	padding: 20px;
-}  
+}
 
 .page-body {
 	background-color: grey;
 	padding: 10px 20px;
 	max-width: 1200px;
-}   
+}
 
 .main-nav {
 	height: 200px;
-}  
+}
 
 #search {
 	position: absolute;
@@ -272,7 +272,7 @@ header a img {
    Tabs
    ========================================================================== */
 .tabs {
-	position: relative;   
+	position: relative;
 	margin: 10px auto;
 	min-height: 1200px;
 	margin: 0 1% 2% 1%;
@@ -293,10 +293,10 @@ header a img {
 
 .tab-label {
 	display: inline-block;
-	background: #646464; 
+	background: #646464;
 	color: #fff;
-	padding: 10px 15%; 
-	left: 0; 
+	padding: 10px 15%;
+	left: 0;
 	cursor: pointer;
 	width: 70%;
 	margin: 0 auto;
@@ -305,7 +305,7 @@ header a img {
 }
 
 .tab input[type=radio] {
-	display: none;   
+	display: none;
 }
 
 .tab-icon {
@@ -333,7 +333,7 @@ input[type=radio]:checked ~ label ~ .content {
 	z-index: 1;
 }
 
-/* 
+/*
    Reports Block
    ========================================================================== */
 
@@ -364,7 +364,7 @@ label.app-button {
 	position: absolute;
 	width: 30px;
 	height: 30px;
-	display: block;	
+	display: block;
 	z-index: 2;
 	border: 1px solid #d9d9d9;
 	border-radius: 5px;

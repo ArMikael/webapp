@@ -1,24 +1,77 @@
-// Avoid `console` errors in browsers that lack a console.
-(function() {
-    var method;
-    var noop = function () {};
-    var methods = [
-        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-        'timeStamp', 'trace', 'warn'
-    ];
-    var length = methods.length;
-    var console = (window.console = window.console || {});
+var UTILS = (function () {
 
-    while (length--) {
-        method = methods[length];
+	return {
 
-        // Only stub undefined methods.
-        if (!console[method]) {
-            console[method] = noop;
-        }
-    }
+		/**
+		 * AJAX helper function
+		 * @param  {string} url     URL for the ajax request
+		 * @param  {Object} options AJAX settings
+		 */
+		ajax: function ( url, options ) {
+			var xhr = new XMLHttpRequest(),
+				method = 'GET',
+				isOptions = ( typeof options === 'object' );
+				// method = ( options && options.method ) || 'GET';
+
+			// Check if the "method" was supplied
+			if ( isOptions && options.method ) {
+				method = options.method;
+			}
+
+			// Setup the request
+			xhr.open( method, url );
+
+			xhr.onreadystatechange = function () {
+
+				// If request finished
+				if ( xhr.readyState === 4 ) {
+
+					// If response is OK or fetched from cache
+					if ( xhr.status === 200 || xhr.status === 304) {
+						var res = xhr.responseText,
+							contentType = xhr.getResponseHeader('Content-Type');
+
+						// If server sent a content type header, handle formats
+						if ( contentType ) {
+
+							// Handle JSON format
+							if ( contentType === 'application/json' ) {
+
+								// JSON throws an exception on invalid JSON
+								try {
+									res = JSON.parse( res );
+								} catch (err) {
+									// Trigger error callback if set
+									if ( isOptions && options.error ) {
+										options.error.call( xhr, err );
+										return;
+									}
+								}
+
+							// Handle XML format
+							} else if ( contentType === 'application/xml' ) {
+								// responseXML returns a document object
+								res = xhr.responseXML;
+
+								// If XML was invalid, trigger error callback
+								if ( res === null && isOptions && options.error ) {
+									options.error.call( xhr, 'Bad XML file' );
+									return;
+								}
+							}
+						}
+
+						// Trigger done callback  with the proper response
+						if ( isOptions && options.done ) {
+							options.done.call( xhr, res );
+
+						}
+					}
+				}
+			};
+
+			// Fire the request
+			xhr.send(null);
+		}
+ 	};
 }());
-
-// Place any jQuery/helper plugins in here.
