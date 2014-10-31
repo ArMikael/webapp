@@ -24,12 +24,14 @@ var UTILS = (function () {
 			xhr.open( method, url );
 
 			xhr.onreadystatechange = function () {
+				var status;
 
 				// If request finished
 				if ( xhr.readyState === 4 ) {
+					status = xhr.status;
 
 					// If response is OK or fetched from cache
-					if ( xhr.status === 200 || xhr.status === 304) {
+					if (( status >= 200 && status < 300 ) || status === 304) {
 						var res = xhr.responseText,
 							contentType = xhr.getResponseHeader('Content-Type'),
 							failed = false;
@@ -67,12 +69,13 @@ var UTILS = (function () {
 						// Trigger done callback  with the proper response
 						if ( options && options.done ) {
 							options.done.call( xhr, res );
+						}
 					}
 				}
-			};
 
-			// Fire the request
-			xhr.send(null);
+				// Fire the request
+				xhr.send(null);
+			};
 		}
  	};
 }());
