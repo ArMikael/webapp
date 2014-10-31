@@ -5,7 +5,6 @@
 var UTILS = (function () {
 
 	return {
-
 		/**
 		 * AJAX helper function
 		 * @param  {string} url     URL for the ajax request
@@ -14,11 +13,10 @@ var UTILS = (function () {
 		ajax: function ( url, options ) {
 			var xhr = new XMLHttpRequest(),
 				method = 'GET',
-				isOptions = ( typeof options === 'object' );
-				// method = ( options && options.method ) || 'GET';
+				options = ( typeof options === 'object' ) ? options : {};
 
 			// Check if the "method" was supplied
-			if ( isOptions && options.method ) {
+			if ( options && options.method ) {
 				method = options.method;
 			}
 
@@ -33,7 +31,8 @@ var UTILS = (function () {
 					// If response is OK or fetched from cache
 					if ( xhr.status === 200 || xhr.status === 304) {
 						var res = xhr.responseText,
-							contentType = xhr.getResponseHeader('Content-Type');
+							contentType = xhr.getResponseHeader('Content-Type'),
+							failed = false;
 
 						// If server sent a content type header, handle formats
 						if ( contentType ) {
@@ -46,7 +45,7 @@ var UTILS = (function () {
 									res = JSON.parse( res );
 								} catch (err) {
 									// Trigger fail callback if set
-									if ( isOptions && options.fail ) {
+									if ( options && options.fail ) {
 										options.fail.call( xhr, err );
 										return;
 									}
@@ -58,7 +57,7 @@ var UTILS = (function () {
 								res = xhr.responseXML;
 
 								// If XML was invalid, trigger fail callback
-								if ( res === null && isOptions && options.fail ) {
+								if ( res === null && options && options.fail ) {
 									options.fail.call( xhr, 'Bad XML file' );
 									return;
 								}
@@ -66,10 +65,8 @@ var UTILS = (function () {
 						}
 
 						// Trigger done callback  with the proper response
-						if ( isOptions && options.done ) {
+						if ( options && options.done ) {
 							options.done.call( xhr, res );
-
-						}
 					}
 				}
 			};
