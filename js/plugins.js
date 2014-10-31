@@ -1,3 +1,7 @@
+/**
+ * Utils Library
+ */
+
 var UTILS = (function () {
 
 	return {
@@ -41,9 +45,9 @@ var UTILS = (function () {
 								try {
 									res = JSON.parse( res );
 								} catch (err) {
-									// Trigger error callback if set
-									if ( isOptions && options.error ) {
-										options.error.call( xhr, err );
+									// Trigger fail callback if set
+									if ( isOptions && options.fail ) {
+										options.fail.call( xhr, err );
 										return;
 									}
 								}
@@ -53,9 +57,9 @@ var UTILS = (function () {
 								// responseXML returns a document object
 								res = xhr.responseXML;
 
-								// If XML was invalid, trigger error callback
-								if ( res === null && isOptions && options.error ) {
-									options.error.call( xhr, 'Bad XML file' );
+								// If XML was invalid, trigger fail callback
+								if ( res === null && isOptions && options.fail ) {
+									options.fail.call( xhr, 'Bad XML file' );
 									return;
 								}
 							}
