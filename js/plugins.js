@@ -5,6 +5,11 @@
 var UTILS = (function () {
 
 	return {
+
+		addEvent: function ( event, handler ) {
+
+		},
+
 		/**
 		 * AJAX helper function
 		 * @param  {string} url     URL for the ajax request
