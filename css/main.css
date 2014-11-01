@@ -104,7 +104,7 @@ body {
 	position: relative;
 	height: 1600px;
 	/*overflow: hidden;*/
-	min-width: 800px;
+	min-width: 836px;
 }
 
 .layout-wrap, .page-body {
