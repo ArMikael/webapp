@@ -282,30 +282,19 @@ header a img {
 .tab {
 	float: left;
 	height: 200px;
-	width: 23%;
-	margin-right: 2.66%;
-	/*position: relative;*/
-}
-
-.tab:last-child {
-	margin-right: 0;
-}
-
-.tab-label {
+	width: 20%;
+	margin-right: 3.33%;
 	display: inline-block;
 	background: #646464;
 	color: #fff;
-	padding: 10px 15%;
-	left: 0;
+	padding: 10px 1.25%;
 	cursor: pointer;
-	width: 70%;
-	margin: 0 auto;
 	text-align: center;
 	min-width: 146px;
 }
 
-.tab input[type=radio] {
-	display: none;
+.tab:last-child {
+	margin-right: 0;
 }
 
 .tab-icon {
@@ -322,16 +311,6 @@ header a img {
 	padding: 20px;
 }
 
-input[type=radio]:checked ~ label {
-	background: white;
-	border-bottom: 1px solid white;
-	z-index: 2;
-	color: #000;
-}
-
-input[type=radio]:checked ~ label ~ .content {
-	z-index: 1;
-}
 
 /*
    Reports Block
