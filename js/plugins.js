@@ -1,86 +1,93 @@
 /**
- * Utils Library
+ * Utils library
  */
 
 var UTILS = (function () {
 
 	return {
-
-		addEvent: function ( event, handler ) {
-
+		/**
+		 * Check if a given value is a plain Object
+		 *
+		 * @param  {*}       o Any value to be checked
+		 * @return {Boolean}   true if it's an Object
+		 */
+		isObject: function (o) {
+			var toString = Object.prototype.toString;
+			return (toString.call(o) === toString.call({}));
 		},
 
 		/**
-		 * AJAX helper function
-		 * @param  {string} url     URL for the ajax request
-		 * @param  {Object} options AJAX settings
+		 * AJAX helper function (similar to jQuery, but far from it!)
+		 *
+		 * @param {string} url     URL for the ajax request
+		 * @param {Object} options AJAX settings
 		 */
-		ajax: function ( url, options ) {
+		ajax: function (url, options) {
 			var xhr = new XMLHttpRequest(),
 				method = 'GET',
-				options = ( typeof options === 'object' ) ? options : {};
+				options = UTILS.isObject(options) ? options : {};
 
-			// Check if the "method" was supplied
-			if ( options && options.method ) {
+			// Check if "method" was supplied
+			if (options.method) {
 				method = options.method;
 			}
 
 			// Setup the request
-			xhr.open( method, url );
+			xhr.open(method.toUpperCase(), url);
 
 			xhr.onreadystatechange = function () {
 				var status;
 
 				// If request finished
-				if ( xhr.readyState === 4 ) {
+				if (xhr.readyState === 4) {
 					status = xhr.status;
 
 					// If response is OK or fetched from cache
-					if (( status >= 200 && status < 300 ) || status === 304) {
+					if ((status >= 200 && status < 300) || status === 304) {
 						var res = xhr.responseText,
-							contentType = xhr.getResponseHeader('Content-Type'),
-							failed = false;
+							contentType = xhr.getResponseHeader('Content-Type');
 
 						// If server sent a content type header, handle formats
-						if ( contentType ) {
-
+						if (contentType) {
 							// Handle JSON format
-							if ( contentType === 'application/json' ) {
+							if (contentType === 'text/json' ||
+								contentType === 'application/json') {
 
 								// JSON throws an exception on invalid JSON
 								try {
-									res = JSON.parse( res );
+									res = JSON.parse(res);
 								} catch (err) {
-									// Trigger fail callback if set
-									if ( options && options.fail ) {
-										options.fail.call( xhr, err );
+									// Trigger "fail" callback if set
+									if (options.fail) {
+										options.fail.call(xhr, err);
 										return;
 									}
 								}
-
 							// Handle XML format
-							} else if ( contentType === 'application/xml' ) {
+							} else if (contentType === 'text/xml' ||
+								contentType === 'application/xml') {
 								// responseXML returns a document object
 								res = xhr.responseXML;
 
-								// If XML was invalid, trigger fail callback
-								if ( res === null && options && options.fail ) {
-									options.fail.call( xhr, 'Bad XML file' );
+								// if XML was invalid, trigger fail callback
+								if (res === null && options.fail) {
+									options.fail.call(xhr, 'Bad XML file');
 									return;
 								}
 							}
 						}
 
-						// Trigger done callback  with the proper response
-						if ( options && options.done ) {
-							options.done.call( xhr, res );
+						// Trigger done callback with the proper response
+						if (options.done) {
+							options.done.call(xhr, res);
 						}
 					}
-				}
 
-				// Fire the request
-				xhr.send(null);
+				}
 			};
+
+			// Fire the request
+			xhr.send(null);
 		}
- 	};
+	};
 }());

@@ -1,8 +1,20 @@
-window.onload = function() {
+// window.onload = function() {
 
+	/* UTILS API  Section */
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+		console.log(response);
+
+		},
+
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
+
+	/* JS Tabs Section */
 	var tab = document.querySelectorAll(".tab"),
 		activeTab;
-
 
 	var switchTab = function() {
 		activeTab = document.querySelector("a[data-tab]");
@@ -16,7 +28,7 @@ window.onload = function() {
 	for ( var i = 0; i < tab.length; i++ ) {
 		tab[i].addEventListener("click", switchTab, "handler");
 	}
-};
+// };
 
 
 
