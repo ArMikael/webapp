@@ -1,16 +1,20 @@
-// window.onload = function() {
+window.onload = function() {
 
-	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-		console.log(response);
+/* UTILS API  Section */
+UTILS.ajax('data/notification.txt', {
+done: function(response) {
+		//console.log(response);
+		var text = document.createTextNode(response);
+		var paragraph = document.createElement("p");
+		var notification = document.querySelector('.notifications');
+		paragraph.appendChild(text);
+		notification.appendChild(paragraph);
+	},
 
-		},
-
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+fail: function(err) {
+	document.querySelector('#xhr');
+	}
+});
 
 	/* JS Tabs Section */
 	var tab = document.querySelectorAll(".tab"),
@@ -18,7 +22,7 @@
 
 	var switchTab = function() {
 		activeTab = document.querySelector("a[data-tab]");
-		console.log(activeTab);
+		// console.log(activeTab);
 		activeTab.removeAttribute('data-tab');
 		this.setAttribute('data-tab', 'active-tab');
 		activeTab.querySelector('.content').style.display = "none";
@@ -26,9 +30,16 @@
 	};
 
 	for ( var i = 0; i < tab.length; i++ ) {
-		tab[i].addEventListener("click", switchTab, "handler");
+		if ( document.addEventListener ) {
+			tab[i].addEventListener("click", switchTab, "handler");
+		} else {
+			tab[i].attachEvent("onclick", switchTab);
+		}
 	}
-// };
+
+	// UTILS.addEvent('click', switchTab, false);
+
+};
 
 
 
