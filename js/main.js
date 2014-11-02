@@ -6,10 +6,11 @@ window.onload = function() {
 
 	var switchTab = function() {
 		activeTab = document.querySelector("a[data]");
-		// console.log(this);
 		console.log(activeTab);
 		activeTab.removeAttribute('data');
 		this.setAttribute('data', 'active-tab');
+		activeTab.querySelector('.content').style.display = "none";
+		this.querySelector('.content').style.display = "block";
 	};
 
 	for ( var i = 0; i < tab.length; i++ ) {

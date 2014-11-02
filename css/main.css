@@ -299,15 +299,11 @@ header a img {
 	font-size: 1rem;
 }
 
-/*.active {
-	background-color: red;
-	color: yellow;
-}*/
-
 a[data="active-tab"] {
-	background-color: red;
-	color: yellow;
+	background-color: #fff;
+	color: black;
 }
+
 
 .content {
 	position: absolute;
@@ -317,6 +313,13 @@ a[data="active-tab"] {
 	bottom: 0;
 	background: white;
 	padding: 20px;
+	color: black;
+	font-size: 40px;
+	display: none;
+}
+
+a[data="active-tab"] .content {
+	display: block;
 }
 
 
