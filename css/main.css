@@ -299,7 +299,7 @@ header a img {
 	font-size: 1rem;
 }
 
-a[data="active-tab"] {
+a[data-tab="active-tab"] {
 	background-color: #fff;
 	color: black;
 }
@@ -318,7 +318,7 @@ a[data="active-tab"] {
 	display: none;
 }
 
-a[data="active-tab"] .content {
+a[data-tab="active-tab"] .content {
 	display: block;
 }
 
