@@ -18,20 +18,22 @@ fail: function(err) {
 
 	/* JS Tabs Section */
 	var tab = document.querySelectorAll(".tab"),
-		activeTab;
+		activeTab,
+		switchTab;
 
-	var switchTab = function() {
+		switchTab = function(e) {
+		var target = e.currentTarget;
+		console.log(e.currentTarget);
 		activeTab = document.querySelector("a[data-tab]");
-		// console.log(activeTab);
 		activeTab.removeAttribute('data-tab');
-		this.setAttribute('data-tab', 'active-tab');
+		target.setAttribute('data-tab', 'active-tab');
 		activeTab.querySelector('.content').style.display = "none";
-		this.querySelector('.content').style.display = "block";
+		target.querySelector('.content').style.display = "block";
 	};
 
 	for ( var i = 0; i < tab.length; i++ ) {
 		if ( document.addEventListener ) {
-			tab[i].addEventListener("click", switchTab, "handler");
+			tab[i].addEventListener("click", switchTab, false);
 		} else {
 			tab[i].attachEvent("onclick", switchTab);
 		}
