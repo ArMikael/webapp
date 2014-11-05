@@ -1,29 +1,29 @@
 window.onload = function() {
 
-/* UTILS API  Section */
-UTILS.ajax('data/notification.txt', {
-done: function(response) {
-		//console.log(response);
-		var text = document.createTextNode(response);
-		var paragraph = document.createElement("p");
-		var notification = document.querySelector('.notifications');
-		paragraph.appendChild(text);
-		notification.appendChild(paragraph);
-	},
+	/* UTILS API  Section */
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			//console.log(response);
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement("p");
+			var notification = document.querySelector('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-fail: function(err) {
-	document.querySelector('#xhr');
-	}
-});
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
+
 
 	/* JS Tabs Section */
 	var tab = document.querySelectorAll(".tab"),
 		activeTab,
 		switchTab;
 
-		switchTab = function(e) {
+	switchTab = function(e) {
 		var target = e.currentTarget;
-		console.log(e.currentTarget);
 		activeTab = document.querySelector("a[data-tab]");
 		activeTab.removeAttribute('data-tab');
 		target.setAttribute('data-tab', 'active-tab');
@@ -32,14 +32,8 @@ fail: function(err) {
 	};
 
 	for ( var i = 0; i < tab.length; i++ ) {
-		if ( document.addEventListener ) {
-			tab[i].addEventListener("click", switchTab, false);
-		} else {
-			tab[i].attachEvent("onclick", switchTab);
-		}
+		UTILS.addEvent(tab[i], 'click', switchTab);
 	}
-
-	// UTILS.addEvent('click', switchTab, false);
 
 };
 

@@ -16,23 +16,13 @@ var UTILS = (function () {
 			return (toString.call(o) === toString.call({}));
 		},
 
-		// addEvent: function ( event, func, handler ) {
-		// 	var tab = document.querySelectorAll(".tab"),
-		// 		activeTab;
-
-		// 	var switchTab = function() {
-		// 		activeTab = document.querySelector("a[data-tab]");
-		// 		// console.log(activeTab);
-		// 		activeTab.removeAttribute('data-tab');
-		// 		this.setAttribute('data-tab', 'active-tab');
-		// 		activeTab.querySelector('.content').style.display = "none";
-		// 		this.querySelector('.content').style.display = "block";
-		// 	};
-
-		// 	for ( var i = 0; i < tab.length; i++ ) {
-		// 		tab[i].addEventListener("click", switchTab, "handler");
-		// 	}
-		// },
+		addEvent: function (elem, type, handler) {
+			if (document.addEventListener) {
+				elem.addEventListener(type, handler, false);
+			} else {
+				elem.attachEvent("on" + type, handler);
+			}
+		},
 
 		/**
 		 * AJAX helper function (similar to jQuery, but far from it!)
