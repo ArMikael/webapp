@@ -202,11 +202,6 @@ header a img {
 	height: 160px;
 }
 
-.nav-section:focus {
-	border: 2px solid white;
-	background-color: grey;
-}
-
 .nav-section > p {
     line-height: 50px;
     height: 120px;
@@ -238,11 +233,16 @@ header a img {
 	left: 0;
 	top: 160px;
 	color: #E2E2E2;
+	transition: height .3s;
 }
 
 .nav-section:hover ul {
 	height: 160px;
-	transition: height .3s;
+	z-index: 3;
+}
+
+.menu:focus ul.action-list {
+	height: 160px;
 	z-index: 3;
 }
 
@@ -289,6 +289,12 @@ header a img {
 	padding: 10px 0;
 	cursor: pointer;
 	text-align: center;
+}
+
+/* Accessibility for Tabs */
+.tab:focus {
+	background: yellow;
+	font-weight: 900;
 }
 
 .tab:last-child {
