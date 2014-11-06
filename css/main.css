@@ -357,14 +357,7 @@ a[data-tab="active-tab"] .content {
 	background-color: #d9d9d9;
 }
 
-input[type=checkbox] {
-	z-index: -10;
-	position: absolute;
-	left: -999px;
-	/* display: none; */
-}
-
-label.app-button {
+.app-button {
 	position: absolute;
 	width: 30px;
 	height: 30px;
@@ -388,12 +381,12 @@ label.app-button {
 	background: url(../img/icons/settings.png) no-repeat 50% 50%;
 }
 
-label.app-button:hover {
+.app-button:hover {
 	background-color: #fff;
 	cursor: pointer;
 }
 
-input[type="checkbox"]:focus + label {
+.app-button:focus {
 	background-color: yellow;
 }
 

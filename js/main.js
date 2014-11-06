@@ -79,14 +79,26 @@ window.onload = function() {
 
 
 var reportsBtn = document.querySelector(".reports-btn");
+var reports = document.querySelector(".reports");
 
 reportsBtn.onclick = function() {
-	var reports = document.querySelector(".reports");
 	if ( reports.style.display === "none" ) {
-			reports.style.display = "block";
+		reports.style.display = "block";
 	} else {
 		reports.style.display = "none";
 	}
 };
+
+reportsBtn.onkeypress = function(event) {
+    console.log(event.keyCode);
+    if (event.keyCode === 13 ) {
+    	if ( reports.style.display === "none" ) {
+    		reports.style.display = "block";
+    	} else {
+    		reports.style.display = "none";
+    	}
+    };
+};
+
 
 
