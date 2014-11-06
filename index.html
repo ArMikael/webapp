@@ -25,10 +25,10 @@
 		<!-- Add your site or application content here -->
 		<header>
 		  <div class="layout-wrap">
-			<a href="#">netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
+			<a href="#" tabindex="1" >netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
 
 			<form id="search" method="get" action="http://www.google.com">
-				<input type="search" name="q" placeholder="Search">
+				<input type="search" name="q" placeholder="Search" tabindex="2" >
 			</form>
 		  </div>
 		</header>
@@ -39,59 +39,59 @@
 			</div>
 
 			<nav class="main-nav clearfix">
-				<div class="nav-section cat-reports">
+				<div class="nav-section cat-reports" tabindex="3">
 					<p>Select Reporting Platform</p>
 
-					<div class="menu" tabindex="0">
+					<div class="menu" >
 						<div class="menu-hint">
 							<p>Choose QS report</p>
 							<i class="fa fa-caret-down"></i>
 						</div>
 
 						<ul class="action-list" >
-							<li><a href="#">Corporate</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
+							<li><a href="#" tabindex="4" data-item>Corporate</a></li>
+							<li><a href="#" tabindex="5">link</a></li>
+							<li><a href="#" tabindex="6">link</a></li>
+							<li><a href="#" tabindex="7">link</a></li>
+							<li><a href="#" tabindex="8">link</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-dashboard">
+				<div class="nav-section cat-dashboard" tabindex="9" >
 					<p>Select Dashboard</p>
 
-					<div class="menu" tabindex="0" >
+					<div class="menu" >
 						<div class="menu-hint">
 							<p>Choose dashboard</p>
 							<i class="fa fa-caret-down"></i>
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
+							<li><a href="#" tabindex="10">link</a></li>
+							<li><a href="#" tabindex="11">link</a></li>
+							<li><a href="#" tabindex="12">link</a></li>
+							<li><a href="#" tabindex="13">link</a></li>
+							<li><a href="#" tabindex="14">link</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-help">
+				<div class="nav-section cat-help" tabindex="15" >
 					<p>Help &amp; Tutorials</p>
 
-					<div class="menu" tabindex="0" >
+					<div class="menu">
 						<div class="menu-hint">
 							<p>Choose guide</p>
 							<i class="fa fa-caret-down"></i>
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
-							<li><a href="#">link</a></li>
+							<li><a href="#" tabindex="16">link</a></li>
+							<li><a href="#" tabindex="17">link</a></li>
+							<li><a href="#" tabindex="18">link</a></li>
+							<li><a href="#" tabindex="19">link</a></li>
+							<li><a href="#" tabindex="20">link</a></li>
 						</ul>
 					</div>
 				</div>
@@ -101,10 +101,10 @@
 				<div class="tabs-list">
 
 					<div class="top-buttons">
+						<input type="checkbox" id="reports" class="visuallyhidden" tabindex="25">
 						<label class="app-button reports-btn" for="reports"></label>
-						<input type="checkbox" id="reports">
+						<input type="checkbox" id="new-tab" class="visuallyhidden" tabindex="26">
 						<label class="app-button new-tab-btn" for="settings"></label>
-						<input type="checkbox" id="new-tab">
 					</div>
 
 					<div class="reports">
@@ -133,7 +133,7 @@
 						</div>
 					</div>
 
-					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="0" >
+					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="21" >
        						<i class="fa fa-external-link tab-icon"></i>
        						Quick Reports
 						<div class="content">
@@ -155,21 +155,21 @@
 						</div>
 					</a>
 
-					<a class="tab" id="tab2" tabindex="0" >
+					<a class="tab" id="tab2" tabindex="22" >
 							<i class="fa fa-star-o tab-icon"></i>
        						My Folders
 						<div class="content">
 							My Folders
 						</div>
 					</a>
-					<a class="tab" id="tab3" tabindex="0" >
+					<a class="tab" id="tab3" tabindex="23" >
 							<i class="fa fa-folder-open-o tab-icon"></i>
        						My Team Folders
 						<div class="content">
 							My Team Folders
 						</div>
 					</a>
-					<a class="tab" id="tab4" tabindex="0" >
+					<a class="tab" id="tab4" tabindex="24" >
 							<i class="fa fa-files-o tab-icon"></i>
        						Public Folders
 						<div class="content">

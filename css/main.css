@@ -241,7 +241,7 @@ header a img {
 	z-index: 3;
 }
 
-.menu:focus ul.action-list {
+.nav-section:focus ul.action-list {
 	height: 160px;
 	z-index: 3;
 }
@@ -263,6 +263,11 @@ header a img {
 	text-decoration: none;
 	color: grey;
 	padding-left: 20px;
+}
+
+a[data-item="active"] {
+	background-color: yellow;
+	transition: background-color .4s;
 }
 
 
@@ -353,7 +358,7 @@ a[data-tab="active-tab"] .content {
 }
 
 input[type=checkbox] {
-	display: none;
+	/*display: none;*/
 }
 
 label.app-button {
@@ -383,6 +388,10 @@ label.app-button {
 label.app-button:hover {
 	background-color: #fff;
 	cursor: pointer;
+}
+
+input[type="checkbox"]:checked ~ label {
+	background-color: yellow;
 }
 
 
