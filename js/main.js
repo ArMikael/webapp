@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	// UTILS.ajax('data/notification.txt', {
-	// done: function(response) {
-	// 		//console.log(response);
-	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
-	// 		var notification = document.querySelector('.notifications');
-	// 		paragraph.appendChild(text);
-	// 		notification.appendChild(paragraph);
-	// 	},
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			//console.log(response);
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement("p");
+			var notification = document.querySelector('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-	// fail: function(err) {
-	// 	document.querySelector('#xhr');
-	// 	}
-	// });
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
 
 
 	/* JS Tabs Section */
@@ -36,14 +36,11 @@ window.onload = function() {
 		UTILS.addEvent(tab[i], 'focus', switchTab);
 	}
 
-	// var tabIndexArr = document.querySelectorAll('[tabindex="0"]');
-	// console.log(tabIndexArr);
 	var menuItems = document.querySelectorAll('.action-list a');
 	var lastItem = document.querySelectorAll('.action-list li:last-child a');
-	// console.log(lastItem);
 	var menus = document.querySelectorAll('.action-list');
 
-	/* This function open categories submenus on focus and highlighting currently
+	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
 	var showMenu = function(e) {
 		var target = e.target,
@@ -57,12 +54,13 @@ window.onload = function() {
 		parent.parentNode.style.height = "160px";
 		parent.parentNode.style.zIndex = "3";
 
+		console.log(target.type);
 	};
 
+	/* Function closes categories */
 	var closeMenu = function(e) {
 		var target = e.target,
 		parent = target.parentNode;
-		console.log(parent.parentNode);
 		parent.parentNode.style.height = "0";
 	}
 
@@ -74,31 +72,38 @@ window.onload = function() {
 		UTILS.addEvent(lastItem[i], 'blur', closeMenu);
 	}
 
+	/* Solution for opened categories issue */
+	// var catBlocks = document.querySelectorAll('.action-list');
+
+	// for ( var i = 0; i < catBlocks.length; i++ ) {
+	// 	UTILS.addEvent(catBlocks[i], 'hover', closeMenu);
+	// }
+
+
+	/* Reports section */
+	var reportsBtn = document.querySelector(".reports-btn"),
+	reports = document.querySelector(".reports");
+
+	// Function check if the Reports window is displayed and show it if needed
+	var openReports = function(event) {
+		if ( reports.style.display === "none" ) {
+			reports.style.display = "block";
+		} else {
+			reports.style.display = "none";
+		}
+	};
+
+	// Function that checks what event triggered and if on keypress "Enter" was clicked
+	var checkEvent = function(event) {
+		if ( event.type === "click" ) {
+			openReports();
+		} else if ( event.type === "keypress" &&  event.keyCode === 13 ) {
+			openReports();
+		}
+	};
+
+	UTILS.addEvent(reportsBtn, 'click', checkEvent);
+	UTILS.addEvent(reportsBtn, 'keypress', checkEvent);
 };
-
-
-
-var reportsBtn = document.querySelector(".reports-btn");
-var reports = document.querySelector(".reports");
-
-reportsBtn.onclick = function() {
-	if ( reports.style.display === "none" ) {
-		reports.style.display = "block";
-	} else {
-		reports.style.display = "none";
-	}
-};
-
-reportsBtn.onkeypress = function(event) {
-    console.log(event.keyCode);
-    if (event.keyCode === 13 ) {
-    	if ( reports.style.display === "none" ) {
-    		reports.style.display = "block";
-    	} else {
-    		reports.style.display = "none";
-    	}
-    };
-};
-
 
 

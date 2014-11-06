@@ -98,28 +98,34 @@
 			</nav>
 
 			<div class="tabs clearfix">
-				<div class="tabs-list">
+				<div class="tabs-list" role="tab-list">
 
 					<div class="top-buttons">
-						<a class="app-button new-tab-btn" id="new-tab" tabindex="25"></a>
-						<a class="app-button reports-btn" id="reports" tabindex="26"></a>
+						<a class="app-button new-tab-btn" id="new-tab"
+						tabindex="23" role="button"></a>
+						<a class="app-button reports-btn" id="reports"
+						tabindex="24" role="button"></a>
 					</div>
 
 					<div class="reports">
 						<div class="report-row">
 							<span>Report 01</span>
 							<label for="name1">Name</label>
-							<input type="text" name="name1" id="name1" required="required" >
+							<input type="text" name="name1" id="name1"
+							required="required" >
 							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1" required="required" >
+							<input type="url" name="url1" id="url1"
+							required="required" >
 						</div>
 
 						<div class="report-row">
 							<span>Report 02</span>
 							<label for="name2">Name</label>
-							<input type="text" name="name2" id="name2" required="required" >
+							<input type="text" name="name2" id="name2"
+							required="required" >
 							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1" required="required" >
+							<input type="url" name="url1" id="url1"
+							required="required" >
 						</div>
 
 						<div class="report-row">
@@ -131,12 +137,13 @@
 						</div>
 					</div>
 
-					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="21" >
+					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="21"
+					role="tab">
        						<i class="fa fa-external-link tab-icon"></i>
        						Quick Reports
 						<div class="content">
 							<div>
-			  					<select name="web-sites" id="sites-list">
+			  					<select name="web-sites" id="sites-list" tabindex="22">
 			 						<option value="Site1" selected>Site 1</option>
 									<option value="Site2">Site 2</option>
 									<option value="Site3">Site 3</option>
@@ -153,21 +160,21 @@
 						</div>
 					</a>
 
-					<a class="tab" id="tab2" tabindex="22" >
+					<a class="tab" id="tab2" tabindex="25" role="tab">
 							<i class="fa fa-star-o tab-icon"></i>
        						My Folders
 						<div class="content">
 							My Folders
 						</div>
 					</a>
-					<a class="tab" id="tab3" tabindex="23" >
+					<a class="tab" id="tab3"  tabindex="26" role="tab">
 							<i class="fa fa-folder-open-o tab-icon"></i>
        						My Team Folders
 						<div class="content">
 							My Team Folders
 						</div>
 					</a>
-					<a class="tab" id="tab4" tabindex="24" >
+					<a class="tab" id="tab4" tabindex="27" role="tab">
 							<i class="fa fa-files-o tab-icon"></i>
        						Public Folders
 						<div class="content">
