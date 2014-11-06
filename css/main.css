@@ -358,7 +358,10 @@ a[data-tab="active-tab"] .content {
 }
 
 input[type=checkbox] {
-	/*display: none;*/
+	z-index: -10;
+	position: absolute;
+	left: -999px;
+	/* display: none; */
 }
 
 label.app-button {
@@ -390,7 +393,7 @@ label.app-button:hover {
 	cursor: pointer;
 }
 
-input[type="checkbox"]:checked ~ label {
+input[type="checkbox"]:focus + label {
 	background-color: yellow;
 }
 
