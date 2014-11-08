@@ -25,10 +25,10 @@
 		<!-- Add your site or application content here -->
 		<header>
 		  <div class="layout-wrap">
-			<a href="#" tabindex="1" >netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
+			<a href="#" tabindex="0" >netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
 
 			<form id="search" method="get" action="http://www.google.com">
-				<input type="search" name="q" placeholder="Search" tabindex="2" >
+				<input type="search" name="q" placeholder="Search" tabindex="0" >
 			</form>
 		  </div>
 		</header>
@@ -39,7 +39,7 @@
 			</div>
 
 			<nav class="main-nav clearfix">
-				<div class="nav-section cat-reports" tabindex="3">
+				<div class="nav-section cat-reports" tabindex="0">
 					<p>Select Reporting Platform</p>
 
 					<div class="menu" >
@@ -49,16 +49,16 @@
 						</div>
 
 						<ul class="action-list" >
-							<li><a href="#" tabindex="4" data-item>Corporate</a></li>
-							<li><a href="#" tabindex="5">link</a></li>
-							<li><a href="#" tabindex="6">link</a></li>
-							<li><a href="#" tabindex="7">link</a></li>
-							<li><a href="#" tabindex="8">link</a></li>
+							<li><a href="#" tabindex="0" data-item>Corporate</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-dashboard" tabindex="9" >
+				<div class="nav-section cat-dashboard" tabindex="0" >
 					<p>Select Dashboard</p>
 
 					<div class="menu" >
@@ -68,16 +68,16 @@
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#" tabindex="10">link</a></li>
-							<li><a href="#" tabindex="11">link</a></li>
-							<li><a href="#" tabindex="12">link</a></li>
-							<li><a href="#" tabindex="13">link</a></li>
-							<li><a href="#" tabindex="14">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-help" tabindex="15" >
+				<div class="nav-section cat-help" tabindex="0" >
 					<p>Help &amp; Tutorials</p>
 
 					<div class="menu">
@@ -87,11 +87,11 @@
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#" tabindex="16">link</a></li>
-							<li><a href="#" tabindex="17">link</a></li>
-							<li><a href="#" tabindex="18">link</a></li>
-							<li><a href="#" tabindex="19">link</a></li>
-							<li><a href="#" tabindex="20">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
 						</ul>
 					</div>
 				</div>
@@ -102,9 +102,9 @@
 
 					<div class="top-buttons">
 						<a class="app-button new-tab-btn" id="new-tab"
-						tabindex="23" role="button"></a>
+						tabindex="0" role="button"></a>
 						<a class="app-button reports-btn" id="reports"
-						tabindex="24" role="button"></a>
+						tabindex="0" role="button"></a>
 					</div>
 
 					<div class="reports">
@@ -137,13 +137,13 @@
 						</div>
 					</div>
 
-					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="21"
+					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="0"
 					role="tab">
-       						<i class="fa fa-external-link tab-icon"></i>
-       						Quick Reports
+   						<i class="fa fa-external-link tab-icon"></i>
+   						Quick Reports
 						<div class="content">
 							<div>
-			  					<select name="web-sites" id="sites-list" tabindex="22">
+			  					<select name="web-sites" id="sites-list" tabindex="0">
 			 						<option value="Site1" selected>Site 1</option>
 									<option value="Site2">Site 2</option>
 									<option value="Site3">Site 3</option>
@@ -152,7 +152,8 @@
 			 					</select>
 
 			 					<div class="site-frame">
-			 						<iframe src="http://www.netcraft.co.il/" width="100%" height="87%">
+			 						<iframe src="http://www.netcraft.co.il/"
+			 						width="100%" height="87%" tabindex="-1">
 										<p>Your browser does not support ifames.</p>
 									</iframe>
 			 					</div>
@@ -160,23 +161,23 @@
 						</div>
 					</a>
 
-					<a class="tab" id="tab2" tabindex="25" role="tab">
-							<i class="fa fa-star-o tab-icon"></i>
-       						My Folders
+					<a class="tab" id="tab2" tabindex="0" role="tab">
+						<i class="fa fa-star-o tab-icon"></i>
+   						My Folders
 						<div class="content">
 							My Folders
 						</div>
 					</a>
-					<a class="tab" id="tab3"  tabindex="26" role="tab">
-							<i class="fa fa-folder-open-o tab-icon"></i>
-       						My Team Folders
+					<a class="tab" id="tab3"  tabindex="0" role="tab">
+						<i class="fa fa-folder-open-o tab-icon"></i>
+   						My Team Folders
 						<div class="content">
 							My Team Folders
 						</div>
 					</a>
-					<a class="tab" id="tab4" tabindex="27" role="tab">
-							<i class="fa fa-files-o tab-icon"></i>
-       						Public Folders
+					<a class="tab" id="tab4" tabindex="0" role="tab">
+						<i class="fa fa-files-o tab-icon"></i>
+   						Public Folders
 						<div class="content">
 							Public Folders
 						</div>
