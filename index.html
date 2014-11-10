@@ -135,8 +135,10 @@
 							class="site-name" required="required" >
 							<label for="url1" class="site-url">URL</label>
 							<input type="url" name="url1" id="url1"
-							 required="required" >
+							 required="required">
 						</div>
+						<button type="submit">Save</button>
+						<a href="#" id="cancel" class="dis-link">Cancel</a>
 					</div>
 
 					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="0"
@@ -147,10 +149,6 @@
 							<div>
 			  					<select name="web-sites" id="sites-list" tabindex="0">
 			 						<option value="Site1" selected>Site 1</option>
-									<option value="Site2">Site 2</option>
-									<option value="Site3">Site 3</option>
-									<option value="Site4">Site 4</option>
-									<option value="Site5">Site 5</option>
 			 					</select>
 
 			 					<div class="site-frame">
@@ -167,7 +165,12 @@
 						<i class="fa fa-star-o tab-icon"></i>
    						My Folders
 						<div class="content">
-							My Folders
+							<div class="site-frame">
+								<iframe src="http://webdesign.tutsplus.com/" frameborder="0"
+								width="100%" height="87%" tabindex="-1">
+								<p>Your browser does not support ifames.</p>
+								</iframe>
+							</div>
 						</div>
 					</a>
 					<a class="tab" id="tab3"  tabindex="0" role="tab">
@@ -175,6 +178,12 @@
    						My Team Folders
 						<div class="content">
 							My Team Folders
+							<div class="site-frame">
+								<iframe src="#" frameborder="0"
+								width="100%" height="87%" tabindex="-1">
+								<p>Your browser does not support ifames.</p>
+								</iframe>
+							</div>
 						</div>
 					</a>
 					<a class="tab" id="tab4" tabindex="0" role="tab">
@@ -182,6 +191,12 @@
    						Public Folders
 						<div class="content">
 							Public Folders
+							<div class="site-frame">
+								<iframe src="http://caniuse.com/" frameborder="0"
+								width="100%" height="87%" tabindex="-1">
+								<p>Your browser does not support ifames.</p>
+								</iframe>
+							</div>
 						</div>
 					</a>
 				</div>
@@ -190,7 +205,7 @@
 					<form action="" role="form"></form>
 				</div>
 
-				<div id="fmy-folders">
+				<div id="my-folders">
 				</div>
 
 				<div id="my-team-folders">

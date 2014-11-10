@@ -353,7 +353,7 @@ select:focus {
 	z-index: 2;
 	background-color: white;
 	width: 95%;
-	height: 210px;
+	height: 260px;
 	padding: 10px;
 }
 
@@ -402,6 +402,26 @@ select:focus {
 .app-button:focus {
 	background-color: #fff;
 	cursor: pointer;
+}
+
+button[type="submit"],
+.dis-link {
+	height: 30px;
+	float: right;
+	margin: 10px;
+}
+
+
+button[type="submit"] {
+	background-color: black;
+	color: white;
+	width: 100px;
+	border: none;
+}
+
+.dis-link {
+	width: 60px;
+	line-height: 30px;
 }
 
 .site-frame	{
