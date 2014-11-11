@@ -6,7 +6,7 @@ window.onload = function() {
 	// 		//console.log(response);
 	// 		var text = document.createTextNode(response);
 	// 		var paragraph = document.createElement("p");
-	// 		var notification = document.querySelector('.notifications');
+	// 		var notification = UTILS.qs('.notifications');
 	// 		paragraph.appendChild(text);
 	// 		notification.appendChild(paragraph);
 	// 	},
@@ -18,13 +18,13 @@ window.onload = function() {
 
 
 	/* JS Tabs Section */
-	var tab = document.querySelectorAll(".tab"),
+	var tab = UTILS.qsa(".tab"),
 		activeTab,
 		switchTab;
 
 	switchTab = function(e) {
 		var target = e.currentTarget;
-		activeTab = document.querySelector("a[data-tab]");
+		activeTab = UTILS.qs("a[data-tab]");
 		activeTab.removeAttribute('data-tab');
 		target.setAttribute('data-tab', 'active-tab');
 		activeTab.querySelector('.content').style.display = "none";
@@ -36,9 +36,9 @@ window.onload = function() {
 		UTILS.addEvent(tab[i], 'focus', switchTab);
 	}
 
-	var menuItems = document.querySelectorAll('.action-list a');
-	var lastItem = document.querySelectorAll('.action-list li:last-child a');
-	var menus = document.querySelectorAll('.action-list');
+	var menuItems = UTILS.qsa('.action-list a');
+	var lastItem = UTILS.qsa('.action-list li:last-child a');
+	var menus = UTILS.qsa('.action-list');
 
 	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
@@ -47,7 +47,7 @@ window.onload = function() {
 		parent = target.parentNode,
 		activeParent;
 
-		activeItem = document.querySelector("[data-item]");
+		activeItem = UTILS.qs("[data-item]");
 		activeItem.removeAttribute('data-item');
 		target.setAttribute('data-item', 'active');
 
@@ -72,16 +72,8 @@ window.onload = function() {
 		UTILS.addEvent(lastItem[i], 'blur', closeMenu);
 	}
 
-	/* Solution for opened categories issue */
-	// var catBlocks = document.querySelectorAll('.action-list');
-
-	// for ( var i = 0; i < catBlocks.length; i++ ) {
-	// 	UTILS.addEvent(catBlocks[i], 'hover', closeMenu);
-	// }
-
-
 	/* Reports section */
-	var reportsBtn = document.querySelectorAll(".reports-btn");
+	var reportsBtn = UTILS.qsa(".reports-btn");
 
 	// Function check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(event) {
@@ -109,7 +101,7 @@ window.onload = function() {
 	}
 
 	// Function for open in new tab button
-	var newTabBtn = document.querySelectorAll(".new-tab-btn");
+	var newTabBtn = UTILS.qsa(".new-tab-btn");
 
 	var openNewTab = function(event) {
 		var iframe = event.currentTarget.parentNode.querySelector("iframe"),
@@ -134,11 +126,10 @@ window.onload = function() {
 	}
 
 	// Function for Cancel button
-	var cancelBtn = document.querySelectorAll(".cancel-btn");
+	var cancelBtn = UTILS.qsa(".cancel-btn");
 
 	var closeReports = function (event) {
 		var reports = event.currentTarget.parentNode;
-
 		reports.style.display = "none";
 	};
 
@@ -146,6 +137,21 @@ window.onload = function() {
 		UTILS.addEvent(cancelBtn[i], 'click', closeReports);
 		UTILS.addEvent(cancelBtn[i], 'keypress', closeReports);
 	}
+
+	// Saving inputs from Reports Form to Object
+	var qrSaveBtn = UTILS.qs("#qr-form");
+	var mtfSaveBtn = UTILS.qs("#mtf-form");
+
+	var saveNewSite = function (e) {
+		console.log(e.target);
+		console.log(e.currentTarget);
+	};
+
+	// UTILS.addEvent(qrSaveBtn, 'submit', saveNewSite);
+	// UTILS.addEvent(mtfSaveBtn, 'submit', saveNewSite);
+
+	UTILS.addEvent(qrSaveBtn, 'click', saveNewSite);
+
 };
 
 
