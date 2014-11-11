@@ -408,23 +408,14 @@ select:focus {
 }
 
 button[type="submit"],
-.dis-link {
+.cancel-btn {
 	height: 30px;
 	float: right;
 	margin: 10px;
-}
-
-
-button[type="submit"] {
-	background-color: black;
+	background-color: #000;
 	color: white;
 	width: 100px;
 	border: none;
-}
-
-.cancel-btn {
-	width: 100px;
-	line-height: 30px;
 }
 
 .site-frame	{

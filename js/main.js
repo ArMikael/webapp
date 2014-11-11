@@ -111,7 +111,7 @@ window.onload = function() {
 	// Function for open in new tab button
 	var newTabBtn = document.querySelectorAll(".new-tab-btn");
 
-	var frameSrc = function(event) {
+	var openNewTab = function(event) {
 		var iframe = event.currentTarget.parentNode.querySelector("iframe"),
 		src = iframe.getAttribute('src'),
 		newWindow;
@@ -120,12 +120,32 @@ window.onload = function() {
 		newWindow.focus();
 	};
 
+	var checkNewTabEvent = function (event) {
+		if ( event.type === "click" ) {
+			openNewTab(event);
+		} else if ( event.type === "keypress" &&  event.keyCode === 13 ) {
+			openNewTab(event);
+		}
+	};
+
 	for ( var i = 0; i < newTabBtn.length; i++ ) {
-		UTILS.addEvent(newTabBtn[i], 'click', frameSrc);
-		UTILS.addEvent(newTabBtn[i], 'keypress', frameSrc);
+		UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
+		UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
 	}
 
+	// Function for Cancel button
+	var cancelBtn = document.querySelectorAll(".cancel-btn");
 
+	var closeReports = function (event) {
+		var reports = event.currentTarget.parentNode;
+
+		reports.style.display = "none";
+	};
+
+	for ( var i = 0; i < cancelBtn.length; i++ ) {
+		UTILS.addEvent(cancelBtn[i], 'click', closeReports);
+		UTILS.addEvent(cancelBtn[i], 'keypress', closeReports);
+	}
 };
 
 
