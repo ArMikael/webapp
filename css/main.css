@@ -310,7 +310,6 @@ a[data-item="active"] {
 .tab:focus {
 	background-color: #EBEBEB;
 	color: black;
-	font-weight: 900;
 }
 
 .content {
@@ -354,6 +353,7 @@ select:focus {
 	width: 95%;
 	height: 260px;
 	padding: 10px;
+	text-align: left;
 }
 
 .report-row {
@@ -436,7 +436,7 @@ button[type="submit"] {
 	height: 100%;
 }
 
-.my-folders-frame, 
+.my-folders-frame,
 .public-folders-frame {
 	margin-top:40px;
 }

@@ -81,14 +81,12 @@ window.onload = function() {
 
 
 	/* Reports section */
-	var reportsBtn = document.querySelectorAll(".reports-btn"),
-	reports = document.querySelector(".reports");
+	var reportsBtn = document.querySelectorAll(".reports-btn");
 
-	// Function check if the Reports window is displayed and show it if needed
+	// Function check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(event) {
-		console.log(event);
-		console.log(event.currentTarget);
-		console.log(event.currentTarget.parentNode);
+		var reports = event.currentTarget.parentNode.querySelector(".reports");
+
 		if ( reports.style.display === "none" ) {
 			reports.style.display = "block";
 		} else {
