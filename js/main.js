@@ -81,7 +81,7 @@ window.onload = function() {
 
 
 	/* Reports section */
-	var reportsBtn = document.querySelector(".reports-btn"),
+	var reportsBtn = document.querySelectorAll(".reports-btn"),
 	reports = document.querySelector(".reports");
 
 	// Function check if the Reports window is displayed and show it if needed
@@ -102,8 +102,10 @@ window.onload = function() {
 		}
 	};
 
-	UTILS.addEvent(reportsBtn, 'click', checkEvent);
-	UTILS.addEvent(reportsBtn, 'keypress', checkEvent);
+	for ( var i = 0; i < reportsBtn.length; i++ ) {
+		UTILS.addEvent(reportsBtn[i], 'click', checkEvent);
+		UTILS.addEvent(reportsBtn[i], 'keypress', checkEvent);
+	}
 };
 
 
