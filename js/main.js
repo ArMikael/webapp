@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-			//console.log(response);
-			var text = document.createTextNode(response);
-			var paragraph = document.createElement("p");
-			var notification = document.querySelector('.notifications');
-			paragraph.appendChild(text);
-			notification.appendChild(paragraph);
-		},
+	// UTILS.ajax('data/notification.txt', {
+	// done: function(response) {
+	// 		//console.log(response);
+	// 		var text = document.createTextNode(response);
+	// 		var paragraph = document.createElement("p");
+	// 		var notification = document.querySelector('.notifications');
+	// 		paragraph.appendChild(text);
+	// 		notification.appendChild(paragraph);
+	// 	},
 
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+	// fail: function(err) {
+	// 	document.querySelector('#xhr');
+	// 	}
+	// });
 
 
 	/* JS Tabs Section */
