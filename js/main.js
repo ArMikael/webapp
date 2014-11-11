@@ -107,6 +107,25 @@ window.onload = function() {
 		UTILS.addEvent(reportsBtn[i], 'click', checkEvent);
 		UTILS.addEvent(reportsBtn[i], 'keypress', checkEvent);
 	}
+
+	// Function for open in new tab button
+	var newTabBtn = document.querySelectorAll(".new-tab-btn");
+
+	var frameSrc = function(event) {
+		var iframe = event.currentTarget.parentNode.querySelector("iframe"),
+		src = iframe.getAttribute('src'),
+		newWindow;
+
+		newWindow = window.open(src, '_blank');
+		newWindow.focus();
+	};
+
+	for ( var i = 0; i < newTabBtn.length; i++ ) {
+		UTILS.addEvent(newTabBtn[i], 'click', frameSrc);
+		UTILS.addEvent(newTabBtn[i], 'keypress', frameSrc);
+	}
+
+
 };
 
 
