@@ -289,7 +289,7 @@ a[data-item="active"] {
 	width: 22.5%;
 	margin-right: 3.33%;
 	display: inline-block;
-	background: #646464;
+	background-color: #646464;
 	color: #fff;
 	padding: 10px 0;
 	cursor: pointer;
@@ -308,9 +308,8 @@ a[data-item="active"] {
 
 .tab[data-tab="active-tab"],
 .tab:focus {
-	background-color: #fff;
+	background-color: #EBEBEB;
 	color: black;
-	font-weight: 900;
 }
 
 .content {
@@ -319,10 +318,9 @@ a[data-item="active"] {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: white;
+	background-color: #EBEBEB;
 	padding: 20px;
 	color: black;
-	font-size: 40px;
 	display: none;
 }
 
@@ -347,15 +345,15 @@ select:focus {
 
 .reports {
 	position: absolute;
-	left: 20px;
-	top: 100px;
+	left: 18px;
+	top: 60px;
 	display: none;
 	z-index: 2;
 	background-color: white;
 	width: 95%;
-	height: 300px;
+	height: 260px;
 	padding: 10px;
-	border: 1px solid #d9d9d9;
+	text-align: left;
 }
 
 .report-row {
@@ -364,37 +362,60 @@ select:focus {
 	background-color: #d9d9d9;
 }
 
+.reports input {
+	width: 30%;
+	height: 30px;
+}
+
+.site-url {
+	margin-left: 10%;
+}
+
+.report-row span {
+	margin-right: 20px;
+}
+
 .app-button {
 	position: absolute;
-	width: 30px;
-	height: 30px;
-	display: block;
-	z-index: 2;
-	border: 1px solid #d9d9d9;
-	border-radius: 5px;
+	width: 40px;
+	height: 40px;
+	display: inline-block;
 	text-decoration: none;
 	background-color: #E2E2E2;
 }
 
 .new-tab-btn {
 	right: 60px;
-	top: 60px;
+	top: 20px;
 	background: url(../img/icons/expand.png) no-repeat 50% 50%;
 }
 
 .reports-btn {
 	right: 20px;
-	top: 60px;
+	top: 20px;
 	background: url(../img/icons/settings.png) no-repeat 50% 50%;
 }
 
-.app-button:hover {
+.alone {
+	right: 20px;
+	top: 20px;
+}
+
+.app-button:hover,
+.app-button:focus {
 	background-color: #fff;
 	cursor: pointer;
 }
 
-.app-button:focus {
-	background-color: yellow;
+button[type="submit"],
+.cancel-btn {
+	height: 30px;
+	float: right;
+	margin: 10px;
+	background-color: #000;
+	color: white;
+	width: 100px;
+	border: none;
 }
 
 .site-frame	{
@@ -406,6 +427,10 @@ select:focus {
 	height: 100%;
 }
 
+.my-folders-frame,
+.public-folders-frame {
+	margin-top:40px;
+}
 
 
 

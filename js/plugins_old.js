@@ -5,15 +5,6 @@
 var UTILS = (function () {
 
 	return {
-
-		qs: function (selector) {
-			return document.querySelector(selector);
-		},
-
-		qsa: function (selector) {
-			return document.querySelectorAll(selector);
-		},
-
 		/**
 		 * Check if a given value is a plain Object
 		 *
@@ -26,29 +17,10 @@ var UTILS = (function () {
 		},
 
 		addEvent: function (elem, type, handler) {
-			if ( window.addEventListener ) {
+			if (document.addEventListener) {
 				elem.addEventListener(type, handler, false);
-			} else if ( window.attachEvent ) {
-				// elem.attachEvent("on" + type, handler);
-				// Shifty IE event handling
-				elem.attachEvent("on" + type, function (e){
-					// Lets add missing properties to the event object
-					e.target = e.target || e.srcElement;
-					e.currentTarget = elem;
-
-					e.stopPropagation = e.stopPropagation || function () {
-						e.cancelBubble = true;
-					};
-
-					e.preventDefault = e.preventDefault || function () {
-						e.returnValue = false;
-					};
-
-					// Lets call the event handler, with the improved event object
-					// Same as the modern browsers
-					// Need to 'call' to set 'this' context to be 'elem', as it should be
-					handler.call(elem, e);
-				});
+			} else {
+				elem.attachEvent("on" + type, handler);
 			}
 		},
 

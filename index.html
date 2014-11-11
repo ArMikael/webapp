@@ -25,10 +25,10 @@
 		<!-- Add your site or application content here -->
 		<header>
 		  <div class="layout-wrap">
-			<a href="#" tabindex="1" >netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
+			<a href="#" tabindex="0" >netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
 
 			<form id="search" method="get" action="http://www.google.com">
-				<input type="search" name="q" placeholder="Search" tabindex="2" >
+				<input type="search" name="q" placeholder="Search" tabindex="0" >
 			</form>
 		  </div>
 		</header>
@@ -39,7 +39,7 @@
 			</div>
 
 			<nav class="main-nav clearfix">
-				<div class="nav-section cat-reports" tabindex="3">
+				<div class="nav-section cat-reports" tabindex="0">
 					<p>Select Reporting Platform</p>
 
 					<div class="menu" >
@@ -49,16 +49,14 @@
 						</div>
 
 						<ul class="action-list" >
-							<li><a href="#" tabindex="4" data-item>Corporate</a></li>
-							<li><a href="#" tabindex="5">link</a></li>
-							<li><a href="#" tabindex="6">link</a></li>
-							<li><a href="#" tabindex="7">link</a></li>
-							<li><a href="#" tabindex="8">link</a></li>
+							<li><a href="#" tabindex="0" data-item>Corporate</a></li>
+							<li><a href="#" tabindex="0">Simple</a></li>
+							<li><a href="#" tabindex="0">Business</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-dashboard" tabindex="9" >
+				<div class="nav-section cat-dashboard" tabindex="0" >
 					<p>Select Dashboard</p>
 
 					<div class="menu" >
@@ -68,16 +66,14 @@
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#" tabindex="10">link</a></li>
-							<li><a href="#" tabindex="11">link</a></li>
-							<li><a href="#" tabindex="12">link</a></li>
-							<li><a href="#" tabindex="13">link</a></li>
-							<li><a href="#" tabindex="14">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-help" tabindex="15" >
+				<div class="nav-section cat-help" tabindex="0" >
 					<p>Help &amp; Tutorials</p>
 
 					<div class="menu">
@@ -87,11 +83,9 @@
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#" tabindex="16">link</a></li>
-							<li><a href="#" tabindex="17">link</a></li>
-							<li><a href="#" tabindex="18">link</a></li>
-							<li><a href="#" tabindex="19">link</a></li>
-							<li><a href="#" tabindex="20">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">link</a></li>
 						</ul>
 					</div>
 				</div>
@@ -100,100 +94,154 @@
 			<div class="tabs clearfix">
 				<div class="tabs-list" role="tab-list">
 
-					<div class="top-buttons">
-						<a class="app-button new-tab-btn" id="new-tab"
-						tabindex="23" role="button"></a>
-						<a class="app-button reports-btn" id="reports"
-						tabindex="24" role="button"></a>
-					</div>
-
-					<div class="reports">
-						<div class="report-row">
-							<span>Report 01</span>
-							<label for="name1">Name</label>
-							<input type="text" name="name1" id="name1"
-							required="required" >
-							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1"
-							required="required" >
-						</div>
-
-						<div class="report-row">
-							<span>Report 02</span>
-							<label for="name2">Name</label>
-							<input type="text" name="name2" id="name2"
-							required="required" >
-							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1"
-							required="required" >
-						</div>
-
-						<div class="report-row">
-							<span>Report 03</span>
-							<label for="name3">Name</label>
-							<input type="text" name="name3" id="name3" required="required" >
-							<label for="url1">URL</label>
-							<input type="url" name="url1" id="url1" required="required" >
-						</div>
-					</div>
-
-					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="21"
+					<a class="tab active" id="tab1" data-tab="active-tab" tabindex="0"
 					role="tab">
-       						<i class="fa fa-external-link tab-icon"></i>
-       						Quick Reports
+   						<i class="fa fa-external-link tab-icon"></i>
+   						Quick Reports
 						<div class="content">
-							<div>
-			  					<select name="web-sites" id="sites-list" tabindex="22">
-			 						<option value="Site1" selected>Site 1</option>
-									<option value="Site2">Site 2</option>
-									<option value="Site3">Site 3</option>
-									<option value="Site4">Site 4</option>
-									<option value="Site5">Site 5</option>
-			 					</select>
 
-			 					<div class="site-frame">
-			 						<iframe src="http://www.netcraft.co.il/" width="100%" height="87%">
-										<p>Your browser does not support ifames.</p>
-									</iframe>
-			 					</div>
+							<div class="reports">
+								<div class="report-row">
+									<span>Report 01</span>
+									<label for="name1">Name</label>
+									<input type="text" name="name1" id="name1"
+									class="site-name" required="required" >
+									<label for="url1" class="site-url">URL</label>
+									<input type="url" name="url1" id="url1"
+									required="required" >
+								</div>
+
+								<div class="report-row">
+									<span>Report 02</span>
+									<label for="name2">Name</label>
+									<input type="text" name="name2" id="name2"
+									class="site-name" required="required" >
+									<label for="url2" class="site-url">URL</label>
+									<input type="url" name="url2" id="url2"
+									 required="required" >
+								</div>
+
+								<div class="report-row">
+									<span>Report 03</span>
+									<label for="name3">Name</label>
+									<input type="text" name="name3" id="name3"
+									class="site-name" required="required" >
+									<label for="url3" class="site-url">URL</label>
+									<input type="url" name="url3" id="url3"
+									 required="required">
+								</div>
+
+								<button type="submit">Save</button>
+								<button class="cancel-btn">Cancel</button>
+							</div>
+
+							<span class="app-button new-tab-btn"
+							tabindex="0" role="button"></span>
+							<span class="app-button reports-btn"
+							tabindex="0" role="button"></span>
+
+		  					<select name="web-sites" id="sites-list" tabindex="0">
+		 						<option value="Site1" selected>Netcraft</option>
+		 					</select>
+
+		 					<div class="site-frame">
+		 						<iframe src="http://www.netcraft.co.il/"
+		 						width="100%" height="87%" frameborder="0" tabindex="-1">
+									<p>Your browser does not support ifames.</p>
+								</iframe>
+		 					</div>
+
+						</div>
+					</a>
+
+					<a class="tab" id="tab2" tabindex="0" role="tab">
+						<i class="fa fa-star-o tab-icon"></i>
+   						My Folders
+						<div class="content">
+
+							<span class="app-button new-tab-btn alone"
+							tabindex="0" role="button"></span>
+
+							<div class="site-frame my-folders-frame">
+								<iframe src="http://webdesign.tutsplus.com/" frameborder="0"
+								width="100%" height="87%" tabindex="-1">
+								<p>Your browser does not support ifames.</p>
+								</iframe>
 							</div>
 						</div>
 					</a>
-
-					<a class="tab" id="tab2" tabindex="25" role="tab">
-							<i class="fa fa-star-o tab-icon"></i>
-       						My Folders
+					<a class="tab" id="tab3"  tabindex="0" role="tab">
+						<i class="fa fa-folder-open-o tab-icon"></i>
+   						My Team Folders
 						<div class="content">
-							My Folders
+
+							<div class="reports">
+								<div class="report-row">
+									<span>Report 01</span>
+									<label for="mtf-name1">Name</label>
+									<input type="text" name="mtf-name1" id="mtf-name1"
+									class="site-name" required="required" >
+									<label for="mtf-url1" class="site-url">URL</label>
+									<input type="url" name="mtf-url1" id="mtf-url1"
+									required="required" >
+								</div>
+
+								<div class="report-row">
+									<span>Report 02</span>
+									<label for="mtf-name2">Name</label>
+									<input type="text" name="mtf-name2" id="mtf-name2"
+									class="site-name" required="required" >
+									<label for="mtf-url2" class="site-url">URL</label>
+									<input type="url" name="mtf-url2" id="mtf-url2"
+									 required="required" >
+								</div>
+
+								<div class="report-row">
+									<span>Report 03</span>
+									<label for="mtf-name3">Name</label>
+									<input type="text" name="mtf-name3" id="mtf-name3"
+									class="site-name" required="required" >
+									<label for="mtf-url3" class="site-url">URL</label>
+									<input type="url" name="mtf-url3" id="mtf-url3"
+									 required="required">
+								</div>
+								<button type="submit">Save</button>
+								<button class="cancel-btn">Cancel</button>
+							</div>
+
+							<span class="app-button new-tab-btn"
+							tabindex="0" role="button"></span>
+							<span class="app-button reports-btn"
+							tabindex="0" role="button"></span>
+
+							<div class="site-frame">
+								<select name="web-sites" id="sites-list2" tabindex="0">
+			 						<option value="Site1" selected>TechCrunch</option>
+			 					</select>
+
+								<!-- <iframe src="http://techcrunch.com/" frameborder="0"
+								width="100%" height="87%" tabindex="-1">
+								<p>Your browser does not support ifames.</p>
+								</iframe> -->
+							</div>
 						</div>
 					</a>
-					<a class="tab" id="tab3"  tabindex="26" role="tab">
-							<i class="fa fa-folder-open-o tab-icon"></i>
-       						My Team Folders
+					<a class="tab" id="tab4" tabindex="0" role="tab">
+						<i class="fa fa-files-o tab-icon"></i>
+   						Public Folders
 						<div class="content">
-							My Team Folders
+
+							<span class="app-button new-tab-btn alone"
+							tabindex="0" role="button"></span>
+
+							<div class="site-frame public-folders-frame">
+								<!-- <iframe src="http://caniuse.com/" frameborder="0"
+								width="100%" height="87%" tabindex="-1">
+								<p>Your browser does not support ifames.</p>
+								</iframe> -->
+							</div>
 						</div>
 					</a>
-					<a class="tab" id="tab4" tabindex="27" role="tab">
-							<i class="fa fa-files-o tab-icon"></i>
-       						Public Folders
-						<div class="content">
-							Public Folders
-						</div>
-					</a>
-				</div>
-
-				<div id="quick-reports">
-					<form action="" role="form"></form>
-				</div>
-
-				<div id="fmy-folders">
-				</div>
-
-				<div id="my-team-folders">
-				</div>
-
-				<div id="public-folders">
 				</div>
 			</div>
 		</div>
