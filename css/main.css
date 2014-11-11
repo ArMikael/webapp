@@ -322,7 +322,6 @@ a[data-item="active"] {
 	background-color: #EBEBEB;
 	padding: 20px;
 	color: black;
-	font-size: 40px;
 	display: none;
 }
 
@@ -348,7 +347,7 @@ select:focus {
 .reports {
 	position: absolute;
 	left: 18px;
-	top: 102px;
+	top: 60px;
 	display: none;
 	z-index: 2;
 	background-color: white;
@@ -423,8 +422,8 @@ button[type="submit"] {
 	border: none;
 }
 
-.dis-link {
-	width: 60px;
+.cancel-btn {
+	width: 100px;
 	line-height: 30px;
 }
 

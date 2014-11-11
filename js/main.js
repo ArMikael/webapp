@@ -86,6 +86,9 @@ window.onload = function() {
 
 	// Function check if the Reports window is displayed and show it if needed
 	var openReports = function(event) {
+		console.log(event);
+		console.log(event.currentTarget);
+		console.log(event.currentTarget.parentNode);
 		if ( reports.style.display === "none" ) {
 			reports.style.display = "block";
 		} else {
@@ -96,9 +99,9 @@ window.onload = function() {
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(event) {
 		if ( event.type === "click" ) {
-			openReports();
+			openReports(event);
 		} else if ( event.type === "keypress" &&  event.keyCode === 13 ) {
-			openReports();
+			openReports(event);
 		}
 	};
 
