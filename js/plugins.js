@@ -26,6 +26,7 @@ var UTILS = (function () {
 		},
 
 		hasClass: function (elm, chkClass) {
+			// elm.classList.contains(chkClass);
 			var className = elm.className,
 				classArr = className.split(' ');
 
@@ -35,6 +36,18 @@ var UTILS = (function () {
 				}
 			}
 			return false;
+		},
+
+		addClass: function (elm, newClass) {
+			elm.className = elm.className + ' ' + newClass;
+		},
+
+		removeClass: function (elm, rmvClass) {
+			elm.classList.remove(rmvClass);
+		},
+
+		toggle: function (elm, className) {
+			elm.classList.toggle(className);
 		},
 
 		/**
