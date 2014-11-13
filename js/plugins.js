@@ -43,7 +43,9 @@ var UTILS = (function () {
 		},
 
 		addClass: function (elm, newClass) {
-			elm.className = elm.className + ' ' + newClass;
+			// Check current elm class
+			var curClass = elm.className;
+			curClass !== '' ? elm.className = curClass + ' ' + newClass : elm.className = newClass;
 		},
 
 		removeClass: function (elm, rmvClass) {

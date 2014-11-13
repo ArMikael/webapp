@@ -222,7 +222,7 @@ header a img {
 	background-image: url(../img/icons/actions-help.png);
 }
 
-.nav-section ul {
+.action-list {
 	height: 0;
 	width: 100%;
 	margin: 0;
@@ -241,7 +241,7 @@ header a img {
 	z-index: 3;
 }
 
-.nav-section:focus ul.action-list {
+.nav-section:focus .action-list {
 	height: 160px;
 	z-index: 3;
 }
@@ -265,9 +265,14 @@ header a img {
 	padding-left: 20px;
 }
 
-a[data-item="active"] {
+a.active-item {
 	background-color: yellow;
 	transition: background-color .4s;
+}
+
+.active-menu {
+	z-index: 3;
+	height: 160px;
 }
 
 
@@ -354,6 +359,7 @@ select:focus {
 	text-align: left;
 }
 
+
 .report-row {
 	margin: 10px;
 	padding: 10px;
@@ -380,6 +386,10 @@ select:focus {
 	display: inline-block;
 	text-decoration: none;
 	background-color: #E2E2E2;
+}
+
+.active-window {
+	display: block;
 }
 
 .new-tab-btn {

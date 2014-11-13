@@ -16,8 +16,9 @@ window.onload = function() {
 		}
 	});
 
-
-	/* JS Tabs Section */
+	/**
+	 * Tabs Section
+	 */
 	var tab = UTILS.qsa(".tab"),
 		activeTab,
 		switchTab;
@@ -45,21 +46,24 @@ window.onload = function() {
 		parent = target.parentNode,
 		activeParent;
 
-		activeItem = UTILS.qs("[data-item]");
-		activeItem.removeAttribute('data-item');
-		target.setAttribute('data-item', 'active');
+		activeItem = UTILS.qs('.active-item');
 
-		parent.parentNode.style.height = "160px";
-		parent.parentNode.style.zIndex = "3";
+		if ( activeItem !== null ) {
+			UTILS.removeClass(activeItem, 'active-item');
+		};
 
-		console.log(target.type);
+		UTILS.addClass(target, 'active-item');
+
+		if ( UTILS.hasClass(parent.parentNode, 'active-menu') === false ) {
+			UTILS.addClass(parent.parentNode, 'active-menu');
+		}
 	};
 
 	/* Function closes categories */
 	var closeMenu = function(e) {
 		var target = e.target,
 		parent = target.parentNode;
-		parent.parentNode.style.height = "0";
+		UTILS.removeClass(parent.parentNode, 'active-menu');
 	}
 
 	for ( var i = 0; i < menuItems.length; i++ ) {
@@ -70,18 +74,16 @@ window.onload = function() {
 		UTILS.addEvent(lastItem[i], 'blur', closeMenu);
 	}
 
-	/* Reports section */
+
+	/**
+	 * Reports section
+	 */
 	var reportsBtn = UTILS.qsa(".reports-btn");
 
-	// Function check if the Reports window in current tab is displayed and show it if needed
+	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(event) {
 		var reports = event.currentTarget.parentNode.querySelector(".reports");
-
-		if ( reports.style.display === "none" ) {
-			reports.style.display = "block";
-		} else {
-			reports.style.display = "none";
-		}
+		UTILS.toggle(reports, 'active-window');
 	};
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
