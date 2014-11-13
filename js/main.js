@@ -24,11 +24,9 @@ window.onload = function() {
 
 	switchTab = function(e) {
 		var target = e.currentTarget;
-		activeTab = UTILS.qs("a[data-tab]");
-		activeTab.removeAttribute('data-tab');
-		target.setAttribute('data-tab', 'active-tab');
-		activeTab.querySelector('.content').style.display = "none";
-		target.querySelector('.content').style.display = "block";
+		activeTab = UTILS.qs('.active-tab');
+		UTILS.removeClass(activeTab, 'active-tab');
+		UTILS.addClass(target, 'active-tab');
 	};
 
 	for ( var i = 0; i < tab.length; i++ ) {

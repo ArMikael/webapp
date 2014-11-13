@@ -305,9 +305,7 @@ a[data-item="active"] {
 	font-size: 1rem;
 }
 
-
-.tab[data-tab="active-tab"],
-.tab:focus {
+.active-tab {
 	background-color: #EBEBEB;
 	color: black;
 }
@@ -324,7 +322,7 @@ a[data-item="active"] {
 	display: none;
 }
 
-a[data-tab="active-tab"] .content {
+.active-tab .content {
 	display: block;
 }
 
