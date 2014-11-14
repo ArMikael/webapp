@@ -103,36 +103,35 @@
 							<form class="reports" id="qr-form">
 								<fieldset class="report-row">
 									<span>Report 01</span>
-									<label for="name1">Name</label>
-									<input type="text" name="name1" id="name1"
+									<label for="qr-name1">Name</label>
+									<input type="text" name="qr-name1" id="qr-name1"
 									class="site-name" required="required" >
-									<label for="url1" class="site-url">URL</label>
-									<input type="url" name="url1" id="url1"
+									<label for="qr-url1" class="site-url">URL</label>
+									<input type="url" name="qr-url1" id="qr-url1"
 									required="required" >
 								</fieldset>
 
 								<fieldset class="report-row">
 									<span>Report 02</span>
-									<label for="name2">Name</label>
-									<input type="text" name="name2" id="name2"
-									class="site-name" required="required" >
-									<label for="url2" class="site-url">URL</label>
-									<input type="url" name="url2" id="url2"
-									 required="required" >
+									<label for="qr-name2">Name</label>
+									<input type="text" name="qr-name2" id="qr-name2"
+									class="site-name">
+									<label for="qr-url2" class="site-url">URL</label>
+									<input type="url" name="qr-url2" id="qr-url2">
 								</fieldset>
 
 								<fieldset class="report-row">
 									<span>Report 03</span>
-									<label for="name3">Name</label>
-									<input type="text" name="name3" id="name3"
-									class="site-name" required="required" >
-									<label for="url3" class="site-url">URL</label>
-									<input type="url" name="url3" id="url3"
-									 required="required">
+									<label for="qr-name3">Name</label>
+									<input type="text" name="qr-name3" id="qr-name3"
+									class="site-name">
+									<label for="qr-url3" class="site-url">URL</label>
+									<input type="url" name="qr-url3" id="qr-url3">
 								</fieldset>
 
+								<span class='system-message'></span>
 								<button type="submit" class="submit_btn">Save</button>
-								<button class="cancel-btn">Cancel</button>
+								<button type="button" class="cancel-btn">Cancel</button>
 							</form>
 
 							<span class="app-button new-tab-btn"
@@ -140,12 +139,15 @@
 							<span class="app-button reports-btn"
 							tabindex="0" role="button"></span>
 
-		  					<select name="web-sites" id="sites-list" tabindex="0">
-		 						<option value="Site1" selected>Netcraft</option>
+		  					<select name="web-sites" id="qs-sites-list" tabindex="0">
+		 						<option value="http://netcraft.co.il" selected="selected"
+		 							id="netcr">
+		 							Netcraft
+		 						</option>
 		 					</select>
 
 		 					<div class="site-frame">
-		 						<iframe src="http://www.netcraft.co.il/"
+		 						<iframe id='qs-iframe' src='http://netcraft.co.il'
 		 						width="100%" height="87%" frameborder="0" tabindex="-1">
 									<p>Your browser does not support ifames.</p>
 								</iframe>
@@ -217,7 +219,7 @@
 
 							<div class="site-frame">
 								<select name="web-sites" id="sites-list2" tabindex="0">
-			 						<option value="site1" selected>Todo MVC</option>
+			 						<option value="site1">Todo MVC</option>
 			 					</select>
 
 								<iframe src="http://todomvc.com/" frameborder="0"

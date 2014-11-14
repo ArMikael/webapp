@@ -234,6 +234,7 @@ header a img {
 	top: 160px;
 	color: #E2E2E2;
 	transition: height .3s;
+	z-index: 3;
 }
 
 .nav-section:hover ul {
@@ -243,7 +244,6 @@ header a img {
 
 .nav-section:focus .action-list {
 	height: 160px;
-	z-index: 3;
 }
 
 .nav-section a {
@@ -271,7 +271,6 @@ a.active-item {
 }
 
 .active-menu {
-	z-index: 3;
 	height: 160px;
 }
 
@@ -440,6 +439,14 @@ button[type="submit"],
 	margin-top:40px;
 }
 
+.system-message {
+	color: red;
+	text-align: center;
+	font-size: 1.2rem;
+	margin: 30px 0 0 200px;
+	height: 50px;
+	line-height: 50px;
+}
 
 
 

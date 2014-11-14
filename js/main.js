@@ -35,9 +35,11 @@ window.onload = function() {
 		UTILS.addEvent(tab[i], 'focus', switchTab);
 	}
 
-	var menuItems = UTILS.qsa('.action-list a');
-	var lastItem = UTILS.qsa('.action-list li:last-child a');
 	var menus = UTILS.qsa('.action-list');
+	var menuItems = UTILS.qsa('.action-list a');
+	// Takes last item in each submenu to listen for blur event
+	// when jumping to the next submenu
+	var lastItem = UTILS.qsa('.action-list li:last-child a');
 
 	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
@@ -78,12 +80,33 @@ window.onload = function() {
 	/**
 	 * Reports section
 	 */
-	var reportsBtn = UTILS.qsa(".reports-btn");
+	var reportsBtn = UTILS.qsa('.reports-btn'),
+		buttons = UTILS.qsa(),
+		// Finding "Select" element on the Quick Reports Tab
+		sitesDropDown = UTILS.qs('#qs-sites-list'),
+		selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
+
 
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(event) {
-		var reports = event.currentTarget.parentNode.querySelector(".reports");
-		UTILS.toggle(reports, 'active-window');
+			// Finding new selected item
+			selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
+
+			var iframe = UTILS.qs('#qs-iframe'),
+			reports;
+
+		// Checks if the Event trigger is "Save" or "Cancel" button
+		if (event.currentTarget.nodeName === 'BUTTON') {
+			reports = event.currentTarget.parentNode;
+			UTILS.toggle(reports, 'active-window');
+
+			iframe.setAttribute('src', selectedOpt.value);
+
+		// If not, the trigger was "Reports" button
+		} else {
+			reports = event.currentTarget.parentNode.querySelector(".reports");
+			UTILS.toggle(reports, 'active-window');
+		}
 	};
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
@@ -98,6 +121,14 @@ window.onload = function() {
 	for ( var i = 0; i < reportsBtn.length; i++ ) {
 		UTILS.addEvent(reportsBtn[i], 'click', checkEvent);
 		UTILS.addEvent(reportsBtn[i], 'keypress', checkEvent);
+	}
+
+	// Cancel button that closing Reports window
+	var cancelBtn = UTILS.qsa(".cancel-btn");
+
+	for ( var i = 0; i < cancelBtn.length; i++ ) {
+		UTILS.addEvent(cancelBtn[i], 'click', checkEvent);
+		UTILS.addEvent(cancelBtn[i], 'keypress', checkEvent);
 	}
 
 	// Function for open in new tab button
@@ -125,32 +156,118 @@ window.onload = function() {
 		UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
 	}
 
-	// Cancel button that closing Reports window
-	var cancelBtn = UTILS.qsa(".cancel-btn");
 
-	var closeReports = function (event) {
-		var reports = event.currentTarget.parentNode;
-		reports.style.display = "none";
+
+	/**
+	 * Validating fields and saving new sites in reports window
+	 */
+
+
+	// Check if some of the inputs is not empty
+	var checkFields = function (curForm, e) {
+
+		var fields = curForm.querySelectorAll('.report-row'),
+			firstInputName = UTILS.qs('#qr-name1').value,
+			firstInputURL = UTILS.qs('#qr-url1').value,
+			message = UTILS.qs('.system-message'),
+			field,
+			input,
+			siteTitle,
+			siteURL,
+			validationAnswer,
+			firstInputName,
+			firstInputURL;
+
+			// Checks if at least the first fieldset inputs is not empty
+			if ( firstInputName === '' && firstInputURL === '') {
+				console.log('Please, write site name and URL before saving.');
+				message.innerHTML = 'Please, write site name and URL before saving.';
+			}
+
+		for (var i = 0; i < fields.length; i++) {
+				field = fields[i];
+
+				// Variables to check every input in the Report window
+				siteTitle = field.querySelector('input[type="text"]').value;
+				siteURL = field.querySelector('input[type="url"]').value;
+
+
+				//	Checks all inputs in Reports window and return some message or func
+				if (siteTitle !== '' || siteURL !== '') {
+
+					if (siteTitle !== '' && siteURL === '') {
+						console.log('Please, enter the site URL!');
+						message.innerHTML = 'Please, enter the site URL!';
+					} else if (siteTitle === '' && siteURL !== '') {
+						console.log('Please, write the title for entered URL!');
+						message.innerHTML = 'Please, write the title for entered URL!';
+					} else if (siteTitle !== '' && siteURL !== '') {
+						validationAnswer = validateField(siteURL);
+
+						// Sends url for validation and
+						// if it's valid add it to list of sites
+						if (validationAnswer) {
+							saveNewSite(siteTitle, siteURL, e);
+						} else {
+							console.log('Please, enter valid URL!');
+							message.innerHTML = 'Please, enter valid URL!';
+						}
+					}
+				}
+		};
 	};
 
-	for ( var i = 0; i < cancelBtn.length; i++ ) {
-		UTILS.addEvent(cancelBtn[i], 'click', closeReports);
-		UTILS.addEvent(cancelBtn[i], 'keypress', closeReports);
-	}
+	// Validating fields
+	var validateField = function (url) {
+		var regEx = /(http|https):\/\/?/;
+		return regEx.test(url);
+	};
+
 
 	// Saving inputs from Reports Form to Object
-	var qrSaveBtn = UTILS.qs("#qr-form");
-	var mtfSaveBtn = UTILS.qs("#mtf-form");
+	var qrForm = UTILS.qs("#qr-form");
+	var mtfForm = UTILS.qs("#mtf-form");
+	var saveBtns = UTILS.qsa('.submit_btn');
 
-	var saveNewSite = function (e) {
-		console.log(e.target);
-		console.log(e.currentTarget);
+
+	var checkNewSite = function (e) {
+		var parentForm = e.target.parentNode;
+		e.preventDefault();
+		checkFields(parentForm, e);
 	};
 
-	// UTILS.addEvent(qrSaveBtn, 'submit', saveNewSite);
-	// UTILS.addEvent(mtfSaveBtn, 'submit', saveNewSite);
+	// Adding new site to the select element
+	var saveNewSite = function (title, url, e) {
+		var sitesList = UTILS.qs('#qs-sites-list'),
+			options = sitesList.querySelectorAll('option'),
+			newOption;
 
-	UTILS.addEvent(qrSaveBtn, 'click', saveNewSite);
+			for (var i = 0; i < options.length; i++) {
+				if ( options[i].value === url ) {
+					console.log('This site is already exists in the list.');
+					return false;
+				}
+			};
+
+			newOption = document.createElement('option');
+			newOption.value = url;
+
+			// Removing selection from previous item in the list
+			selectedOpt.removeAttribute('selected');
+			// Adding "selected" attribute to the new list item
+			newOption.setAttribute('selected', 'selected');
+
+			newOption.innerHTML = title;
+			sitesList.appendChild(newOption);
+
+			// Call for checkEvent and then for toggle function that checks
+			// if the Reports window was opened and close it.
+			checkEvent(e);
+	};
+
+	for (var i = 0; i < saveBtns.length; i++) {
+		UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
+	};
 
 };
 
