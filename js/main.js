@@ -95,7 +95,6 @@ window.onload = function() {
 		if (event.currentTarget.nodeName === 'BUTTON') {
 			reports = event.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
-		console.log(e.type);
 			loadFrame(e);
 		// If not, the trigger was "Reports" button
 		} else {
@@ -105,15 +104,21 @@ window.onload = function() {
 	};
 
 	var loadFrame = function (e) {
-		var iframe = UTILS.qs('#qs-iframe');
-		// Solves the issue when user choose another option from the sites dropdown list
+		var iframe = UTILS.qs('#qs-iframe'),
+			// Finding previously selected item
+			prevSelect = selectedOpt;
+
+		// Change iframe when user choose another option from the sites dropdown list
 		if (e.type === 'change') {
+			// Removes "selected" attribute from the previously selected item
+			prevSelect.removeAttribute('selected');
 			index = e.currentTarget.selectedIndex;
-			selectedOpt = e.currentTarget.options[index];
-		} else {
-			// Finding the newly selected option
-			selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
+			newSelect = e.currentTarget.options[index];
+			newSelect.setAttribute('selected', 'selected');
 		}
+
+		// Finding the newly selected option
+		selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
 		// Changing iframe src to the choosed or currently added site
 		iframe.setAttribute('src', selectedOpt.value);
 
