@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-			//console.log(response);
-			var text = document.createTextNode(response);
-			var paragraph = document.createElement("p");
-			var notification = UTILS.qs('.notifications');
-			paragraph.appendChild(text);
-			notification.appendChild(paragraph);
-		},
+	// UTILS.ajax('data/notification.txt', {
+	// done: function(response) {
+	// 		//console.log(response);
+	// 		var text = document.createTextNode(response);
+	// 		var paragraph = document.createElement("p");
+	// 		var notification = UTILS.qs('.notifications');
+	// 		paragraph.appendChild(text);
+	// 		notification.appendChild(paragraph);
+	// 	},
 
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+	// fail: function(err) {
+	// 	document.querySelector('#xhr');
+	// 	}
+	// });
 
 	/**
 	 * Tabs Section
@@ -95,6 +95,7 @@ window.onload = function() {
 		if (event.currentTarget.nodeName === 'BUTTON') {
 			reports = event.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
+		console.log(e.type);
 			loadFrame(e);
 		// If not, the trigger was "Reports" button
 		} else {
@@ -104,17 +105,18 @@ window.onload = function() {
 	};
 
 	var loadFrame = function (e) {
-
+		var iframe = UTILS.qs('#qs-iframe');
 		// Solves the issue when user choose another option from the sites dropdown list
 		if (e.type === 'change') {
-			console.log(e.currentTarget);
+			index = e.currentTarget.selectedIndex;
+			selectedOpt = e.currentTarget.options[index];
+		} else {
+			// Finding the newly selected option
+			selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
 		}
-
-		var iframe = UTILS.qs('#qs-iframe');
-		// Finding new selected item
-		selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
-		// Changing iframe src to the currently added site
+		// Changing iframe src to the choosed or currently added site
 		iframe.setAttribute('src', selectedOpt.value);
+
 
 	};
 
@@ -282,7 +284,6 @@ window.onload = function() {
 	var selects = UTILS.qsa('select');
 	console.log(selects);
 	for (var i = 0; i < selects.length; i++) {
-		console.log('New listener OK');
 		UTILS.addEvent(selects[i], 'change', loadFrame);
 	};
 
