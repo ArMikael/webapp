@@ -104,7 +104,10 @@ window.onload = function() {
 	};
 
 	var loadFrame = function (e) {
-		var iframe = UTILS.qs('#qs-iframe'),
+		var parent = e.currentTarget.parentNode,
+			tabContent = parent.parentNode,
+			// Finding iframe element in the current tab content
+			iframe = tabContent.querySelector('iframe'),
 			// Finding previously selected item
 			prevSelect = selectedOpt;
 
@@ -118,7 +121,7 @@ window.onload = function() {
 		}
 
 		// Finding the newly selected option
-		selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
+		selectedOpt = tabContent.querySelector('option[selected="selected"]');
 		// Changing iframe src to the choosed or currently added site
 		iframe.setAttribute('src', selectedOpt.value);
 
@@ -223,7 +226,7 @@ window.onload = function() {
 						// Sends url for validation and
 						// if it's valid add it to list of sites
 						if (validationAnswer) {
-							saveNewSite(siteTitle, siteURL, e);
+							saveNewSite(siteTitle, siteURL, e, curForm);
 						} else {
 							console.log('Please, enter valid URL!');
 							message.innerHTML = 'Please, enter valid URL!';
@@ -253,10 +256,14 @@ window.onload = function() {
 	};
 
 	// Adding new site to the select element
-	var saveNewSite = function (title, url, e) {
-		var sitesList = UTILS.qs('#qs-sites-list'),
+	var saveNewSite = function (title, url, e, curForm) {
+		var sitesList = curForm.parentNode.querySelector('select'),
 			options = sitesList.querySelectorAll('option'),
 			newOption;
+
+			console.log(curForm);
+			console.log(curForm.parentNode);
+			console.log(options);
 
 			for (var i = 0; i < options.length; i++) {
 				if ( options[i].value === url ) {
@@ -287,7 +294,7 @@ window.onload = function() {
 
 	// Listener that checks if anothor site was choosed by user in dropdown list.
 	var selects = UTILS.qsa('select');
-	console.log(selects);
+
 	for (var i = 0; i < selects.length; i++) {
 		UTILS.addEvent(selects[i], 'change', loadFrame);
 	};
