@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	// UTILS.ajax('data/notification.txt', {
-	// done: function(response) {
-	// 		//console.log(response);
-	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
-	// 		var notification = UTILS.qs('.notifications');
-	// 		paragraph.appendChild(text);
-	// 		notification.appendChild(paragraph);
-	// 	},
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			//console.log(response);
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement("p");
+			var notification = UTILS.qs('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-	// fail: function(err) {
-	// 	document.querySelector('#xhr');
-	// 	}
-	// });
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
 
 	/**
 	 * Tabs Section
@@ -83,8 +83,9 @@ window.onload = function() {
 	var reportsBtn = UTILS.qsa('.reports-btn'),
 		buttons = UTILS.qsa(),
 		// Finding "Select" element on the Quick Reports Tab
-		sitesDropDown = UTILS.qs('#qs-sites-list'),
-		selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
+		selectedOpt;
+		//sitesDropDown = UTILS.qs('#qs-sites-list'),
+		//selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
 
 
 	// Check if the Reports window in current tab is displayed and show it if needed
@@ -92,13 +93,13 @@ window.onload = function() {
 		var reports;
 
 		// Checks if the Event trigger is "Save" or "Cancel" button
-		if (event.currentTarget.nodeName === 'BUTTON') {
-			reports = event.currentTarget.parentNode;
+		if (e.currentTarget.nodeName === 'BUTTON') {
+			reports = e.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
 			loadFrame(e);
 		// If not, the trigger was "Reports" button
 		} else {
-			reports = event.currentTarget.parentNode.querySelector(".reports");
+			reports = e.currentTarget.parentNode.querySelector(".reports");
 			UTILS.toggle(reports, 'active-window');
 		}
 	};
@@ -129,11 +130,11 @@ window.onload = function() {
 	};
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
-	var checkEvent = function(event) {
-		if ( event.type === "click" ) {
-			openReports(event);
-		} else if ( event.type === "keypress" &&  event.keyCode === 13 ) {
-			openReports(event);
+	var checkEvent = function(e) {
+		if ( e.type === "click" ) {
+			openReports(e);
+		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
+			openReports(e);
 		}
 	};
 
@@ -153,8 +154,8 @@ window.onload = function() {
 	// Function for open in new tab button
 	var newTabBtn = UTILS.qsa(".new-tab-btn");
 
-	var openNewTab = function(event) {
-		var iframe = event.currentTarget.parentNode.querySelector("iframe"),
+	var openNewTab = function(e) {
+		var iframe = e.currentTarget.parentNode.querySelector("iframe"),
 		src = iframe.getAttribute('src'),
 		newWindow;
 
@@ -162,11 +163,11 @@ window.onload = function() {
 		newWindow.focus();
 	};
 
-	var checkNewTabEvent = function (event) {
-		if ( event.type === "click" ) {
-			openNewTab(event);
-		} else if ( event.type === "keypress" &&  event.keyCode === 13 ) {
-			openNewTab(event);
+	var checkNewTabEvent = function (e) {
+		if ( e.type === "click" ) {
+			openNewTab(e);
+		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
+			openNewTab(e);
 		}
 	};
 
@@ -181,58 +182,56 @@ window.onload = function() {
 	 * Validating fields and saving new sites in reports window
 	 */
 
-
-	// Check if some of the inputs is not empty
+	// Checks if some of the inputs is not empty
 	var checkFields = function (curForm, e) {
 
 		var fields = curForm.querySelectorAll('.report-row'),
-			firstInputName = UTILS.qs('#qr-name1').value,
-			firstInputURL = UTILS.qs('#qr-url1').value,
-			message = UTILS.qs('.system-message'),
+			// firstInputName = UTILS.qs('#qr-name1').value,
+			// firstInputURL = UTILS.qs('#qr-url1').value,
+			firstInputName = fields[0].querySelector('input[type="text"]'),
+			firstInputURL = fields[0].querySelector('input[type="url"]'),
+			message = curForm.querySelector('.system-message'),
 			field,
-			input,
 			siteTitle,
 			siteURL,
-			validationAnswer,
-			firstInputName,
-			firstInputURL;
+			validationAnswer;
 
-			// Checks if at least the first fieldset inputs is not empty
-			if ( firstInputName === '' && firstInputURL === '') {
-				console.log('Please, write site name and URL before saving.');
-				message.innerHTML = 'Please, write site name and URL before saving.';
-			}
+		// Checks if at least the first fieldset inputs is not empty
+		if ( firstInputName.value === '' && firstInputURL.value === '') {
+			console.log('Please, write site name and URL before saving.');
+			message.innerHTML = 'Please, write site name and URL before saving.';
+		}
 
+		// Checks every field in current tab "Report" form
 		for (var i = 0; i < fields.length; i++) {
-				field = fields[i];
+			field = fields[i];
 
-				// Variables to check every input in the Report window
-				siteTitle = field.querySelector('input[type="text"]').value;
-				siteURL = field.querySelector('input[type="url"]').value;
+			// Variables to check every input value in the Report window
+			siteTitle = field.querySelector('input[type="text"]').value;
+			siteURL = field.querySelector('input[type="url"]').value;
 
+			//	Checks all inputs in Reports window and return some message or func
+			if (siteTitle !== '' || siteURL !== '') {
 
-				//	Checks all inputs in Reports window and return some message or func
-				if (siteTitle !== '' || siteURL !== '') {
+				if (siteTitle !== '' && siteURL === '') {
+					console.log('Please, enter the site URL!');
+					message.innerHTML = 'Please, enter the site URL!';
+				} else if (siteTitle === '' && siteURL !== '') {
+					console.log('Please, write the title for entered URL!');
+					message.innerHTML = 'Please, write the title for entered URL!';
+				} else if (siteTitle !== '' && siteURL !== '') {
+					validationAnswer = validateField(siteURL);
 
-					if (siteTitle !== '' && siteURL === '') {
-						console.log('Please, enter the site URL!');
-						message.innerHTML = 'Please, enter the site URL!';
-					} else if (siteTitle === '' && siteURL !== '') {
-						console.log('Please, write the title for entered URL!');
-						message.innerHTML = 'Please, write the title for entered URL!';
-					} else if (siteTitle !== '' && siteURL !== '') {
-						validationAnswer = validateField(siteURL);
-
-						// Sends url for validation and
-						// if it's valid add it to list of sites
-						if (validationAnswer) {
-							saveNewSite(siteTitle, siteURL, e, curForm);
-						} else {
-							console.log('Please, enter valid URL!');
-							message.innerHTML = 'Please, enter valid URL!';
-						}
+					// Sends url for validation and
+					// if it's valid add it to list of sites
+					if (validationAnswer) {
+						saveNewSite(siteTitle, siteURL, e, curForm);
+					} else {
+						console.log('Please, enter valid URL!');
+						message.innerHTML = 'Please, enter valid URL!';
 					}
 				}
+			}
 		};
 	};
 
@@ -259,15 +258,15 @@ window.onload = function() {
 	var saveNewSite = function (title, url, e, curForm) {
 		var sitesList = curForm.parentNode.querySelector('select'),
 			options = sitesList.querySelectorAll('option'),
+			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
+			message = curForm.querySelector('.system-message'),
 			newOption;
 
-			console.log(curForm);
-			console.log(curForm.parentNode);
-			console.log(options);
-
+			// Checks if new URL provided by user is already exist
 			for (var i = 0; i < options.length; i++) {
 				if ( options[i].value === url ) {
 					console.log('This site is already exists in the list.');
+					message.innerHTML = 'This site is already exists in the list.';
 					return false;
 				}
 			};
