@@ -96,7 +96,12 @@ window.onload = function() {
 		if (e.currentTarget.nodeName === 'BUTTON') {
 			reports = e.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
-			loadFrame(e);
+
+			// If the clicked button is "Save" run loadFrame function,
+			// otherwise do nothing (for ignoring "Cancel" button).
+			if (UTILS.hasClass(e.currentTarget, 'submit_btn')) {
+				loadFrame(e);
+			}
 		// If not, the trigger was "Reports" button
 		} else {
 			reports = e.currentTarget.parentNode.querySelector(".reports");
@@ -238,6 +243,7 @@ window.onload = function() {
 	// Validating fields
 	var validateField = function (url) {
 		var regEx = /(http|https):\/\/?/;
+		// /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 		return regEx.test(url);
 	};
 
