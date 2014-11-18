@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-			//console.log(response);
-			var text = document.createTextNode(response);
-			var paragraph = document.createElement("p");
-			var notification = UTILS.qs('.notifications');
-			paragraph.appendChild(text);
-			notification.appendChild(paragraph);
-		},
+	// UTILS.ajax('data/notification.txt', {
+	// done: function(response) {
+	// 		//console.log(response);
+	// 		var text = document.createTextNode(response);
+	// 		var paragraph = document.createElement("p");
+	// 		var notification = UTILS.qs('.notifications');
+	// 		paragraph.appendChild(text);
+	// 		notification.appendChild(paragraph);
+	// 	},
 
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+	// fail: function(err) {
+	// 	document.querySelector('#xhr');
+	// 	}
+	// });
 
 	/**
 	 * Tabs Section
@@ -303,6 +303,24 @@ window.onload = function() {
 	for (var i = 0; i < selects.length; i++) {
 		UTILS.addEvent(selects[i], 'change', loadFrame);
 	};
+
+	// Closing Reports window on pressing "Escape"
+	var escapeReports = function (e) {
+		var reportsDivs = UTILS.qsa('.reports'),
+			target = e.target;
+
+		console.log(e.keyCode);
+		console.log(e.target);
+		console.log(e.currentTarget);
+
+		if (e.keyCode === 27) {
+			for (var i = 0; i < reportsDivs.length; i++) {
+				UTILS.removeClass(reportsDivs[i], 'active-window');
+			}
+		}
+	};
+
+	UTILS.addEvent(document, 'keyup', escapeReports);
 
 };
 
