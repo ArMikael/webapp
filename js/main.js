@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	// UTILS.ajax('data/notification.txt', {
-	// done: function(response) {
-	// 		//console.log(response);
-	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
-	// 		var notification = UTILS.qs('.notifications');
-	// 		paragraph.appendChild(text);
-	// 		notification.appendChild(paragraph);
-	// 	},
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			//console.log(response);
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement("p");
+			var notification = UTILS.qs('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-	// fail: function(err) {
-	// 	document.querySelector('#xhr');
-	// 	}
-	// });
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
 
 	/**
 	 * Tabs Section
@@ -195,7 +195,6 @@ window.onload = function() {
 			siteURL,
 			validationAnswer;
 
-		console.log(wrongInputs);
 		// Removing red border from all inputs before running again over them
 		for (var i = 0; i < wrongInputs.length; i++) {
 			UTILS.removeClass(wrongInputs[i], 'wrong');
@@ -203,7 +202,6 @@ window.onload = function() {
 
 		// Checks if at least the first fieldset inputs is not empty
 		if (firstInputName.value === '' && firstInputURL.value === '') {
-			console.log('Please, write site name and URL before saving.');
 			message.innerHTML = 'Please, write site name and URL before saving.';
 			UTILS.addClass(firstInputName, 'wrong');
 			UTILS.addClass(firstInputURL, 'wrong');
@@ -222,12 +220,10 @@ window.onload = function() {
 			if (siteTitle.value !== '' || siteURL.value !== '') {
 
 				if (siteTitle.value !== '' && siteURL.value === '') {
-					console.log('Please, enter the site URL!');
 					message.innerHTML = 'Please, enter the site URL!';
 					UTILS.addClass(siteURL, 'wrong');
 					siteURL.focus();
 				} else if (siteTitle.value === '' && siteURL.value !== '') {
-					console.log('Please, write the title for entered URL!');
 					message.innerHTML = 'Please, write the title for entered URL!';
 					UTILS.addClass(siteTitle, 'wrong');
 					siteTitle.focus();
@@ -239,7 +235,6 @@ window.onload = function() {
 					if (validationAnswer) {
 						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
 					} else {
-						console.log('Please, enter valid URL!');
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
 						siteURL.focus();
@@ -256,12 +251,7 @@ window.onload = function() {
 		return regEx.test(url);
 	};
 
-
-	// Saving inputs from Reports Form to Object
-	// var qrForm = UTILS.qs("#qr-form");
-	// var mtfForm = UTILS.qs("#mtf-form");
-
-
+	// Preventing default activity of form submition and running checkFields function
 	var checkNewSite = function (e) {
 		var parentForm = e.target.parentNode;
 		e.preventDefault();
