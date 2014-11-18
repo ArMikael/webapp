@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-			//console.log(response);
-			var text = document.createTextNode(response);
-			var paragraph = document.createElement("p");
-			var notification = UTILS.qs('.notifications');
-			paragraph.appendChild(text);
-			notification.appendChild(paragraph);
-		},
+	// UTILS.ajax('data/notification.txt', {
+	// done: function(response) {
+	// 		//console.log(response);
+	// 		var text = document.createTextNode(response);
+	// 		var paragraph = document.createElement("p");
+	// 		var notification = UTILS.qs('.notifications');
+	// 		paragraph.appendChild(text);
+	// 		notification.appendChild(paragraph);
+	// 	},
 
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+	// fail: function(err) {
+	// 	document.querySelector('#xhr');
+	// 	}
+	// });
 
 	/**
 	 * Tabs Section
@@ -81,12 +81,7 @@ window.onload = function() {
 	 * Reports section
 	 */
 	var reportsBtn = UTILS.qsa('.reports-btn'),
-		buttons = UTILS.qsa(),
-		// Finding "Select" element on the Quick Reports Tab
 		selectedOpt;
-		//sitesDropDown = UTILS.qs('#qs-sites-list'),
-		//selectedOpt = sitesDropDown.querySelector('option[selected="selected"]');
-
 
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(e) {
@@ -191,20 +186,28 @@ window.onload = function() {
 	var checkFields = function (curForm, e) {
 
 		var fields = curForm.querySelectorAll('.report-row'),
-			// firstInputName = UTILS.qs('#qr-name1').value,
-			// firstInputURL = UTILS.qs('#qr-url1').value,
 			firstInputName = fields[0].querySelector('input[type="text"]'),
 			firstInputURL = fields[0].querySelector('input[type="url"]'),
 			message = curForm.querySelector('.system-message'),
+			wrongInputs = UTILS.qsa('.wrong'),
 			field,
 			siteTitle,
 			siteURL,
 			validationAnswer;
 
+		console.log(wrongInputs);
+		// Removing red border from all inputs before running again over them
+		for (var i = 0; i < wrongInputs.length; i++) {
+			UTILS.removeClass(wrongInputs[i], 'wrong');
+		};
+
 		// Checks if at least the first fieldset inputs is not empty
-		if ( firstInputName.value === '' && firstInputURL.value === '') {
+		if (firstInputName.value === '' && firstInputURL.value === '') {
 			console.log('Please, write site name and URL before saving.');
 			message.innerHTML = 'Please, write site name and URL before saving.';
+			UTILS.addClass(firstInputName, 'wrong');
+			UTILS.addClass(firstInputURL, 'wrong');
+			firstInputName.focus();
 		}
 
 		// Checks every field in current tab "Report" form
@@ -212,28 +215,34 @@ window.onload = function() {
 			field = fields[i];
 
 			// Variables to check every input value in the Report window
-			siteTitle = field.querySelector('input[type="text"]').value;
-			siteURL = field.querySelector('input[type="url"]').value;
+			siteTitle = field.querySelector('input[type="text"]');
+			siteURL = field.querySelector('input[type="url"]');
 
 			//	Checks all inputs in Reports window and return some message or func
-			if (siteTitle !== '' || siteURL !== '') {
+			if (siteTitle.value !== '' || siteURL.value !== '') {
 
-				if (siteTitle !== '' && siteURL === '') {
+				if (siteTitle.value !== '' && siteURL.value === '') {
 					console.log('Please, enter the site URL!');
 					message.innerHTML = 'Please, enter the site URL!';
-				} else if (siteTitle === '' && siteURL !== '') {
+					UTILS.addClass(siteURL, 'wrong');
+					siteURL.focus();
+				} else if (siteTitle.value === '' && siteURL.value !== '') {
 					console.log('Please, write the title for entered URL!');
 					message.innerHTML = 'Please, write the title for entered URL!';
-				} else if (siteTitle !== '' && siteURL !== '') {
-					validationAnswer = validateField(siteURL);
+					UTILS.addClass(siteTitle, 'wrong');
+					siteTitle.focus();
+				} else if (siteTitle.value !== '' && siteURL.value !== '') {
+					validationAnswer = validateField(siteURL.value);
 
 					// Sends url for validation and
 					// if it's valid add it to list of sites
 					if (validationAnswer) {
-						saveNewSite(siteTitle, siteURL, e, curForm);
+						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
 					} else {
 						console.log('Please, enter valid URL!');
 						message.innerHTML = 'Please, enter valid URL!';
+						UTILS.addClass(siteURL, 'wrong');
+						siteURL.focus();
 					}
 				}
 			}
@@ -249,9 +258,8 @@ window.onload = function() {
 
 
 	// Saving inputs from Reports Form to Object
-	var qrForm = UTILS.qs("#qr-form");
-	var mtfForm = UTILS.qs("#mtf-form");
-	var saveBtns = UTILS.qsa('.submit_btn');
+	// var qrForm = UTILS.qs("#qr-form");
+	// var mtfForm = UTILS.qs("#mtf-form");
 
 
 	var checkNewSite = function (e) {
@@ -292,6 +300,8 @@ window.onload = function() {
 			// if the Reports window was opened and close it.
 			checkEvent(e);
 	};
+
+	var saveBtns = UTILS.qsa('.submit_btn');
 
 	for (var i = 0; i < saveBtns.length; i++) {
 		UTILS.addEvent(saveBtns[i], 'click', checkNewSite);

@@ -448,6 +448,11 @@ button[type="submit"],
 	line-height: 50px;
 }
 
+.wrong {
+	border: 1px solid red;
+	outline: none;
+}
+
 
 
 /* ==========================================================================
