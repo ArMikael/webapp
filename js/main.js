@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	// UTILS.ajax('data/notification.txt', {
-	// done: function(response) {
-	// 		//console.log(response);
-	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
-	// 		var notification = UTILS.qs('.notifications');
-	// 		paragraph.appendChild(text);
-	// 		notification.appendChild(paragraph);
-	// 	},
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			//console.log(response);
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement("p");
+			var notification = UTILS.qs('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-	// fail: function(err) {
-	// 	document.querySelector('#xhr');
-	// 	}
-	// });
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
 
 	/**
 	 * Tabs Section
@@ -30,7 +30,7 @@ window.onload = function() {
 		UTILS.addClass(target, 'active-tab');
 	};
 
-	for ( var i = 0; i < tab.length; i++ ) {
+	for (var i = 0; i < tab.length; i++) {
 		UTILS.addEvent(tab[i], 'click', switchTab);
 		UTILS.addEvent(tab[i], 'focus', switchTab);
 	}
@@ -50,13 +50,13 @@ window.onload = function() {
 
 		activeItem = UTILS.qs('.active-item');
 
-		if ( activeItem !== null ) {
+		if (activeItem !== null) {
 			UTILS.removeClass(activeItem, 'active-item');
 		};
 
 		UTILS.addClass(target, 'active-item');
 
-		if ( UTILS.hasClass(parent.parentNode, 'active-menu') === false ) {
+		if (UTILS.hasClass(parent.parentNode, 'active-menu') === false ) {
 			UTILS.addClass(parent.parentNode, 'active-menu');
 		}
 	};
@@ -305,23 +305,22 @@ window.onload = function() {
 	};
 
 	// Closing Reports window on pressing "Escape"
-	var escapeReports = function (e) {
-		var reportsDivs = UTILS.qsa('.reports'),
-			target = e.target;
+	var reportsDivs = UTILS.qsa('.reports'),
+		inputs = UTILS.qsa('.reports input');
 
-		console.log(e.keyCode);
-		console.log(e.target);
-		console.log(e.currentTarget);
+	var escapeReports = function (e) {
+		var target = e.target,
+			parent = target.parentNode,
+			reportsDiv = parent.parentNode;
 
 		if (e.keyCode === 27) {
-			for (var i = 0; i < reportsDivs.length; i++) {
-				UTILS.removeClass(reportsDivs[i], 'active-window');
-			}
+			UTILS.removeClass(reportsDiv, 'active-window');
 		}
 	};
 
-	UTILS.addEvent(document, 'keyup', escapeReports);
-
+	for (var i = 0; i < inputs.length; i++) {
+		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
+	}
 };
 
 
