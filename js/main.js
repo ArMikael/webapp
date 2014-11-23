@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-			//console.log(response);
-			var text = document.createTextNode(response);
-			var paragraph = document.createElement("p");
-			var notification = UTILS.qs('.notifications');
-			paragraph.appendChild(text);
-			notification.appendChild(paragraph);
-		},
+	// UTILS.ajax('data/notification.txt', {
+	// done: function(response) {
+	// 		//console.log(response);
+	// 		var text = document.createTextNode(response);
+	// 		var paragraph = document.createElement("p");
+	// 		var notification = UTILS.qs('.notifications');
+	// 		paragraph.appendChild(text);
+	// 		notification.appendChild(paragraph);
+	// 	},
 
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+	// fail: function(err) {
+	// 	document.querySelector('#xhr');
+	// 	}
+	// });
 
 	/**
 	 * Tabs Section
@@ -179,26 +179,29 @@ window.onload = function() {
 	}
 
 
-	/**
-	 * Validating fields and saving new sites in reports window
-	 */
-
-	// Adding inputs placeholders for IE8 with Modernizer
+	// Adding placeholders to Report's inputs for IE8 with Modernizer
 	if (!Modernizr.input.placeholder) {
 		console.log(Modernizr.input.placeholder);
 
 		var nameArr = UTILS.qsa('.js-site-name'),
-			urlArr = UTILS.qsa('.js-site-url');
+			urlArr = UTILS.qsa('.js-site-url'),
+			search = UTILS.qs('#search > input');
 
 		var checkInput = function (e) {
 			target = e.target;
 
 			// Checks if the current value is placeholder and only then removes it
-			if (target.value === 'Site name' || target.value === 'Site URL') {
+			if (target.value === 'Site name' || target.value === 'Site URL' ||
+				target.value === 'Search') {
 				target.value = '';
 			}
 		};
 
+		// Adding placeholder and event listener to the Search field in IE8
+		search.value = 'Search';
+		UTILS.addEvent(search, 'focus', checkInput);
+
+		// Adding IE placeholders and event listeners to reports inputs
 		for (var i = 0; i < nameArr.length; i++) {
 			nameArr[i].value = 'Site name';
 			urlArr[i].value = 'Site URL';
@@ -206,6 +209,7 @@ window.onload = function() {
 			UTILS.addEvent(nameArr[i], 'focus', checkInput);
 			UTILS.addEvent(urlArr[i], 'focus', checkInput);
 		};
+
 	 };
 
 	// Adding and removing sites to/from JS Object
@@ -233,6 +237,9 @@ window.onload = function() {
 		sitesCollector.push(site);
 	};
 
+	/**
+	 * Validating fields and saving new sites in reports window
+	 */
 
 	// Checks if some of the inputs is not empty
 	var checkFields = function (curForm, e) {
