@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	// UTILS.ajax('data/notification.txt', {
-	// done: function(response) {
-	// 		//console.log(response);
-	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
-	// 		var notification = UTILS.qs('.notifications');
-	// 		paragraph.appendChild(text);
-	// 		notification.appendChild(paragraph);
-	// 	},
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			//console.log(response);
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement("p");
+			var notification = UTILS.qs('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-	// fail: function(err) {
-	// 	document.querySelector('#xhr');
-	// 	}
-	// });
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
 
 	/**
 	 * Tabs Section
@@ -88,9 +88,8 @@ window.onload = function() {
 	var openReports = function(e) {
 		var reports;
 
-		// Checks if the Event trigger is "Save" or "Cancel" button
+		// Checks if the Event trigger is not on "Open Reports" button
 		if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
-			console.log('className: ' + e.currentTarget.className);
 			reports = e.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
 
