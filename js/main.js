@@ -1,20 +1,20 @@
 window.onload = function() {
 
 	/* UTILS API  Section */
-	UTILS.ajax('data/notification.txt', {
-	done: function(response) {
-			//console.log(response);
-			var text = document.createTextNode(response);
-			var paragraph = document.createElement("p");
-			var notification = UTILS.qs('.notifications');
-			paragraph.appendChild(text);
-			notification.appendChild(paragraph);
-		},
+	// UTILS.ajax('data/notification.txt', {
+	// done: function(response) {
+	// 		//console.log(response);
+	// 		var text = document.createTextNode(response);
+	// 		var paragraph = document.createElement("p");
+	// 		var notification = UTILS.qs('.notifications');
+	// 		paragraph.appendChild(text);
+	// 		notification.appendChild(paragraph);
+	// 	},
 
-	fail: function(err) {
-		document.querySelector('#xhr');
-		}
-	});
+	// fail: function(err) {
+	// 	document.querySelector('#xhr');
+	// 	}
+	// });
 
 	/**
 	 * Tabs Section
@@ -182,6 +182,32 @@ window.onload = function() {
 	 * Validating fields and saving new sites in reports window
 	 */
 
+	// Adding and removing sites to/from JS Object
+	var sitesCollector = [],
+		site = {};
+
+	var addToCollector = function (siteTitle, siteURL) {
+		site = {
+			title: siteTitle,
+			url: siteURL
+		};
+
+		console.log('Site ' + site.title + ' and URL: ' + site.url);
+		console.log('Array Length: ' + sitesCollector.length);
+
+		for (var i = 0; i < sitesCollector.length; i++) {
+			if (sitesCollector[i].url === siteURL) {
+				return false;
+			}
+
+			console.log('Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
+		}
+
+		console.log('Title!!!: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
+		sitesCollector.push(site);
+	};
+
+
 	// Checks if some of the inputs is not empty
 	var checkFields = function (curForm, e) {
 
@@ -219,6 +245,11 @@ window.onload = function() {
 			//	Checks all inputs in Reports window and return some message or func
 			if (siteTitle.value !== '' || siteURL.value !== '') {
 
+				// Adding "http" protocol to the entered url value without it
+				if (siteURL.value.substring(0, 4) !== 'http') {
+					siteURL.value = 'http://' + siteURL.value;
+				}
+
 				if (siteTitle.value !== '' && siteURL.value === '') {
 					message.innerHTML = 'Please, enter the site URL!';
 					UTILS.addClass(siteURL, 'wrong');
@@ -234,6 +265,7 @@ window.onload = function() {
 					// if it's valid add it to list of sites
 					if (validationAnswer) {
 						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
+						addToCollector(siteTitle.value, siteURL.value);
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
@@ -241,7 +273,7 @@ window.onload = function() {
 					}
 				}
 			}
-		};
+		}
 	};
 
 	// Validating fields
@@ -268,7 +300,7 @@ window.onload = function() {
 
 			// Checks if new URL provided by user is already exist
 			for (var i = 0; i < options.length; i++) {
-				if ( options[i].value === url ) {
+				if (options[i].value === url) {
 					console.log('This site is already exists in the list.');
 					message.innerHTML = 'This site is already exists in the list.';
 					return false;
@@ -307,6 +339,7 @@ window.onload = function() {
 	// Closing Reports window on pressing "Escape"
 	var reportsDivs = UTILS.qsa('.reports'),
 		inputs = UTILS.qsa('.reports input');
+
 
 	var escapeReports = function (e) {
 		var target = e.target,
