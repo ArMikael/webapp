@@ -49,11 +49,30 @@ var UTILS = (function () {
 		},
 
 		removeClass: function (elm, rmvClass) {
-			elm.classList.remove(rmvClass);
+			// elm.classList.remove(rmvClass);
+			var className = elm.className,
+				classArr = className.split(' ');
+
+				for (var i = 0; i < classArr.length; i++) {
+					if (classArr[i] === rmvClass) {
+						classArr.splice(i, 1);
+					}
+				}
+			console.log('Removing Class!');
 		},
 
 		toggle: function (elm, className) {
-			elm.classList.toggle(className);
+			// elm.classList.toggle(className);
+          	console.log('Toggling Class!');
+
+			var index = elm.className.indexOf(className);
+			console.log('Index: ' + index);
+			if (index === -1) {
+				elm.className = elm.className + ' ' + className;
+			} else {
+				var regEx = new RegExp('(\\s)?' + className + '(\\s)?');
+				elm.className = elm.className.replace(regEx,'');
+			}
 		},
 
 		/**
