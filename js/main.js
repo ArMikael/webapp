@@ -311,8 +311,7 @@ window.onload = function() {
 
 	// Validating fields
 	var validateField = function (url) {
-		var regEx = /(http|https):\/\/?/;
-		// /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		var regEx = /http(s)?:\/\/w{0,3}.+\.\w{2,4}(.+)?/g;
 		return regEx.test(url);
 	};
 
