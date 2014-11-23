@@ -237,8 +237,8 @@ window.onload = function() {
 	var checkFields = function (curForm, e) {
 
 		var fields = curForm.querySelectorAll('.report-row'),
-			firstInputName = fields[0].querySelector('input[type="text"]'),
-			firstInputURL = fields[0].querySelector('input[type="url"]'),
+			firstInputName = fields[0].querySelector('.js-site-name'),
+			firstInputURL = fields[0].querySelector('.js-site-url'),
 			message = curForm.querySelector('.system-message'),
 			wrongInputs = UTILS.qsa('.wrong'),
 			field,
@@ -264,8 +264,8 @@ window.onload = function() {
 			field = fields[i];
 
 			// Variables to check every input value in the Report window
-			siteTitle = field.querySelector('input[type="text"]');
-			siteURL = field.querySelector('input[type="url"]');
+			siteTitle = field.querySelector('.js-site-name');
+			siteURL = field.querySelector('.js-site-url');
 
 			//	Checks all inputs in Reports window and return some message or func
 			if (siteTitle.value !== '' || siteURL.value !== '') {
