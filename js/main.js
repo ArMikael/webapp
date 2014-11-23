@@ -80,6 +80,7 @@ window.onload = function() {
 	/**
 	 * Reports section
 	 */
+
 	var reportsBtn = UTILS.qsa('.reports-btn'),
 		selectedOpt;
 
@@ -177,10 +178,34 @@ window.onload = function() {
 	}
 
 
-
 	/**
 	 * Validating fields and saving new sites in reports window
 	 */
+
+	// Adding inputs placeholders for IE8 with Modernizer
+	if (!Modernizr.input.placeholder) {
+		console.log(Modernizr.input.placeholder);
+
+		var nameArr = UTILS.qsa('.js-site-name'),
+			urlArr = UTILS.qsa('.js-site-url');
+
+		var checkInput = function (e) {
+			target = e.target;
+
+			// Checks if the current value is placeholder and only then removes it
+			if (target.value === 'Site name' || target.value === 'Site URL') {
+				target.value = '';
+			}
+		};
+
+		for (var i = 0; i < nameArr.length; i++) {
+			nameArr[i].value = 'Site name';
+			urlArr[i].value = 'Site URL';
+
+			UTILS.addEvent(nameArr[i], 'focus', checkInput);
+			UTILS.addEvent(urlArr[i], 'focus', checkInput);
+		};
+	 };
 
 	// Adding and removing sites to/from JS Object
 	var sitesCollector = [],

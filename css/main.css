@@ -368,6 +368,7 @@ select:focus {
 .reports input {
 	width: 30%;
 	height: 30px;
+	color: blue;
 }
 
 .site-url {
