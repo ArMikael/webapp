@@ -89,7 +89,8 @@ window.onload = function() {
 		var reports;
 
 		// Checks if the Event trigger is "Save" or "Cancel" button
-		if (e.currentTarget.nodeName === 'BUTTON') {
+		if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
+			console.log('className: ' + e.currentTarget.className);
 			reports = e.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
 
@@ -132,6 +133,7 @@ window.onload = function() {
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(e) {
+		e.preventDefault();
 		if ( e.type === "click" ) {
 			openReports(e);
 		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
