@@ -216,25 +216,35 @@ window.onload = function() {
 	var sitesCollector = [],
 		site = {};
 
-	var addToCollector = function (siteTitle, siteURL) {
+	var addToCollector = function (siteTitle, siteURL, e) {
+		console.log(e.target);
+		console.log(e.currentTarget);
 		site = {
 			title: siteTitle,
 			url: siteURL
 		};
 
-		console.log('Site ' + site.title + ' and URL: ' + site.url);
-		console.log('Array Length: ' + sitesCollector.length);
+		if (sitesCollector.length === 0) {
+			sitesCollector.push(site);
+		};
+
+		// console.log('Site ' + site.title + ' and URL: ' + site.url);
+		console.log('sitesCollector[] Length: ' + sitesCollector.length);
+		console.log('sitesCollector[0] URL: ' + sitesCollector[0].url);
 
 		for (var i = 0; i < sitesCollector.length; i++) {
-			if (sitesCollector[i].url === siteURL) {
-				return false;
+			console.log('sitesCollector[i].url: ' + sitesCollector[i].url);
+			if (sitesCollector[i].url !== siteURL) {
+				sitesCollector.push(site);
 			}
 
-			console.log('Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
+			console.log('Number ' + i + ' Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
 		}
 
-		console.log('Title!!!: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
-		sitesCollector.push(site);
+		console.log('sitesCollector[] length after FOR: ' + sitesCollector.length);
+
+		var stringArr = sitesCollector.toString();
+		console.log(stringArr);
 	};
 
 	/**
@@ -298,7 +308,7 @@ window.onload = function() {
 					// if it's valid add it to list of sites
 					if (validationAnswer) {
 						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
-						addToCollector(siteTitle.value, siteURL.value);
+						addToCollector(siteTitle.value, siteURL.value, e);
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
