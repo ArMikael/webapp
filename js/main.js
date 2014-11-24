@@ -87,6 +87,7 @@ window.onload = function() {
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(e) {
 		var reports;
+		console.log('Open reports function');
 
 		// Checks if the Event trigger is not on "Open Reports" button
 		if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
