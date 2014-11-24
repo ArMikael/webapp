@@ -52,13 +52,18 @@ var UTILS = (function () {
 			// elm.classList.remove(rmvClass);
 			var className = elm.className,
 				classArr = className.split(' ');
+				console.log('classArr' + classArr);
 
 				for (var i = 0; i < classArr.length; i++) {
+					console.log('classArr[i]: '+ classArr[i]);
+					console.log('rmvClass: '+ rmvClass);
 					if (classArr[i] === rmvClass) {
+						console.log('splice(i, 1): ' + classArr.splice(i, 1));
 						classArr.splice(i, 1);
+						elm.className = classArr.join(' ');
+						console.log(classArr.toString());
 					}
 				}
-			console.log('Removing Class!');
 		},
 
 		toggle: function (elm, className) {
@@ -66,7 +71,7 @@ var UTILS = (function () {
           	console.log('Toggling Class!');
 
 			var index = elm.className.indexOf(className);
-			console.log('Index: ' + index);
+
 			if (index === -1) {
 				elm.className = elm.className + ' ' + className;
 			} else {
