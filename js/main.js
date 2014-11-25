@@ -27,7 +27,7 @@ window.onload = function() {
 		switchTab;
 
 	switchTab = function(e) {
-		var target = e.currentTarget;
+		var target = (e.currentTarget) ? e.currentTarget : this;
 		activeTab = UTILS.qs('.active-tab');
 		UTILS.removeClass(activeTab, 'active-tab');
 		UTILS.addClass(target, 'active-tab');
@@ -44,7 +44,7 @@ window.onload = function() {
 	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
 	var showMenu = function(e) {
-		var target = e.target,
+		var target = e.target || e.srcElement,
 		parent = target.parentNode,
 		activeParent;
 
@@ -63,7 +63,7 @@ window.onload = function() {
 
 	/* Function closes categories */
 	var closeMenu = function(e) {
-		var target = e.target,
+		var target = e.target || e.srcElement,
 		parent = target.parentNode;
 		UTILS.removeClass(parent.parentNode, 'active-menu');
 	}
@@ -83,7 +83,7 @@ window.onload = function() {
 
 		for ( var i = 0; i < lastItem.length; i++ ) {
 			UTILS.addEvent(lastItem[i], 'blur', closeMenu);
-		}
+		}	
 	}
 
 
@@ -96,27 +96,29 @@ window.onload = function() {
 
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(e) {
-		var reports;
+		var reports,
+			target = (e.currentTarget) ? e.currentTarget : this;
 
 		// Checks if the Event trigger is not on "Open Reports" button
-		if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
-			reports = e.currentTarget.parentNode;
+		if (!UTILS.hasClass(target, 'app-button')) {
+			reports = target.parentNode;
 			UTILS.toggle(reports, 'active-window');
 
 			// If the clicked button is "Save" run loadFrame function,
 			// otherwise do nothing (for ignoring "Cancel" button).
-			if (UTILS.hasClass(e.currentTarget, 'submit_btn')) {
+			if (UTILS.hasClass(target, 'submit_btn')) {
 				loadFrame(e);
 			}
 		// If not, the trigger was "Reports" button
 		} else {
-			reports = e.currentTarget.parentNode.querySelector(".reports");
+			reports = target.parentNode.querySelector(".reports");
 			UTILS.toggle(reports, 'active-window');
 		}
 	};
 
 	var loadFrame = function (e) {
-		var parent = e.currentTarget.parentNode,
+		var target = (e.currentTarget) ? e.currentTarget : this,
+			parent = target.parentNode,
 			tabContent = parent.parentNode,
 			// Finding iframe element in the current tab content
 			iframe = tabContent.querySelector('iframe'),
@@ -127,8 +129,8 @@ window.onload = function() {
 		if (e.type === 'change') {
 			// Removes "selected" attribute from the previously selected item
 			prevSelect.removeAttribute('selected');
-			index = e.currentTarget.selectedIndex;
-			newSelect = e.currentTarget.options[index];
+			index = target.selectedIndex;
+			newSelect = target.options[index];
 			newSelect.setAttribute('selected', 'selected');
 		}
 
@@ -142,6 +144,7 @@ window.onload = function() {
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(e) {
+		
 		e.preventDefault = e.preventDefault || function () {
 			e.returnValue = false;
 		};
@@ -170,7 +173,8 @@ window.onload = function() {
 	var newTabBtn = UTILS.qsa('.new-tab-btn');
 
 	var openNewTab = function(e) {
-		var iframe = e.currentTarget.parentNode.querySelector('iframe'),
+		var target = (e.currentTarget) ? e.currentTarget : this,
+		iframe = target.parentNode.querySelector('iframe'),
 		src = iframe.getAttribute('src'),
 		newWindow;
 
@@ -202,7 +206,7 @@ window.onload = function() {
 			search = UTILS.qs('#search > input');
 
 		var checkInput = function (e) {
-			target = e.target;
+			target = e.target || e.srcElement;
 
 			// Checks if the current value is placeholder and only then removes it
 			if (target.value === 'Site name' || target.value === 'Site URL' ||
@@ -231,8 +235,7 @@ window.onload = function() {
 		site = {};
 
 	var addToCollector = function (siteTitle, siteURL, e) {
-		console.log(e.target);
-		console.log(e.currentTarget);
+
 		site = {
 			title: siteTitle,
 			url: siteURL
@@ -341,8 +344,9 @@ window.onload = function() {
 
 	// Preventing default activity of form submition and running checkFields function
 	var checkNewSite = function (e) {
-		var parentForm = e.target.parentNode;
-
+		var target = e.target || e.srcElement,
+			parentForm = target.parentNode;
+		
 		e.preventDefault = e.preventDefault || function () {
 			e.returnValue = false;
 		};
@@ -402,7 +406,7 @@ window.onload = function() {
 
 
 	var escapeReports = function (e) {
-		var target = e.target,
+		var target = e.target || e.srcElement,
 			parent = target.parentNode,
 			reportsDiv = parent.parentNode;
 
