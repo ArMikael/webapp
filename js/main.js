@@ -1,6 +1,6 @@
 console.log('Im in main.js before onload');
 
-// window.onload = function() {
+window.onload = function() {
 	console.log('Im in main.js');
 
 	/* UTILS API  Section */
@@ -83,7 +83,7 @@ console.log('Im in main.js before onload');
 
 		for ( var i = 0; i < lastItem.length; i++ ) {
 			UTILS.addEvent(lastItem[i], 'blur', closeMenu);
-		}	
+		}
 	}
 
 
@@ -97,7 +97,6 @@ console.log('Im in main.js before onload');
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(e) {
 		var reports;
-		console.log('Open reports function');
 
 		// Checks if the Event trigger is not on "Open Reports" button
 		if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
@@ -143,7 +142,10 @@ console.log('Im in main.js before onload');
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(e) {
-		e.preventDefault();
+		e.preventDefault = e.preventDefault || function () {
+			e.returnValue = false;
+		};
+
 		if ( e.type === "click" ) {
 			openReports(e);
 		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
@@ -340,7 +342,11 @@ console.log('Im in main.js before onload');
 	// Preventing default activity of form submition and running checkFields function
 	var checkNewSite = function (e) {
 		var parentForm = e.target.parentNode;
-		e.preventDefault();
+
+		e.preventDefault = e.preventDefault || function () {
+			e.returnValue = false;
+		};
+
 		checkFields(parentForm, e);
 	};
 
@@ -408,6 +414,6 @@ console.log('Im in main.js before onload');
 	for (var i = 0; i < inputs.length; i++) {
 		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
 	}
-// };
+};
 
 
