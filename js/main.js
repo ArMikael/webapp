@@ -1,4 +1,7 @@
-window.onload = function() {
+console.log('Im in main.js before onload');
+
+// window.onload = function() {
+	console.log('Im in main.js');
 
 	/* UTILS API  Section */
 	// UTILS.ajax('data/notification.txt', {
@@ -37,9 +40,6 @@ window.onload = function() {
 
 	var menus = UTILS.qsa('.action-list');
 	var menuItems = UTILS.qsa('.action-list a');
-	// Takes last item in each submenu to listen for blur event
-	// when jumping to the next submenu
-	var lastItem = UTILS.qsa('.action-list li:last-child a');
 
 	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
@@ -72,8 +72,18 @@ window.onload = function() {
 		UTILS.addEvent(menuItems[i], 'focus', showMenu);
 	}
 
-	for ( var i = 0; i < lastItem.length; i++ ) {
-		UTILS.addEvent(lastItem[i], 'blur', closeMenu);
+	// IE8 doesn't support CSS3 selectors, so we have to check if it's a modern browser
+	// that supports CSS3 features
+	console.log('Modernizr CSS3 support: ' + Modernizr.csstransforms);
+
+	if (Modernizr.csstransforms) {
+		// Takes last item in each submenu to listen for blur event
+		// when jumping to the next submenu
+		var lastItem = UTILS.qsa('.action-list li:last-child a');
+
+		for ( var i = 0; i < lastItem.length; i++ ) {
+			UTILS.addEvent(lastItem[i], 'blur', closeMenu);
+		}	
 	}
 
 
@@ -147,7 +157,7 @@ window.onload = function() {
 	}
 
 	// Cancel button that closing Reports window
-	var cancelBtn = UTILS.qsa(".cancel-btn");
+	var cancelBtn = UTILS.qsa('.cancel-btn');
 
 	for ( var i = 0; i < cancelBtn.length; i++ ) {
 		UTILS.addEvent(cancelBtn[i], 'click', checkEvent);
@@ -155,10 +165,10 @@ window.onload = function() {
 	}
 
 	// Function for open in new tab button
-	var newTabBtn = UTILS.qsa(".new-tab-btn");
+	var newTabBtn = UTILS.qsa('.new-tab-btn');
 
 	var openNewTab = function(e) {
-		var iframe = e.currentTarget.parentNode.querySelector("iframe"),
+		var iframe = e.currentTarget.parentNode.querySelector('iframe'),
 		src = iframe.getAttribute('src'),
 		newWindow;
 
@@ -167,7 +177,7 @@ window.onload = function() {
 	};
 
 	var checkNewTabEvent = function (e) {
-		if ( e.type === "click" ) {
+		if ( e.type === 'click' ) {
 			openNewTab(e);
 		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
 			openNewTab(e);
@@ -181,8 +191,9 @@ window.onload = function() {
 
 
 	// Adding placeholders to Report's inputs for IE8 with Modernizer
+	console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
+
 	if (!Modernizr.input.placeholder) {
-		console.log(Modernizr.input.placeholder);
 
 		var nameArr = UTILS.qsa('.js-site-name'),
 			urlArr = UTILS.qsa('.js-site-url'),
@@ -397,6 +408,6 @@ window.onload = function() {
 	for (var i = 0; i < inputs.length; i++) {
 		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
 	}
-};
+// };
 
 
