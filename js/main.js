@@ -147,9 +147,7 @@ window.onload = function() {
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(e) {
-		e.preventDefault = e.preventDefault || function () {
-			e.returnValue = false;
-		};
+		e.preventDefault();
 
 		if ( e.type === "click" ) {
 			openReports(e);
@@ -232,39 +230,39 @@ window.onload = function() {
 	 };
 
 	// Adding and removing sites to/from JS Object
-	var sitesCollector = [],
-		site = {};
+	// var sitesCollector = [],
+	// 	site = {};
 
-	var addToCollector = function (siteTitle, siteURL, e) {
-		console.log(e.target);
-		console.log(e.currentTarget);
-		site = {
-			title: siteTitle,
-			url: siteURL
-		};
+	// var addToCollector = function (siteTitle, siteURL, e) {
+	// 	console.log(e.target);
+	// 	console.log(e.currentTarget);
+	// 	site = {
+	// 		title: siteTitle,
+	// 		url: siteURL
+	// 	};
 
-		if (sitesCollector.length === 0) {
-			sitesCollector.push(site);
-		};
+	// 	if (sitesCollector.length === 0) {
+	// 		sitesCollector.push(site);
+	// 	};
 
-		// console.log('Site ' + site.title + ' and URL: ' + site.url);
-		console.log('sitesCollector[] Length: ' + sitesCollector.length);
-		console.log('sitesCollector[0] URL: ' + sitesCollector[0].url);
+	// 	// console.log('Site ' + site.title + ' and URL: ' + site.url);
+	// 	console.log('sitesCollector[] Length: ' + sitesCollector.length);
+	// 	console.log('sitesCollector[0] URL: ' + sitesCollector[0].url);
 
-		for (var i = 0; i < sitesCollector.length; i++) {
-			console.log('sitesCollector[i].url: ' + sitesCollector[i].url);
-			if (sitesCollector[i].url !== siteURL) {
-				sitesCollector.push(site);
-			}
+	// 	for (var i = 0; i < sitesCollector.length; i++) {
+	// 		console.log('sitesCollector[i].url: ' + sitesCollector[i].url);
+	// 		if (sitesCollector[i].url !== siteURL) {
+	// 			sitesCollector.push(site);
+	// 		}
 
-			console.log('Number ' + i + ' Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
-		}
+	// 		console.log('Number ' + i + ' Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
+	// 	}
 
-		console.log('sitesCollector[] length after FOR: ' + sitesCollector.length);
+	// 	console.log('sitesCollector[] length after FOR: ' + sitesCollector.length);
 
-		var stringArr = sitesCollector.toString();
-		console.log(stringArr);
-	};
+	// 	var stringArr = sitesCollector.toString();
+	// 	console.log(stringArr);
+	// };
 
 	/**
 	 * Validating fields and saving new sites in reports window
@@ -321,13 +319,13 @@ window.onload = function() {
 					UTILS.addClass(siteTitle, 'wrong');
 					siteTitle.focus();
 				} else if (siteTitle.value !== '' && siteURL.value !== '') {
+					// Sends url for validation
 					validationAnswer = validateField(siteURL.value);
 
-					// Sends url for validation and
-					// if it's valid add it to list of sites
+					// If it's valid add it to list of sites
 					if (validationAnswer) {
 						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
-						addToCollector(siteTitle.value, siteURL.value, e);
+						// addToCollector(siteTitle.value, siteURL.value, e);
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
@@ -348,12 +346,13 @@ window.onload = function() {
 	var checkNewSite = function (e) {
 		var parentForm = e.target.parentNode;
 
-		e.preventDefault = e.preventDefault || function () {
-			e.returnValue = false;
-		};
+		e.preventDefault();
 
 		checkFields(parentForm, e);
 	};
+
+	//
+	var sitesCollector = [];
 
 	// Adding new site to the select element
 	var saveNewSite = function (title, url, e, curForm) {
@@ -361,6 +360,7 @@ window.onload = function() {
 			options = sitesList.querySelectorAll('option'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
 			message = curForm.querySelector('.system-message'),
+			site = {},
 			newOption;
 
 			// Checks if new URL provided by user is already exist
@@ -370,6 +370,18 @@ window.onload = function() {
 					message.innerHTML = 'This site is already exists in the list.';
 					return false;
 				}
+			};
+
+			site = {
+				title: title,
+				url: url
+			};
+
+			sitesCollector.push(site);
+			console.log('sitesCollector[] Length: ' + sitesCollector.length);
+
+			for (var i = 0; i < sitesCollector.length; i++) {
+				console.log('Cell #' + i + ' ' + sitesCollector[i].url);
 			};
 
 			newOption = document.createElement('option');
