@@ -203,7 +203,30 @@ window.onload = function() {
 	var searchReport = function(e) {
 		target = e.target;
 		e.preventDefault();
-		var searchInput = target.childNodes[1].value;
+
+		var searchInput = target.childNodes[1].value,
+			notification = UTILS.qs('.notifications');
+			// text = document.createTextNode(response);
+			// var paragraph = document.createElement("p");
+			// paragraph.appendChild(text);
+			// notification.appendChild(paragraph);
+
+
+		if (sitesCollector.length === 0) {
+			console.log('The searched report ' + searchInput + ' was not found.');
+		};
+
+		for (var i = 0; i < sitesCollector.length; i++) {
+			console.log('siteObjTitle: ' + sitesCollector[i].siteObjTitle);
+			console.log('searchInput: ' + searchInput);
+
+			if (sitesCollector[i].siteObjTitle === searchInput) {
+				console.log('YEssssS!');
+			} else {
+				console.log('The searched report ' + searchInput + ' was not found.');
+			};
+
+		};
 	};
 
 	UTILS.addEvent(searchForm, 'submit', searchReport)
@@ -348,7 +371,7 @@ window.onload = function() {
 			};
 
 			site = {
-				title: title,
+				siteObjTitle: title,
 				url: url
 			};
 
