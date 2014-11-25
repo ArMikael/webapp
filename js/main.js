@@ -194,15 +194,24 @@ window.onload = function() {
 		UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
 	}
 
+	// Arrays for IE8 placeholders and searchReport function
+	var nameArr = UTILS.qsa('.js-site-name'),
+		urlArr = UTILS.qsa('.js-site-url'),
+		searchForm = UTILS.qs('#search'),
+		search = UTILS.qs('#search > input');
+
+	var searchReport = function(e) {
+		target = e.target;
+		e.preventDefault();
+		var searchInput = target.childNodes[1].value;
+	};
+
+	UTILS.addEvent(searchForm, 'submit', searchReport)
 
 	// Adding placeholders to Report's inputs for IE8 with Modernizer
 	console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
 
 	if (!Modernizr.input.placeholder) {
-
-		var nameArr = UTILS.qsa('.js-site-name'),
-			urlArr = UTILS.qsa('.js-site-url'),
-			search = UTILS.qs('#search > input');
 
 		var checkInput = function (e) {
 			target = e.target;
@@ -229,40 +238,6 @@ window.onload = function() {
 
 	 };
 
-	// Adding and removing sites to/from JS Object
-	// var sitesCollector = [],
-	// 	site = {};
-
-	// var addToCollector = function (siteTitle, siteURL, e) {
-	// 	console.log(e.target);
-	// 	console.log(e.currentTarget);
-	// 	site = {
-	// 		title: siteTitle,
-	// 		url: siteURL
-	// 	};
-
-	// 	if (sitesCollector.length === 0) {
-	// 		sitesCollector.push(site);
-	// 	};
-
-	// 	// console.log('Site ' + site.title + ' and URL: ' + site.url);
-	// 	console.log('sitesCollector[] Length: ' + sitesCollector.length);
-	// 	console.log('sitesCollector[0] URL: ' + sitesCollector[0].url);
-
-	// 	for (var i = 0; i < sitesCollector.length; i++) {
-	// 		console.log('sitesCollector[i].url: ' + sitesCollector[i].url);
-	// 		if (sitesCollector[i].url !== siteURL) {
-	// 			sitesCollector.push(site);
-	// 		}
-
-	// 		console.log('Number ' + i + ' Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
-	// 	}
-
-	// 	console.log('sitesCollector[] length after FOR: ' + sitesCollector.length);
-
-	// 	var stringArr = sitesCollector.toString();
-	// 	console.log(stringArr);
-	// };
 
 	/**
 	 * Validating fields and saving new sites in reports window
@@ -351,7 +326,7 @@ window.onload = function() {
 		checkFields(parentForm, e);
 	};
 
-	//
+	// Array for saving sites as JS Object
 	var sitesCollector = [];
 
 	// Adding new site to the select element
@@ -379,6 +354,11 @@ window.onload = function() {
 
 			sitesCollector.push(site);
 			console.log('sitesCollector[] Length: ' + sitesCollector.length);
+
+
+			// 	var stringArr = sitesCollector.toString();
+			// 		console.log(stringArr);
+			// };
 
 			for (var i = 0; i < sitesCollector.length; i++) {
 				console.log('Cell #' + i + ' ' + sitesCollector[i].url);
@@ -431,6 +411,7 @@ window.onload = function() {
 	for (var i = 0; i < inputs.length; i++) {
 		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
 	}
+
 };
 
 
