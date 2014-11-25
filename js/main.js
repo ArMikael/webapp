@@ -1,3 +1,8 @@
+ // Fixing issue with IE8 console.log support and error message
+if (!window.console) {
+	console = {log: function() {}}
+};
+
 console.log('Im in main.js before onload');
 
 window.onload = function() {
