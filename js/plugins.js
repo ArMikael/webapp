@@ -44,14 +44,12 @@ var UTILS = (function () {
 
 		addClass: function (elm, newClass) {
 			// Check current elm class
-			console.log('Adding class');
 			var curClass = elm.className;
 			curClass !== '' ? elm.className = curClass + ' ' + newClass : elm.className = newClass;
 		},
 
 		removeClass: function (elm, rmvClass) {
 			// elm.classList.remove(rmvClass);
-			console.log('Removing class');
 			var className = elm.className,
 				classArr = className.split(' ');
 
@@ -65,8 +63,6 @@ var UTILS = (function () {
 
 		toggle: function (elm, className) {
 			// elm.classList.toggle(className);
-			console.log('Toggling class');
-
 			var index = elm.className.indexOf(className);
 
 			if (index === -1) {
