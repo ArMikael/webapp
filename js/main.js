@@ -205,7 +205,7 @@ window.onload = function() {
 			notification = UTILS.qs('.notifications');
 
 		if (sitesCollector.length === 0) {
-			notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" was not found.' + '</p>';
+			notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" is not found.' + '</p>';
 		};
 
 		for (var i = 0; i < sitesCollector.length; i++) {
@@ -237,7 +237,7 @@ window.onload = function() {
 				iframe.setAttribute('src', newSelect.value);
 
 			} else {
-				notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" was not found.' + '</p>';
+				notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" is not found.' + '</p>';
 			};
 
 		};
