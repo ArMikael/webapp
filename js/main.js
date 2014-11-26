@@ -216,10 +216,25 @@ window.onload = function() {
 				// Finding the parent tab of input for activation
 				var content = UTILS.qs('#' + sitesCollector[i].formID).parentNode,
 					tab = content.parentNode,
-					activeTab = UTILS.qs('.active-tab');
+					activeTab = UTILS.qs('.active-tab'),
+					iframe = content.querySelector('iframe'),
+					preSelect,
+					newSelect;
 
+				// Changing active tab
 				UTILS.removeClass(activeTab, 'active-tab');
 				UTILS.addClass(tab, 'active-tab');
+
+				// Removing selection from previous item in the list
+				preSelect = content.querySelector('option[selected="selected"]');
+				preSelect.removeAttribute('selected');
+
+				// Adding "selected" attribute to the searched report
+				newSelect = content.querySelector('option[value="' + sitesCollector[i].url + '"]');
+				newSelect.setAttribute('selected', 'selected');
+
+				// Changing iframe src to the searched one
+				iframe.setAttribute('src', newSelect.value);
 
 			} else {
 				notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" was not found.' + '</p>';
@@ -377,14 +392,7 @@ window.onload = function() {
 				fieldID: fieldID
 			};
 
-			console.log('site.formID: ' + site.formID);
-			console.log('site.fieldID: ' + site.fieldID);
-
 			sitesCollector.push(site);
-
-			for (var i = 0; i < sitesCollector.length; i++) {
-				console.log('Cell #' + i + ' ' + sitesCollector[i].url);
-			};
 
 			newOption = document.createElement('option');
 			newOption.value = url;
