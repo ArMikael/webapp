@@ -3,10 +3,7 @@ if (!window.console) {
 	console = {log: function() {}}
 };
 
-console.log('Im in main.js before onload');
-
 window.onload = function() {
-	console.log('Im in main.js');
 
 	/* UTILS API  Section */
 	// UTILS.ajax('data/notification.txt', {
@@ -212,11 +209,18 @@ window.onload = function() {
 		};
 
 		for (var i = 0; i < sitesCollector.length; i++) {
-			console.log('siteObjTitle: ' + sitesCollector[i].siteObjTitle);
-			console.log('searchInput: ' + searchInput);
 
 			if (sitesCollector[i].siteObjTitle === searchInput) {
 				notification.innerHTML = '<p>' + 'Report "' + searchInput + '" is found.' + '</p>';
+
+				// Finding the parent tab of input for activation
+				var content = UTILS.qs('#' + sitesCollector[i].formID).parentNode,
+					tab = content.parentNode,
+					activeTab = UTILS.qs('.active-tab');
+
+				UTILS.removeClass(activeTab, 'active-tab');
+				UTILS.addClass(tab, 'active-tab');
+
 			} else {
 				notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" was not found.' + '</p>';
 			};
@@ -262,14 +266,15 @@ window.onload = function() {
 	 */
 
 	// Checks if some of the inputs is not empty
-	var checkFields = function (curForm, e) {
+	var checkFields = function (parentForm, e) {
 
-		var fields = curForm.querySelectorAll('.report-row'),
+		var fields = parentForm.querySelectorAll('.report-row'),
 			firstInputName = fields[0].querySelector('.js-site-name'),
 			firstInputURL = fields[0].querySelector('.js-site-url'),
-			message = curForm.querySelector('.system-message'),
+			message = parentForm.querySelector('.system-message'),
 			wrongInputs = UTILS.qsa('.wrong'),
 			field,
+			fieldID,
 			siteTitle,
 			siteURL,
 			validationAnswer;
@@ -289,10 +294,11 @@ window.onload = function() {
 
 		// Checks every field in current tab "Report" form
 		for (var i = 0; i < fields.length; i++) {
-			field = fields[i];
+			field = fields[i],
+			fieldID = field.id;
 
 			// Variables to check every input value in the Report window
-			siteTitle = field.querySelector('.js-site-name');
+			siteTitle = field.querySelector('.js-site-name'),
 			siteURL = field.querySelector('.js-site-url');
 
 			//	Checks all inputs in Reports window and return some message or func
@@ -317,8 +323,7 @@ window.onload = function() {
 
 					// If it's valid add it to list of sites
 					if (validationAnswer) {
-						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
-						// addToCollector(siteTitle.value, siteURL.value, e);
+						saveNewSite(siteTitle.value, siteURL.value, e, parentForm, fieldID);
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
@@ -348,11 +353,11 @@ window.onload = function() {
 	var sitesCollector = [];
 
 	// Adding new site to the select element
-	var saveNewSite = function (title, url, e, curForm) {
-		var sitesList = curForm.parentNode.querySelector('select'),
+	var saveNewSite = function (title, url, e, parentForm, fieldID) {
+		var sitesList = parentForm.parentNode.querySelector('select'),
 			options = sitesList.querySelectorAll('option'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
-			message = curForm.querySelector('.system-message'),
+			message = parentForm.querySelector('.system-message'),
 			site = {},
 			newOption;
 
@@ -367,16 +372,15 @@ window.onload = function() {
 
 			site = {
 				siteObjTitle: title,
-				url: url
+				url: url,
+				formID: parentForm.id,
+				fieldID: fieldID
 			};
 
+			console.log('site.formID: ' + site.formID);
+			console.log('site.fieldID: ' + site.fieldID);
+
 			sitesCollector.push(site);
-			console.log('sitesCollector[] Length: ' + sitesCollector.length);
-
-
-			// 	var stringArr = sitesCollector.toString();
-			// 		console.log(stringArr);
-			// };
 
 			for (var i = 0; i < sitesCollector.length; i++) {
 				console.log('Cell #' + i + ' ' + sitesCollector[i].url);
