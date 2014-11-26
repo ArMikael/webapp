@@ -206,14 +206,9 @@ window.onload = function() {
 
 		var searchInput = target.childNodes[1].value,
 			notification = UTILS.qs('.notifications');
-			// text = document.createTextNode(response);
-			// var paragraph = document.createElement("p");
-			// paragraph.appendChild(text);
-			// notification.appendChild(paragraph);
-
 
 		if (sitesCollector.length === 0) {
-			console.log('The searched report ' + searchInput + ' was not found.');
+			notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" was not found.' + '</p>';
 		};
 
 		for (var i = 0; i < sitesCollector.length; i++) {
@@ -221,9 +216,9 @@ window.onload = function() {
 			console.log('searchInput: ' + searchInput);
 
 			if (sitesCollector[i].siteObjTitle === searchInput) {
-				console.log('YEssssS!');
+				notification.innerHTML = '<p>' + 'Report "' + searchInput + '" is found.' + '</p>';
 			} else {
-				console.log('The searched report ' + searchInput + ' was not found.');
+				notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" was not found.' + '</p>';
 			};
 
 		};
