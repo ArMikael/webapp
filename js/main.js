@@ -198,19 +198,22 @@ window.onload = function() {
 		search = UTILS.qs('#search > input');
 
 	var searchReport = function(e) {
-		target = e.target;
-		e.preventDefault();
+		var target = e.target,
+			searchInput = target.childNodes[1].value,
+			notification = UTILS.qs('.notifications'),
+			regExRep = new RegExp('(' + searchInput + '(([a-z]|\\d){1,2})?)', 'i'),
+			match;
 
-		var searchInput = target.childNodes[1].value,
-			notification = UTILS.qs('.notifications');
+		e.preventDefault();
 
 		if (sitesCollector.length === 0) {
 			notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" is not found.' + '</p>';
 		};
 
 		for (var i = 0; i < sitesCollector.length; i++) {
+			match = sitesCollector[i].siteObjTitle.match(regExRep);
 
-			if (sitesCollector[i].siteObjTitle === searchInput) {
+			if (match[0].toLowerCase() === sitesCollector[i].siteObjTitle.toLowerCase()) {
 				notification.innerHTML = '<p>' + 'Report "' + searchInput + '" is found.' + '</p>';
 
 				// Finding the parent tab of input for activation
