@@ -105,15 +105,15 @@ body {
 	height: 1600px;
 }
 
-.layout-wrap, .page-body {
-	width: 90%;
-	margin: 0 auto;
-}
-
 header {
 	background-color: black;
 	height: 40px;
 	padding: 20px;
+}
+
+.layout-wrap, .page-body {
+	width: 90%;
+	margin: 0 auto;
 }
 
 .page-body {
