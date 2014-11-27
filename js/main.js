@@ -65,28 +65,33 @@ window.onload = function() {
 
 	/* Function closes categories */
 	var closeMenu = function(e) {
-		var target = e.target,
-		parent = target.parentNode;
-		UTILS.removeClass(parent.parentNode, 'active-menu');
+		var submenus = UTILS.qsa('.action-list'),
+			target = e.target,
+			parent = target.parentNode;
+
+		for (var i = 0; i < submenus.length; i++) {
+			UTILS.removeClass(submenus[i], 'active-menu');
+		};
+
+		if (e.type === 'focus') {
+			UTILS.addClass(parent.parentNode, 'active-menu');
+		}
 	}
 
 	for ( var i = 0; i < menuItems.length; i++ ) {
 		UTILS.addEvent(menuItems[i], 'focus', showMenu);
 	}
 
-	// IE8 doesn't support CSS3 selectors, so we have to check if it's a modern browser
-	// that supports CSS3 features
-	console.log('Modernizr CSS3 support: ' + Modernizr.csstransforms);
+	// Closing previous submenus on focusing of first list items in every category
+	var firstItem = UTILS.qsa('.action-list li:first-child a');
 
-	if (Modernizr.csstransforms) {
-		// Takes last item in each submenu to listen for blur event
-		// when jumping to the next submenu
-		var lastItem = UTILS.qsa('.action-list li:last-child a');
+	for (var i = 0; i < firstItem.length; i++) {
+		UTILS.addEvent(firstItem[i], 'focus', closeMenu);
+	};
 
-		for ( var i = 0; i < lastItem.length; i++ ) {
-			UTILS.addEvent(lastItem[i], 'blur', closeMenu);
-		}
-	}
+	// Closing last category submenu after leaving the last menu item
+	var lastItem = UTILS.qs('.last-menu-item');
+	UTILS.addEvent(lastItem, 'blur', closeMenu);
 
 
 	/**
@@ -201,6 +206,8 @@ window.onload = function() {
 		var target = e.target,
 			searchInput = target.childNodes[1].value,
 			notification = UTILS.qs('.notifications'),
+			// This rexExp ignores key-case and allows
+			// to input report without last 1/2 letters
 			regExRep = new RegExp('(' + searchInput + '(([a-z]|\\d){1,2})?)', 'i'),
 			match;
 
