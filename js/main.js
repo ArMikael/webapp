@@ -58,7 +58,7 @@ window.onload = function() {
 
 		UTILS.addClass(target, 'active-item');
 
-		if (UTILS.hasClass(parent.parentNode, 'active-menu') === false ) {
+		if (!UTILS.hasClass(parent.parentNode, 'active-menu')) {
 			UTILS.addClass(parent.parentNode, 'active-menu');
 		}
 	};
@@ -218,9 +218,9 @@ window.onload = function() {
 		};
 
 		for (var i = 0; i < sitesCollector.length; i++) {
-			match = sitesCollector[i].siteObjTitle.match(regExRep);
+			match = sitesCollector[i].siteName.match(regExRep);
 
-			if (match[0].toLowerCase() === sitesCollector[i].siteObjTitle.toLowerCase()) {
+			if (match[0].toLowerCase() === sitesCollector[i].siteName.toLowerCase()) {
 				notification.innerHTML = '<p>' + 'Report "' + searchInput + '" is found.' + '</p>';
 
 				// Finding the parent tab of input for activation
@@ -285,10 +285,34 @@ window.onload = function() {
 
 	 };
 
-
 	/**
 	 * Validating fields and saving new sites in reports window
 	 */
+
+	// Checks if localStorage is supported and allowed by the browser
+	if (Modernizr.localstorage) {
+		var savedReports = localStorage.getItem('siteArray');
+			console.log(savedReports);
+
+		// Checks if localStorage has "savedReports"
+		if (savedReports) {
+			var parsedData = JSON.parse(savedReports);
+			console.log(parsedData['fieldID']);
+
+			var fieldsetID = parsedData['fieldID'],
+				fieldset = UTILS.qs('#' + fieldsetID),
+				nameInput = fieldset.querySelector('.js-site-name'),
+				urlInput = fieldset.querySelector('.js-site-url');
+
+				urlInput.value = parsedData['url'];
+				nameInput.value = parsedData['siteName'];
+
+
+			for (var prop in parsedData) {
+				console.log(prop);
+			}
+		}
+	};
 
 	// Checks if some of the inputs is not empty
 	var checkFields = function (parentForm, e) {
@@ -309,8 +333,13 @@ window.onload = function() {
 			UTILS.removeClass(wrongInputs[i], 'wrong');
 		};
 
+		 // && (firstInputName
+
 		// Checks if at least the first fieldset inputs is not empty
-		if (firstInputName.value === '' && firstInputURL.value === '') {
+		// Checks if class 'full' is exist and the inputs were previously fullfilled
+		if (firstInputName.value === '' && firstInputURL.value === '' && UTILS.hasClass(field, 'full')) {
+			// In this case remove site from sites array and delete it from select's options
+		} else if (firstInputName.value === '' && firstInputURL.value === '' && (!UTILS.hasClass(field, 'full'))) {
 			message.innerHTML = 'Please, write site name and URL before saving.';
 			UTILS.addClass(firstInputName, 'wrong');
 			UTILS.addClass(firstInputURL, 'wrong');
@@ -349,6 +378,10 @@ window.onload = function() {
 					// If it's valid add it to list of sites
 					if (validationAnswer) {
 						saveNewSite(siteTitle.value, siteURL.value, e, parentForm, fieldID);
+						if (!UTILS.hasClass(field, 'full')) {
+							UTILS.addClass(field, 'full');
+						};
+						console.log(field.className);
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
@@ -396,7 +429,7 @@ window.onload = function() {
 			};
 
 			site = {
-				siteObjTitle: title,
+				siteName: title,
 				url: url,
 				formID: parentForm.id,
 				fieldID: fieldID
@@ -404,6 +437,23 @@ window.onload = function() {
 
 			sitesCollector.push(site);
 
+			// Checking if browser allows to use localStorage and if yes adding
+			// new reports to the localStorage
+
+			// Checks if localStorage has "savedReports"
+			if (savedReports) {
+				localStorage.setItem('siteArray', localStorage.getItem('siteArray') + ', ' + JSON.stringify(site));
+				// var parsedData = JSON.parse(savedReports);
+				//console.log(parsedData);
+			} else {
+				localStorage.setItem('siteArray', JSON.stringify(site));
+			}
+
+
+			console.log(localStorage);
+			console.log(localStorage.getItem('siteArray'));
+
+			// Creating new option in select element
 			newOption = document.createElement('option');
 			newOption.value = url;
 
