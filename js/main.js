@@ -291,25 +291,26 @@ window.onload = function() {
 
 	// Checks if localStorage is supported and allowed by the browser
 	if (Modernizr.localstorage) {
-		var savedReports = localStorage.getItem('siteArray');
-			console.log(savedReports);
+		var savedReports = localStorage.getItem('savedReports');
+		// console.log(savedReports);
 
 		// Checks if localStorage has "savedReports"
 		if (savedReports) {
-			var parsedData = JSON.parse(savedReports);
-			console.log(parsedData['fieldID']);
+			var parsedData = JSON.parse(savedReports),
+			fieldsetID,
+			fieldset,
+			nameInput,
+			urlInput;
 
-			var fieldsetID = parsedData['fieldID'],
+			for (var i = 0; i < parsedData.length; i++) {
+				fieldsetID = parsedData[i]['fieldID'],
 				fieldset = UTILS.qs('#' + fieldsetID),
 				nameInput = fieldset.querySelector('.js-site-name'),
 				urlInput = fieldset.querySelector('.js-site-url');
 
-				urlInput.value = parsedData['url'];
-				nameInput.value = parsedData['siteName'];
-
-
-			for (var prop in parsedData) {
-				console.log(prop);
+				// Adding site name and url to apropriate input fields
+				urlInput.value = parsedData[i]['url'];
+				nameInput.value = parsedData[i]['siteName'];
 			}
 		}
 	};
@@ -332,8 +333,6 @@ window.onload = function() {
 		for (var i = 0; i < wrongInputs.length; i++) {
 			UTILS.removeClass(wrongInputs[i], 'wrong');
 		};
-
-		 // && (firstInputName
 
 		// Checks if at least the first fieldset inputs is not empty
 		// Checks if class 'full' is exist and the inputs were previously fullfilled
@@ -434,32 +433,31 @@ window.onload = function() {
 				siteName: title,
 				url: url,
 				fieldID: fieldID,
-				nameInpID: nameInpID,
-				urlInpID: urlInpID,
+				// nameInpID: nameInpID,
+				// urlInpID: urlInpID,
 				formID: parentForm.id
 			};
 
 			sitesCollector.push(site);
 
-			// localStorage['savedReports'] = JSON.stringify(sitesCollector);
-			// var parsedData = JSON.parse(savedReports);
-			// console.log(parsedData);
-
 			// Checking if browser allows to use localStorage and if yes adding
 			// new reports to the localStorage
-
-			//Checks if localStorage has "savedReports"
-			if (savedReports) {
-				localStorage.setItem('siteArray', localStorage.getItem('siteArray') + ', ' + JSON.stringify(site));
+			if (Modernizr.localStorage) {
+				// Sets the key "savedReports" and siteCollector array as a value
+				localStorage['savedReports'] = JSON.stringify(sitesCollector);
 				var parsedData = JSON.parse(savedReports);
 				console.log(parsedData);
-			} else {
-				localStorage.setItem('siteArray', JSON.stringify(site));
-			}
+			};
 
+			//Checks if localStorage has "savedReports"
+			// if (savedReports) {
+			// 	localStorage.setItem('siteArray', localStorage.getItem('siteArray') + ', ' + JSON.stringify(site));
+			// 	var parsedData = JSON.parse(savedReports);
+			// 	console.log(parsedData);
+			// } else {
+			// 	localStorage.setItem('siteArray', JSON.stringify(site));
+			// }
 
-			console.log(localStorage);
-			console.log(localStorage.getItem('siteArray'));
 
 			// Creating new option in select element
 			newOption = document.createElement('option');
