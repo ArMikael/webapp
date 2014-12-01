@@ -442,7 +442,7 @@ window.onload = function() {
 
 			// Checking if browser allows to use localStorage and if yes adding
 			// new reports to the localStorage
-			if (Modernizr.localStorage) {
+			if (Modernizr.localstorage) {
 				// Sets the key "savedReports" and siteCollector array as a value
 				localStorage['savedReports'] = JSON.stringify(sitesCollector);
 				var parsedData = JSON.parse(savedReports);
