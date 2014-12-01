@@ -464,7 +464,10 @@ window.onload = function() {
 			newOption.value = url;
 
 			// Removing selection from previous item in the list
-			selectedOpt.removeAttribute('selected');
+			if (selectedOpt) {
+				selectedOpt.removeAttribute('selected');
+			}
+
 			// Adding "selected" attribute to the new list item
 			newOption.setAttribute('selected', 'selected');
 
