@@ -348,8 +348,7 @@ window.onload = function() {
 
 		// Checks every field in current tab "Report" form
 		for (var i = 0; i < fields.length; i++) {
-			field = fields[i],
-			fieldID = field.id;
+			field = fields[i];
 
 			// Variables to check every input value in the Report window
 			siteTitle = field.querySelector('.js-site-name'),
@@ -377,7 +376,7 @@ window.onload = function() {
 
 					// If it's valid add it to list of sites
 					if (validationAnswer) {
-						saveNewSite(siteTitle.value, siteURL.value, e, parentForm, fieldID);
+						saveNewSite(siteTitle.value, siteURL.value, e, parentForm, field);
 						if (!UTILS.hasClass(field, 'full')) {
 							UTILS.addClass(field, 'full');
 						};
@@ -411,11 +410,14 @@ window.onload = function() {
 	var sitesCollector = [];
 
 	// Adding new site to the select element
-	var saveNewSite = function (title, url, e, parentForm, fieldID) {
+	var saveNewSite = function (title, url, e, parentForm, field) {
 		var sitesList = parentForm.parentNode.querySelector('select'),
 			options = sitesList.querySelectorAll('option'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
 			message = parentForm.querySelector('.system-message'),
+			nameInpID = field.querySelector('.js-site-name'),
+			urlInpID = field.querySelector('.js-site-url'),
+			fieldID = field.id,
 			site = {},
 			newOption;
 
@@ -431,20 +433,26 @@ window.onload = function() {
 			site = {
 				siteName: title,
 				url: url,
-				formID: parentForm.id,
-				fieldID: fieldID
+				fieldID: fieldID,
+				nameInpID: nameInpID,
+				urlInpID: urlInpID,
+				formID: parentForm.id
 			};
 
 			sitesCollector.push(site);
 
+			// localStorage['savedReports'] = JSON.stringify(sitesCollector);
+			// var parsedData = JSON.parse(savedReports);
+			// console.log(parsedData);
+
 			// Checking if browser allows to use localStorage and if yes adding
 			// new reports to the localStorage
 
-			// Checks if localStorage has "savedReports"
+			//Checks if localStorage has "savedReports"
 			if (savedReports) {
 				localStorage.setItem('siteArray', localStorage.getItem('siteArray') + ', ' + JSON.stringify(site));
-				// var parsedData = JSON.parse(savedReports);
-				//console.log(parsedData);
+				var parsedData = JSON.parse(savedReports);
+				console.log(parsedData);
 			} else {
 				localStorage.setItem('siteArray', JSON.stringify(site));
 			}
