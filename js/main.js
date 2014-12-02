@@ -117,6 +117,7 @@ window.onload = function() {
 			}
 		// If not, the trigger was "Reports" button
 		} else {
+			console.log('OPEN REPORTS!!!');
 			reports = e.currentTarget.parentNode.querySelector(".reports");
 			UTILS.toggle(reports, 'active-window');
 		}
@@ -335,13 +336,9 @@ window.onload = function() {
 		};
 
 		// Checks if at least the first fieldset inputs is not empty
-		// Checks if class 'full' is exist and the inputs were previously fullfilled
-		if (firstInputName.value === '' && firstInputURL.value === '' && UTILS.hasClass(field, 'full')) {
-			// In this case remove site from sites array and delete it from select's options
-		} else if (firstInputName.value === '' && firstInputURL.value === '' && (!UTILS.hasClass(field, 'full'))) {
+		if (firstInputName.value === '' && firstInputURL.value === '') {
 			message.innerHTML = 'Please, write site name and URL before saving.';
-			UTILS.addClass(firstInputName, 'wrong');
-			UTILS.addClass(firstInputURL, 'wrong');
+
 			firstInputName.focus();
 		}
 
@@ -376,10 +373,7 @@ window.onload = function() {
 					// If it's valid add it to list of sites
 					if (validationAnswer) {
 						saveNewSite(siteTitle.value, siteURL.value, e, parentForm, field);
-						if (!UTILS.hasClass(field, 'full')) {
-							UTILS.addClass(field, 'full');
-						};
-						console.log(field.className);
+
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
@@ -414,10 +408,9 @@ window.onload = function() {
 			options = sitesList.querySelectorAll('option'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
 			message = parentForm.querySelector('.system-message'),
-			nameInpID = field.querySelector('.js-site-name'),
-			urlInpID = field.querySelector('.js-site-url'),
 			fieldID = field.id,
 			site = {},
+			oldOption,
 			newOption;
 
 			// Checks if new URL provided by user is already exist
@@ -427,18 +420,42 @@ window.onload = function() {
 					message.innerHTML = 'This site is already exists in the list.';
 					return false;
 				}
+				console.log('NOT EXISTS');
+				console.log('Option: ' + options[i]);
 			};
 
+			console.log(e.type);
+
+			// Removing all previously saved sites in the "Select" element
+			sitesList.innerHTML = '';
+
+			// Removing all previously saved sites in the "siteCollector" array
+			// sitesCollector = [];
+
+			console.log('EMPTY!!!');
+
+			// Creating "site" object and pushing it to "sitesCollector" array
 			site = {
 				siteName: title,
 				url: url,
 				fieldID: fieldID,
-				// nameInpID: nameInpID,
-				// urlInpID: urlInpID,
 				formID: parentForm.id
 			};
 
 			sitesCollector.push(site);
+
+
+			// Creating options in Select for each element in "sitesCollector" array
+			for (var i = 0; i < sitesCollector.length; i++) {
+				oldOption = document.createElement('option');
+				oldOption.value = sitesCollector[i].url;
+				oldOption.innerHTML = sitesCollector[i].siteName;
+				sitesList.appendChild(oldOption);
+
+				console.log('URL: ' + sitesCollector[i].url);
+				console.log('Site Name: ' + sitesCollector[i].siteName);
+			};
+
 
 			// Checking if browser allows to use localStorage and if yes adding
 			// new reports to the localStorage
@@ -448,15 +465,6 @@ window.onload = function() {
 				var parsedData = JSON.parse(savedReports);
 				console.log(parsedData);
 			};
-
-			//Checks if localStorage has "savedReports"
-			// if (savedReports) {
-			// 	localStorage.setItem('siteArray', localStorage.getItem('siteArray') + ', ' + JSON.stringify(site));
-			// 	var parsedData = JSON.parse(savedReports);
-			// 	console.log(parsedData);
-			// } else {
-			// 	localStorage.setItem('siteArray', JSON.stringify(site));
-			// }
 
 
 			// Creating new option in select element
