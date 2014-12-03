@@ -316,6 +316,9 @@ window.onload = function() {
 		}
 	};
 
+	// Array for saving sites as JS Object
+	var sitesCollector = [];
+
 	// Checks if some of the inputs is not empty
 	var checkFields = function (parentForm, e) {
 
@@ -329,6 +332,9 @@ window.onload = function() {
 			siteTitle,
 			siteURL,
 			validationAnswer;
+
+		// Removing all elements from "sitesCollector" array
+		sitesCollector = [];
 
 		// Removing red border from all inputs before running again over them
 		for (var i = 0; i < wrongInputs.length; i++) {
@@ -399,9 +405,6 @@ window.onload = function() {
 		checkFields(parentForm, e);
 	};
 
-	// Array for saving sites as JS Object
-	var sitesCollector = [];
-
 	// Adding new site to the select element
 	var saveNewSite = function (title, url, e, parentForm, field) {
 		var sitesList = parentForm.parentNode.querySelector('select'),
@@ -414,25 +417,18 @@ window.onload = function() {
 			newOption;
 
 			// Checks if new URL provided by user is already exist
-			for (var i = 0; i < options.length; i++) {
-				if (options[i].value === url) {
-					console.log('This site is already exists in the list.');
-					message.innerHTML = 'This site is already exists in the list.';
-					return false;
-				}
-				console.log('NOT EXISTS');
-				console.log('Option: ' + options[i]);
-			};
-
-			console.log(e.type);
+			// for (var i = 0; i < options.length; i++) {
+			// 	if (options[i].value === url) {
+			// 		console.log('This site is already exists in the list.');
+			// 		message.innerHTML = 'This site is already exists in the list.';
+			// 		return false;
+			// 	}
+			// 	console.log('NOT EXISTS');
+			// 	console.log('Option: ' + options[i]);
+			// };
 
 			// Removing all previously saved sites in the "Select" element
 			sitesList.innerHTML = '';
-
-			// Removing all previously saved sites in the "siteCollector" array
-			// sitesCollector = [];
-
-			console.log('EMPTY!!!');
 
 			// Creating "site" object and pushing it to "sitesCollector" array
 			site = {
@@ -441,9 +437,6 @@ window.onload = function() {
 				fieldID: fieldID,
 				formID: parentForm.id
 			};
-
-			sitesCollector.push(site);
-
 
 			// Creating options in Select for each element in "sitesCollector" array
 			for (var i = 0; i < sitesCollector.length; i++) {
@@ -455,6 +448,9 @@ window.onload = function() {
 				console.log('URL: ' + sitesCollector[i].url);
 				console.log('Site Name: ' + sitesCollector[i].siteName);
 			};
+
+			// Adding the new element separate to give him "selected" attribute
+			sitesCollector.push(site);
 
 
 			// Checking if browser allows to use localStorage and if yes adding
