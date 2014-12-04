@@ -484,6 +484,8 @@ window.onload = function() {
 			options = sitesList.querySelectorAll('option'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
 			message = parentForm.querySelector('.system-message'),
+			contentDiv = parentForm.parentNode,
+			activeTab = contentDiv.parentNode.id,
 			fieldID = field.id,
 			site = {},
 			oldOption,
@@ -512,8 +514,11 @@ window.onload = function() {
 				console.log('i' + i);
 			};
 
-			// Adding the new element separate to give him "selected" attribute
+			// Adding the last element separate to give him "selected" attribute
 			sitesCollector.push(site);
+
+			// Adding active-tab at the end of array
+			sitesCollector.push(activeTab);
 
 
 			// Checking if browser allows to use localStorage and if yes adding
