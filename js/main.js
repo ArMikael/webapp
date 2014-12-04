@@ -26,18 +26,80 @@ window.onload = function() {
 	 */
 	var tab = UTILS.qsa(".tab"),
 		activeTab,
-		switchTab;
+		switchTab,
+		savedReports;
+
+
+	var init = function(e) {
+		savedReports = localStorage.getItem('savedReports');
+		console.log('INit');
+		console.log(savedReports);
+
+		if (savedReports !== null) {
+			console.log('Inside savedReport init');
+			var parsedData = JSON.parse(savedReports);
+			if (typeof(parsedData[parsedData.length - 1]) === 'string') {
+				var restoredTab;
+
+				console.log('Checking typeof');
+				console.log(parsedData[parsedData.length - 1]);
+				activeTab = UTILS.qs('.active-tab');
+				UTILS.removeClass(activeTab, 'active-tab');
+
+				restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
+				console.log('Restored TAB: ' + restoredTab);
+				UTILS.addClass(restoredTab, 'active-tab');
+			}
+		}
+	};
+
+	init();
 
 	switchTab = function(e) {
 		var target = e.currentTarget;
 		activeTab = UTILS.qs('.active-tab');
 		UTILS.removeClass(activeTab, 'active-tab');
 		UTILS.addClass(target, 'active-tab');
+
+		// Saving the active tab to localStorage
+		if (Modernizr.localstorage) {
+			savedReports = localStorage.getItem('savedReports');
+
+			// Checks if localStorage has "savedReports"
+			if (savedReports !== null) {
+				var parsedData = JSON.parse(savedReports),
+					lastCell = parsedData[parsedData.length - 1],
+					lastIndex = parsedData.length - 1;
+
+				console.log('last cell: ' + lastCell);
+				console.log(typeof(lastCell));
+				console.log(typeof(parsedData));
+				console.log('parsedData before splice: ' + parsedData);
+				// console.log('AAAAAA' + parsedData.splice(lastCell, 1, target.id));
+
+				if (typeof(lastCell) === 'string') {
+					// Removing old active tab
+					var splicer = parsedData.splice(lastIndex, 1, target.id);
+					console.log('parsedData after splice: ' + parsedData);
+				}
+
+				console.log('parsedData after adding new active tab: ' + parsedData);
+
+				localStorage['savedReports'] = JSON.stringify(parsedData);
+				console.log('localStorage[savedReports]' + localStorage['savedReports']);
+
+			} else {
+				var newArray = [target.id];
+				localStorage['savedReports'] = JSON.stringify(newArray);
+				parsedData = JSON.parse(savedReports);
+				console.log(parsedData);
+			}
+		}
 	};
 
 	for (var i = 0; i < tab.length; i++) {
 		UTILS.addEvent(tab[i], 'click', switchTab);
-		UTILS.addEvent(tab[i], 'focus', switchTab);
+		// UTILS.addEvent(tab[i], 'focus', switchTab);
 	}
 
 	var menus = UTILS.qsa('.action-list');
@@ -215,14 +277,16 @@ window.onload = function() {
 		e.preventDefault();
 
 		if (sitesCollector.length === 0) {
-			notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" is not found.' + '</p>';
+			notification.innerHTML = '<p>' + 'The searched report "' + searchInput +
+			 '" is not found.' + '</p>';
 		};
 
 		for (var i = 0; i < sitesCollector.length; i++) {
 			match = sitesCollector[i].siteName.match(regExRep);
 
 			if (match[0].toLowerCase() === sitesCollector[i].siteName.toLowerCase()) {
-				notification.innerHTML = '<p>' + 'Report "' + searchInput + '" is found.' + '</p>';
+				notification.innerHTML = '<p>' + 'Report "' + searchInput +
+				 '" is found.' + '</p>';
 
 				// Finding the parent tab of input for activation
 				var content = UTILS.qs('#' + sitesCollector[i].formID).parentNode,
@@ -241,14 +305,16 @@ window.onload = function() {
 				preSelect.removeAttribute('selected');
 
 				// Adding "selected" attribute to the searched report
-				newSelect = content.querySelector('option[value="' + sitesCollector[i].url + '"]');
+				newSelect = content.querySelector('option[value="' +
+				 sitesCollector[i].url + '"]');
 				newSelect.setAttribute('selected', 'selected');
 
 				// Changing iframe src to the searched one
 				iframe.setAttribute('src', newSelect.value);
 
 			} else {
-				notification.innerHTML = '<p>' + 'The searched report "' + searchInput + '" is not found.' + '</p>';
+				notification.innerHTML = '<p>' + 'The searched report "' +
+				 searchInput + '" is not found.' + '</p>';
 			};
 
 		};
@@ -292,8 +358,7 @@ window.onload = function() {
 
 	// Checks if localStorage is supported and allowed by the browser
 	if (Modernizr.localstorage) {
-		var savedReports = localStorage.getItem('savedReports');
-		// console.log(savedReports);
+		savedReports = localStorage.getItem('savedReports');
 
 		// Checks if localStorage has "savedReports"
 		if (savedReports) {
@@ -301,17 +366,25 @@ window.onload = function() {
 			fieldsetID,
 			fieldset,
 			nameInput,
-			urlInput;
+			urlInput,
+			activeTab;
 
 			for (var i = 0; i < parsedData.length; i++) {
-				fieldsetID = parsedData[i]['fieldID'],
-				fieldset = UTILS.qs('#' + fieldsetID),
-				nameInput = fieldset.querySelector('.js-site-name'),
-				urlInput = fieldset.querySelector('.js-site-url');
 
-				// Adding site name and url to apropriate input fields
-				urlInput.value = parsedData[i]['url'];
-				nameInput.value = parsedData[i]['siteName'];
+				console.log(parsedData[i]['fieldID']);
+				console.log(parsedData[i]);
+
+				// Checks if current cell is "site" object
+				if (parsedData[i]['fieldID']) {
+					fieldsetID = parsedData[i]['fieldID'],
+					fieldset = UTILS.qs('#' + fieldsetID),
+					nameInput = fieldset.querySelector('.js-site-name'),
+					urlInput = fieldset.querySelector('.js-site-url');
+
+					// Adding site name and url to apropriate input fields
+					urlInput.value = parsedData[i]['url'];
+					nameInput.value = parsedData[i]['siteName'];
+				}
 			}
 		}
 	};
@@ -416,17 +489,6 @@ window.onload = function() {
 			oldOption,
 			newOption;
 
-			// Checks if new URL provided by user is already exist
-			// for (var i = 0; i < options.length; i++) {
-			// 	if (options[i].value === url) {
-			// 		console.log('This site is already exists in the list.');
-			// 		message.innerHTML = 'This site is already exists in the list.';
-			// 		return false;
-			// 	}
-			// 	console.log('NOT EXISTS');
-			// 	console.log('Option: ' + options[i]);
-			// };
-
 			// Removing all previously saved sites in the "Select" element
 			sitesList.innerHTML = '';
 
@@ -447,6 +509,7 @@ window.onload = function() {
 
 				console.log('URL: ' + sitesCollector[i].url);
 				console.log('Site Name: ' + sitesCollector[i].siteName);
+				console.log('i' + i);
 			};
 
 			// Adding the new element separate to give him "selected" attribute
@@ -478,6 +541,7 @@ window.onload = function() {
 			newOption.innerHTML = title;
 			sitesList.appendChild(newOption);
 
+			console.log('before checkEvent');
 			// Call for checkEvent and then for toggle function that checks
 			// if the Reports window was opened and close it.
 			checkEvent(e);
