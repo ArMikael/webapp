@@ -10,7 +10,7 @@ window.onload = function() {
 	// done: function(response) {
 	// 		//console.log(response);
 	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
+	// 		var paragraph = document.createElement('p');
 	// 		var notification = UTILS.qs('.notifications');
 	// 		paragraph.appendChild(text);
 	// 		notification.appendChild(paragraph);
@@ -24,7 +24,7 @@ window.onload = function() {
 	/**
 	 * Tabs Section
 	 */
-	var tab = UTILS.qsa(".tab"),
+	var tab = UTILS.qsa('.tab'),
 		activeTab,
 		switchTab,
 		savedReports;
@@ -37,11 +37,8 @@ window.onload = function() {
 
 		for (var i = 0; i < sitesCollector.length; i++) {
 			if (typeof(sitesCollector[i]) === 'object') {
-				var parentForm = UTILS.qs('#' + sitesCollector[i].formID);
-				console.log(sitesCollector[i].formID);
-				console.log(parentForm);
-
-				var select = parentForm.parentNode.querySelector('select'),
+				var parentForm = UTILS.qs('#' + sitesCollector[i].formID),
+					select = parentForm.parentNode.querySelector('select'),
 					option = document.createElement('option');
 
 				option.value = sitesCollector[i].url;
@@ -59,7 +56,7 @@ window.onload = function() {
 	var init = function(e) {
 		// Checking saved key in localStorage
 		savedReports = localStorage.getItem('savedReports');
-		console.log('INit');
+		console.log('Init');
 		console.log(savedReports);
 
 
@@ -151,10 +148,9 @@ window.onload = function() {
 	 selected list items */
 	var showMenu = function(e) {
 		var target = e.target,
-		parent = target.parentNode,
-		activeParent;
-
-		activeItem = UTILS.qs('.active-item');
+			activeItem = UTILS.qs('.active-item'),
+			parent = target.parentNode,
+			activeParent;
 
 		if (activeItem !== null) {
 			UTILS.removeClass(activeItem, 'active-item');
@@ -233,7 +229,9 @@ window.onload = function() {
 			// Finding iframe element in the current tab content
 			iframe = tabContent.querySelector('iframe'),
 			// Finding previously selected item
-			prevSelect = selectedOpt;
+			prevSelect = selectedOpt,
+			index,
+			newSelect;
 
 		// Change iframe when user choose another option from the sites dropdown list
 		if (e.type === 'change') {
@@ -248,17 +246,15 @@ window.onload = function() {
 		selectedOpt = tabContent.querySelector('option[selected="selected"]');
 		// Changing iframe src to the choosed or currently added site
 		iframe.setAttribute('src', selectedOpt.value);
-
-
 	};
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(e) {
 		e.preventDefault();
 
-		if ( e.type === "click" ) {
+		if ( e.type === 'click' ) {
 			openReports(e);
-		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
+		} else if ( e.type === 'keypress' &&  e.keyCode === 13 ) {
 			openReports(e);
 		}
 	};
@@ -291,7 +287,7 @@ window.onload = function() {
 	var checkNewTabEvent = function (e) {
 		if ( e.type === 'click' ) {
 			openNewTab(e);
-		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
+		} else if ( e.type === 'keypress' &&  e.keyCode === 13 ) {
 			openNewTab(e);
 		}
 	};
@@ -321,7 +317,7 @@ window.onload = function() {
 		if (sitesCollector.length === 0) {
 			notification.innerHTML = '<p>' + 'The searched report "' + searchInput +
 			 '" is not found.' + '</p>';
-		};
+		}
 
 		for (var i = 0; i < sitesCollector.length; i++) {
 			match = sitesCollector[i].siteName.match(regExRep);
@@ -357,9 +353,8 @@ window.onload = function() {
 			} else {
 				notification.innerHTML = '<p>' + 'The searched report "' +
 				 searchInput + '" is not found.' + '</p>';
-			};
-
-		};
+			}
+		}
 	};
 
 	UTILS.addEvent(searchForm, 'submit', searchReport)
@@ -370,7 +365,7 @@ window.onload = function() {
 	if (!Modernizr.input.placeholder) {
 
 		var checkInput = function (e) {
-			target = e.target;
+			var target = e.target;
 
 			// Checks if the current value is placeholder and only then removes it
 			if (target.value === 'Site name' || target.value === 'Site URL' ||
@@ -390,9 +385,8 @@ window.onload = function() {
 
 			UTILS.addEvent(nameArr[i], 'focus', checkInput);
 			UTILS.addEvent(urlArr[i], 'focus', checkInput);
-		};
-
-	 };
+		}
+	 }
 
 	/**
 	 * Validating fields and saving new sites in reports window
@@ -429,7 +423,7 @@ window.onload = function() {
 				}
 			}
 		}
-	};
+	}
 
 	// Array for saving sites as JS Object
 	var sitesCollector = [];
@@ -561,8 +555,7 @@ window.onload = function() {
 				localStorage['savedReports'] = JSON.stringify(sitesCollector);
 				var parsedData = JSON.parse(savedReports);
 				console.log(parsedData);
-			};
-
+			}
 
 			// Creating new option in select element
 			newOption = document.createElement('option');
