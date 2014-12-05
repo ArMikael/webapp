@@ -30,11 +30,40 @@ window.onload = function() {
 		savedReports;
 
 
+	// Creating "Select" options
+	var creatingOptions = function (sitesCollector) {
+		console.log(sitesCollector.length);
+		console.log('sitesCollector type' + typeof sitesCollector);
+
+		for (var i = 0; i < sitesCollector.length; i++) {
+			if (typeof(sitesCollector[i]) === 'object') {
+				var parentForm = UTILS.qs('#' + sitesCollector[i].formID);
+				console.log(sitesCollector[i].formID);
+				console.log(parentForm);
+
+				var select = parentForm.parentNode.querySelector('select'),
+					option = document.createElement('option');
+
+				option.value = sitesCollector[i].url;
+				option.innerHTML = sitesCollector[i].siteName;
+				select.appendChild(option);
+
+				console.log('URL: ' + sitesCollector[i].url);
+				console.log('Site Name: ' + sitesCollector[i].siteName);
+				console.log('i' + i);
+			}
+		}
+	};
+
+
 	var init = function(e) {
+		// Checking saved key in localStorage
 		savedReports = localStorage.getItem('savedReports');
 		console.log('INit');
 		console.log(savedReports);
 
+
+		// Restoring active tab
 		if (savedReports !== null) {
 			console.log('Inside savedReport init');
 			var parsedData = JSON.parse(savedReports);
@@ -50,7 +79,20 @@ window.onload = function() {
 				console.log('Restored TAB: ' + restoredTab);
 				UTILS.addClass(restoredTab, 'active-tab');
 			}
+
+			// Creation options in "Select" dropdown
+			var	sitesCollector = [];
+
+			for (var i = 0; i < parsedData.length; i++) {
+				if (typeof parsedData[i] === 'object') {
+					sitesCollector.push(parsedData[i]);
+				}
+			}
+
+			// Adding options to SELECT elements from saved data
+			creatingOptions(sitesCollector);
 		}
+
 	};
 
 	init();
@@ -478,6 +520,7 @@ window.onload = function() {
 		checkFields(parentForm, e);
 	};
 
+
 	// Adding new site to the select element
 	var saveNewSite = function (title, url, e, parentForm, field) {
 		var sitesList = parentForm.parentNode.querySelector('select'),
@@ -503,23 +546,13 @@ window.onload = function() {
 			};
 
 			// Creating options in Select for each element in "sitesCollector" array
-			for (var i = 0; i < sitesCollector.length; i++) {
-				oldOption = document.createElement('option');
-				oldOption.value = sitesCollector[i].url;
-				oldOption.innerHTML = sitesCollector[i].siteName;
-				sitesList.appendChild(oldOption);
-
-				console.log('URL: ' + sitesCollector[i].url);
-				console.log('Site Name: ' + sitesCollector[i].siteName);
-				console.log('i' + i);
-			};
+			creatingOptions(sitesCollector);
 
 			// Adding the last element separate to give him "selected" attribute
 			sitesCollector.push(site);
 
 			// Adding active-tab at the end of array
 			sitesCollector.push(activeTab);
-
 
 			// Checking if browser allows to use localStorage and if yes adding
 			// new reports to the localStorage
