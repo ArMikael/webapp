@@ -1,9 +1,10 @@
  // Fixing issue with IE8 console.log support and error message
 if (!window.console) {
-	console = {log: function() {}}
-};
+	console = {log: function() {}};
+}
 
 window.onload = function() {
+	'use strict';
 
 	/* UTILS API  Section */
 	// UTILS.ajax('data/notification.txt', {
@@ -171,12 +172,12 @@ window.onload = function() {
 
 		for (var i = 0; i < submenus.length; i++) {
 			UTILS.removeClass(submenus[i], 'active-menu');
-		};
+		}
 
 		if (e.type === 'focus') {
 			UTILS.addClass(parent.parentNode, 'active-menu');
 		}
-	}
+	};
 
 	for ( var i = 0; i < menuItems.length; i++ ) {
 		UTILS.addEvent(menuItems[i], 'focus', showMenu);
@@ -185,9 +186,9 @@ window.onload = function() {
 	// Closing previous submenus on focusing of first list items in every category
 	var firstItem = UTILS.qsa('.action-list li:first-child a');
 
-	for (var i = 0; i < firstItem.length; i++) {
-		UTILS.addEvent(firstItem[i], 'focus', closeMenu);
-	};
+	for (var k = 0; k < firstItem.length; k++) {
+		UTILS.addEvent(firstItem[k], 'focus', closeMenu);
+	}
 
 	// Closing last category submenu after leaving the last menu item
 	var lastItem = UTILS.qs('.last-menu-item');
@@ -218,7 +219,7 @@ window.onload = function() {
 		// If not, the trigger was "Reports" button
 		} else {
 			console.log('OPEN REPORTS!!!');
-			reports = e.currentTarget.parentNode.querySelector(".reports");
+			reports = e.currentTarget.parentNode.querySelector('.reports');
 			UTILS.toggle(reports, 'active-window');
 		}
 	};
@@ -357,7 +358,7 @@ window.onload = function() {
 		}
 	};
 
-	UTILS.addEvent(searchForm, 'submit', searchReport)
+	UTILS.addEvent(searchForm, 'submit', searchReport);
 
 	// Adding placeholders to Report's inputs for IE8 with Modernizer
 	console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
@@ -402,24 +403,23 @@ window.onload = function() {
 			fieldsetID,
 			fieldset,
 			nameInput,
-			urlInput,
-			activeTab;
+			urlInput;
 
 			for (var i = 0; i < parsedData.length; i++) {
 
-				console.log(parsedData[i]['fieldID']);
+				console.log(parsedData[i].fieldID);
 				console.log(parsedData[i]);
 
 				// Checks if current cell is "site" object
-				if (parsedData[i]['fieldID']) {
-					fieldsetID = parsedData[i]['fieldID'],
+				if (parsedData[i].fieldID) {
+					fieldsetID = parsedData[i].fieldID,
 					fieldset = UTILS.qs('#' + fieldsetID),
 					nameInput = fieldset.querySelector('.js-site-name'),
 					urlInput = fieldset.querySelector('.js-site-url');
 
 					// Adding site name and url to apropriate input fields
-					urlInput.value = parsedData[i]['url'];
-					nameInput.value = parsedData[i]['siteName'];
+					urlInput.value = parsedData[i].url;
+					nameInput.value = parsedData[i].siteName;
 				}
 			}
 		}
@@ -436,8 +436,8 @@ window.onload = function() {
 			firstInputURL = fields[0].querySelector('.js-site-url'),
 			message = parentForm.querySelector('.system-message'),
 			wrongInputs = UTILS.qsa('.wrong'),
+			i,
 			field,
-			fieldID,
 			siteTitle,
 			siteURL,
 			validationAnswer;
@@ -446,9 +446,9 @@ window.onload = function() {
 		sitesCollector = [];
 
 		// Removing red border from all inputs before running again over them
-		for (var i = 0; i < wrongInputs.length; i++) {
+		for (i = 0; i < wrongInputs.length; i++) {
 			UTILS.removeClass(wrongInputs[i], 'wrong');
-		};
+		}
 
 		// Checks if at least the first fieldset inputs is not empty
 		if (firstInputName.value === '' && firstInputURL.value === '') {
@@ -458,7 +458,7 @@ window.onload = function() {
 		}
 
 		// Checks every field in current tab "Report" form
-		for (var i = 0; i < fields.length; i++) {
+		for (i = 0; i < fields.length; i++) {
 			field = fields[i];
 
 			// Variables to check every input value in the Report window
@@ -518,14 +518,11 @@ window.onload = function() {
 	// Adding new site to the select element
 	var saveNewSite = function (title, url, e, parentForm, field) {
 		var sitesList = parentForm.parentNode.querySelector('select'),
-			options = sitesList.querySelectorAll('option'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
-			message = parentForm.querySelector('.system-message'),
 			contentDiv = parentForm.parentNode,
 			activeTab = contentDiv.parentNode.id,
 			fieldID = field.id,
 			site = {},
-			oldOption,
 			newOption;
 
 			// Removing all previously saved sites in the "Select" element
@@ -552,7 +549,7 @@ window.onload = function() {
 			// new reports to the localStorage
 			if (Modernizr.localstorage) {
 				// Sets the key "savedReports" and siteCollector array as a value
-				localStorage['savedReports'] = JSON.stringify(sitesCollector);
+				localStorage.savedReports = JSON.stringify(sitesCollector);
 				var parsedData = JSON.parse(savedReports);
 				console.log(parsedData);
 			}
@@ -582,20 +579,16 @@ window.onload = function() {
 
 	for (var i = 0; i < saveBtns.length; i++) {
 		UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
-	};
+	}
 
 	// Listener that checks if anothor site was choosed by user in dropdown list.
 	var selects = UTILS.qsa('select');
 
 	for (var i = 0; i < selects.length; i++) {
 		UTILS.addEvent(selects[i], 'change', loadFrame);
-	};
+	}
 
 	// Closing Reports window on pressing "Escape"
-	var reportsDivs = UTILS.qsa('.reports'),
-		inputs = UTILS.qsa('.reports input');
-
-
 	var escapeReports = function (e) {
 		var target = e.target,
 			parent = target.parentNode,
@@ -605,6 +598,8 @@ window.onload = function() {
 			UTILS.removeClass(reportsDiv, 'active-window');
 		}
 	};
+
+	var inputs = UTILS.qsa('.reports input');
 
 	for (var i = 0; i < inputs.length; i++) {
 		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
