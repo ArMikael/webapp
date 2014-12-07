@@ -27,19 +27,20 @@
 		  <div class="layout-wrap">
 			<a href="#" tabindex="0" >netcraft<img src="https://googledrive.com/host/0B6ZIsommzsgVMVA2MzdKUjN2S0U/logo-netcraft.svg" alt="netcraft"></a>
 
-			<form id="search" method="get" action="http://www.google.com">
-				<input type="search" name="q" placeholder="Search" tabindex="0" >
+			<!-- method="get" action="" -->
+			<form id="search" >
+				<input type="search" name="q" placeholder="Search" results="5" tabindex="0" >
 			</form>
 		  </div>
 		</header>
 
-		<div class="page-body layout-wrap">
+		<div class="page-body">
 			<div class="notifications">
 
 			</div>
 
 			<nav class="main-nav clearfix">
-				<div class="nav-section cat-reports" tabindex="0">
+				<div class="nav-section cat-reports">
 					<p>Select Reporting Platform</p>
 
 					<div class="menu" >
@@ -56,7 +57,7 @@
 					</div>
 				</div>
 
-				<div class="nav-section cat-dashboard" tabindex="0" >
+				<div class="nav-section cat-dashboard">
 					<p>Select Dashboard</p>
 
 					<div class="menu" >
@@ -66,14 +67,14 @@
 						</div>
 
 						<ul class="action-list">
-							<li><a href="#" tabindex="0">link</a></li>
-							<li><a href="#" tabindex="0">link</a></li>
-							<li><a href="#" tabindex="0">link</a></li>
+							<li><a href="#" tabindex="0">Google</a></li>
+							<li><a href="#" tabindex="0">Microsoft</a></li>
+							<li><a href="#" tabindex="0">Apple</a></li>
 						</ul>
 					</div>
 				</div>
 
-				<div class="nav-section cat-help" tabindex="0" >
+				<div class="nav-section cat-help">
 					<p>Help &amp; Tutorials</p>
 
 					<div class="menu">
@@ -85,7 +86,11 @@
 						<ul class="action-list">
 							<li><a href="#" tabindex="0">Corporate</a></li>
 							<li><a href="#" tabindex="0">Business</a></li>
-							<li><a href="#" tabindex="0">Private</a></li>
+							<li>
+								<a href="#" class="last-menu-item" tabindex="0">
+									Private
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -100,8 +105,16 @@
    						Quick Reports
 						<div class="content">
 
+							<span class="app-button new-tab-btn"
+							tabindex="0" role="button"></span>
+							<span class="app-button reports-btn"
+							tabindex="0" role="button"></span>
+
+		  					<select class="web-sites" id="qs-sites-list" tabindex="0">
+		 					</select>
+
 							<form class="reports" id="qr-form">
-								<fieldset class="report-row">
+								<fieldset class="report-row" id="fieldset1">
 									<span>Report 01</span>
 									<label for="qr-name1">Name</label>
 									<input type="text" name="qr-name1" id="qr-name1"
@@ -111,7 +124,7 @@
 									class="js-site-url" placeholder="Site URL">
 								</fieldset>
 
-								<fieldset class="report-row">
+								<fieldset class="report-row" id="fieldset2">
 									<span>Report 02</span>
 									<label for="qr-name2">Name</label>
 									<input type="text" name="qr-name2" id="qr-name2"
@@ -121,7 +134,7 @@
 									class="js-site-url" placeholder="Site URL">
 								</fieldset>
 
-								<fieldset class="report-row">
+								<fieldset class="report-row" id="fieldset3">
 									<span>Report 03</span>
 									<label for="qr-name3">Name</label>
 									<input type="text" name="qr-name3" id="qr-name3"
@@ -136,20 +149,11 @@
 								<button type="button" class="cancel-btn">Cancel</button>
 							</form>
 
-							<span class="app-button new-tab-btn"
-							tabindex="0" role="button"></span>
-							<span class="app-button reports-btn"
-							tabindex="0" role="button"></span>
-
-		  					<select class="web-sites" id="qs-sites-list" tabindex="0">
-		 						<option value="http://netcraft.co.il" selected="selected">
-		 							Netcraft
-		 						</option>
-		 					</select>
 
 		 					<div class="site-frame">
-		 						<iframe id='qs-iframe' src='http://netcraft.co.il'
-		 						width="100%" height="87%" frameborder="0" tabindex="-1">
+		 						<!-- src='http://netcraft.co.il' -->
+		 						<iframe id='qs-iframe' width="100%"	height="87%"
+		 						 frameborder="0" tabindex="-1">
 									<p>Your browser does not support ifames.</p>
 								</iframe>
 		 					</div>
@@ -166,7 +170,7 @@
 							tabindex="0" role="button"></span>
 
 							<div class="site-frame my-folders-frame">
-								<iframe src="http://docs.emmet.io/cheat-sheet/" frameborder="0"
+								<iframe frameborder="0"
 								width="100%" height="87%" tabindex="-1">
 								<p>Your browser does not support ifames.</p>
 								</iframe>
@@ -178,8 +182,16 @@
    						My Team Folders
 						<div class="content">
 
+							<span class="app-button new-tab-btn"
+							tabindex="0" role="button"></span>
+							<span class="app-button reports-btn"
+							tabindex="0" role="button"></span>
+
+							<select class="web-sites" id="mtf-sites-list" tabindex="0">
+		 					</select>
+
 							<form class="reports" id="mtf-form">
-								<fieldset class="report-row">
+								<fieldset class="report-row" id="fieldset4">
 									<span>Report 01</span>
 									<label for="mtf-name1">Name</label>
 									<input type="text" name="mtf-name1" id="mtf-name1"
@@ -189,7 +201,7 @@
 									class="js-site-url" placeholder="Site URL">
 								</fieldset>
 
-								<fieldset class="report-row">
+								<fieldset class="report-row" id="fieldset5">
 									<span>Report 02</span>
 									<label for="mtf-name2">Name</label>
 									<input type="text" name="mtf-name2" id="mtf-name2"
@@ -199,7 +211,7 @@
 									class="js-site-url" placeholder="Site URL">
 								</fieldset>
 
-								<fieldset class="report-row">
+								<fieldset class="report-row" id="fieldset6">
 									<span>Report 03</span>
 									<label for="mtf-name3">Name</label>
 									<input type="text" name="mtf-name3" id="mtf-name3"
@@ -214,20 +226,11 @@
 								<button class="cancel-btn">Cancel</button>
 							</form>
 
-							<span class="app-button new-tab-btn"
-							tabindex="0" role="button"></span>
-							<span class="app-button reports-btn"
-							tabindex="0" role="button"></span>
 
 							<div class="site-frame">
-								<select class="web-sites" id="mtf-sites-list" tabindex="0">
-			 						<option value="http://todomvc.com/" selected="selected">
-			 							Todo MVC
-			 						</option>
-			 					</select>
-
-								<iframe src="http://todomvc.com/" frameborder="0"
-								width="100%" height="87%" tabindex="-1" id="mtf-iframe">
+								<!-- src="http://todomvc.com/" -->
+								<iframe  frameborder="0" width="100%" height="87%"
+								tabindex="-1" id="mtf-iframe">
 								<p>Your browser does not support ifames.</p>
 								</iframe>
 							</div>
@@ -242,7 +245,7 @@
 							tabindex="0" role="button"></span>
 
 							<div class="site-frame public-folders-frame">
-								<iframe src="http://caniuse.com/" frameborder="0"
+								<iframe frameborder="0"
 								width="100%" height="87%" tabindex="-1">
 								<p>Your browser does not support ifames.</p>
 								</iframe>

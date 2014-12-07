@@ -1,11 +1,17 @@
+ // Fixing issue with IE8 console.log support and error message
+if (!window.console) {
+	console = {log: function() {}};
+}
+
 window.onload = function() {
+	'use strict';
 
 	/* UTILS API  Section */
 	// UTILS.ajax('data/notification.txt', {
 	// done: function(response) {
 	// 		//console.log(response);
 	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement("p");
+	// 		var paragraph = document.createElement('p');
 	// 		var notification = UTILS.qs('.notifications');
 	// 		paragraph.appendChild(text);
 	// 		notification.appendChild(paragraph);
@@ -16,80 +22,127 @@ window.onload = function() {
 	// 	}
 	// });
 
+ 	/** GLOBAL VARIABLES **/
+	// Array for saving sites as JS Object
+	var sitesCollector = [],
+		activeTab,
+		savedReports;
+
+
+	// Creating "Select" options
+	var creatingOptions = function (sitesCollector) {
+
+		for (var i = 0; i < sitesCollector.length; i++) {
+			if (typeof(sitesCollector[i]) === 'object') {
+				var parentForm = UTILS.qs('#' + sitesCollector[i].formID),
+					select = parentForm.parentNode.querySelector('select'),
+					option = document.createElement('option'),
+					prevSelect = select.querySelector('option[selected="selected"]'),
+					iframe = parentForm.parentNode.querySelector('iframe');
+
+				// Remove previosly selected item if exist
+				if (prevSelect !== null) {
+					prevSelect.removeAttribute('selected');
+				}
+
+				option.value = sitesCollector[i].url;
+				option.innerHTML = sitesCollector[i].siteName;
+				option.setAttribute('selected', 'selected');
+				select.appendChild(option);
+
+				// Sending last site url to iframe for loading the web-site
+				if (typeof (sitesCollector[i + 1]) !== 'object') {
+					iframe.setAttribute('src', option.value);
+				}
+			}
+		}
+	};
+
+
 	/**
 	 * Tabs Section
 	 */
-	var tab = UTILS.qsa(".tab"),
-		activeTab,
-		switchTab;
-
-	switchTab = function(e) {
+	var switchTab = function(e) {
 		var target = e.currentTarget;
 		activeTab = UTILS.qs('.active-tab');
 		UTILS.removeClass(activeTab, 'active-tab');
 		UTILS.addClass(target, 'active-tab');
+
+		// Saving the active tab to localStorage
+		if (Modernizr.localstorage) {
+			savedReports = localStorage.getItem('savedReports');
+
+			// Checks if localStorage has "savedReports"
+			if (savedReports !== null) {
+				var parsedData = JSON.parse(savedReports),
+					lastCell = parsedData[parsedData.length - 1],
+					lastIndex = parsedData.length - 1;
+
+				console.log('last cell: ' + lastCell);
+				console.log(typeof(lastCell));
+				console.log(typeof(parsedData));
+				console.log('parsedData before splice: ' + parsedData);
+
+				if (typeof(lastCell) === 'string') {
+					// Removing old active tab
+					parsedData.splice(lastIndex, 1, target.id);
+					console.log('parsedData after splice: ' + parsedData);
+				}
+
+				localStorage.savedReports = JSON.stringify(parsedData);
+
+			} else {
+				var newArray = [target.id];
+				localStorage.savedReports = JSON.stringify(newArray);
+			}
+		}
 	};
 
-	for (var i = 0; i < tab.length; i++) {
-		UTILS.addEvent(tab[i], 'click', switchTab);
-		UTILS.addEvent(tab[i], 'focus', switchTab);
-	}
-
-	var menus = UTILS.qsa('.action-list');
-	var menuItems = UTILS.qsa('.action-list a');
-	// Takes last item in each submenu to listen for blur event
-	// when jumping to the next submenu
-	var lastItem = UTILS.qsa('.action-list li:last-child a');
 
 	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
 	var showMenu = function(e) {
 		var target = e.target,
-		parent = target.parentNode,
-		activeParent;
-
-		activeItem = UTILS.qs('.active-item');
+			activeItem = UTILS.qs('.active-item'),
+			parent = target.parentNode;
 
 		if (activeItem !== null) {
 			UTILS.removeClass(activeItem, 'active-item');
-		};
+		}
 
 		UTILS.addClass(target, 'active-item');
 
-		if (UTILS.hasClass(parent.parentNode, 'active-menu') === false ) {
+		if (!UTILS.hasClass(parent.parentNode, 'active-menu')) {
 			UTILS.addClass(parent.parentNode, 'active-menu');
 		}
 	};
 
 	/* Function closes categories */
 	var closeMenu = function(e) {
-		var target = e.target,
-		parent = target.parentNode;
-		UTILS.removeClass(parent.parentNode, 'active-menu');
-	}
+		var submenus = UTILS.qsa('.action-list'),
+			target = e.target,
+			parent = target.parentNode;
 
-	for ( var i = 0; i < menuItems.length; i++ ) {
-		UTILS.addEvent(menuItems[i], 'focus', showMenu);
-	}
+		for (var i = 0; i < submenus.length; i++) {
+			UTILS.removeClass(submenus[i], 'active-menu');
+		}
 
-	for ( var i = 0; i < lastItem.length; i++ ) {
-		UTILS.addEvent(lastItem[i], 'blur', closeMenu);
-	}
+		if (e.type === 'focus') {
+			UTILS.addClass(parent.parentNode, 'active-menu');
+		}
+	};
 
 
 	/**
 	 * Reports section
 	 */
 
-	var reportsBtn = UTILS.qsa('.reports-btn'),
-		selectedOpt;
-
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(e) {
 		var reports;
 
-		// Checks if the Event trigger is "Save" or "Cancel" button
-		if (e.currentTarget.nodeName === 'BUTTON') {
+		// Checks if the Event trigger is not on "Open Reports" button
+		if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
 			reports = e.currentTarget.parentNode;
 			UTILS.toggle(reports, 'active-window');
 
@@ -100,7 +153,8 @@ window.onload = function() {
 			}
 		// If not, the trigger was "Reports" button
 		} else {
-			reports = e.currentTarget.parentNode.querySelector(".reports");
+			console.log('OPEN REPORTS!!!');
+			reports = e.currentTarget.parentNode.querySelector('.reports');
 			UTILS.toggle(reports, 'active-window');
 		}
 	};
@@ -111,12 +165,20 @@ window.onload = function() {
 			// Finding iframe element in the current tab content
 			iframe = tabContent.querySelector('iframe'),
 			// Finding previously selected item
-			prevSelect = selectedOpt;
+			prevSelect = tabContent.querySelector('option[selected="selected"]'),
+			index,
+			newSelect,
+			selectedOpt;
+
+			console.log('prevSelect: ' + prevSelect);
 
 		// Change iframe when user choose another option from the sites dropdown list
 		if (e.type === 'change') {
-			// Removes "selected" attribute from the previously selected item
-			prevSelect.removeAttribute('selected');
+			// Removes "selected" attribute from the previously selected item if exist
+			if (prevSelect !== null) {
+				prevSelect.removeAttribute('selected');
+			}
+
 			index = e.currentTarget.selectedIndex;
 			newSelect = e.currentTarget.options[index];
 			newSelect.setAttribute('selected', 'selected');
@@ -126,37 +188,22 @@ window.onload = function() {
 		selectedOpt = tabContent.querySelector('option[selected="selected"]');
 		// Changing iframe src to the choosed or currently added site
 		iframe.setAttribute('src', selectedOpt.value);
-
-
 	};
 
 	// Function that checks what event triggered and if on keypress "Enter" was clicked
 	var checkEvent = function(e) {
-		if ( e.type === "click" ) {
+		e.preventDefault();
+
+		if ( e.type === 'click' ) {
 			openReports(e);
-		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
+		} else if ( e.type === 'keypress' &&  e.keyCode === 13 ) {
 			openReports(e);
 		}
 	};
 
-	for ( var i = 0; i < reportsBtn.length; i++ ) {
-		UTILS.addEvent(reportsBtn[i], 'click', checkEvent);
-		UTILS.addEvent(reportsBtn[i], 'keypress', checkEvent);
-	}
-
-	// Cancel button that closing Reports window
-	var cancelBtn = UTILS.qsa(".cancel-btn");
-
-	for ( var i = 0; i < cancelBtn.length; i++ ) {
-		UTILS.addEvent(cancelBtn[i], 'click', checkEvent);
-		UTILS.addEvent(cancelBtn[i], 'keypress', checkEvent);
-	}
-
 	// Function for open in new tab button
-	var newTabBtn = UTILS.qsa(".new-tab-btn");
-
 	var openNewTab = function(e) {
-		var iframe = e.currentTarget.parentNode.querySelector("iframe"),
+		var iframe = e.currentTarget.parentNode.querySelector('iframe'),
 		src = iframe.getAttribute('src'),
 		newWindow;
 
@@ -165,106 +212,108 @@ window.onload = function() {
 	};
 
 	var checkNewTabEvent = function (e) {
-		if ( e.type === "click" ) {
+		if ( e.type === 'click' ) {
 			openNewTab(e);
-		} else if ( e.type === "keypress" &&  e.keyCode === 13 ) {
+		} else if ( e.type === 'keypress' &&  e.keyCode === 13 ) {
 			openNewTab(e);
 		}
 	};
 
-	for ( var i = 0; i < newTabBtn.length; i++ ) {
-		UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
-		UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
-	}
+
+	var searchReport = function(e) {
+		var target = e.target,
+			searchInput = target.childNodes[1].value,
+			notification = UTILS.qs('.notifications'),
+			// This rexExp ignores key-case and allows
+			// to input report without last 1/2 letters
+			regExRep = new RegExp('(' + searchInput + '(([a-z]|\\d){1,2})?)', 'i'),
+			match;
+
+		e.preventDefault();
+
+		if (sitesCollector.length === 0) {
+			notification.innerHTML = '<p>' + 'The searched report "' + searchInput +
+			 '" is not found.' + '</p>';
+		}
+
+		for (var i = 0; i < sitesCollector.length; i++) {
+			match = sitesCollector[i].siteName.match(regExRep);
+
+			if (match[0].toLowerCase() === sitesCollector[i].siteName.toLowerCase()) {
+				notification.innerHTML = '<p>' + 'Report "' + searchInput +
+				 '" is found.' + '</p>';
+
+				// Finding the parent tab of input for activation
+				var content = UTILS.qs('#' + sitesCollector[i].formID).parentNode,
+					tab = content.parentNode,
+					activeTab = UTILS.qs('.active-tab'),
+					iframe = content.querySelector('iframe'),
+					preSelect,
+					newSelect;
+
+				// Changing active tab
+				UTILS.removeClass(activeTab, 'active-tab');
+				UTILS.addClass(tab, 'active-tab');
+
+				// Removing selection from previous item in the list
+				preSelect = content.querySelector('option[selected="selected"]');
+				preSelect.removeAttribute('selected');
+
+				// Adding "selected" attribute to the searched report
+				newSelect = content.querySelector('option[value="' +
+				 sitesCollector[i].url + '"]');
+				newSelect.setAttribute('selected', 'selected');
+
+				// Changing iframe src to the searched one
+				iframe.setAttribute('src', newSelect.value);
+
+			} else {
+				notification.innerHTML = '<p>' + 'The searched report "' +
+				 searchInput + '" is not found.' + '</p>';
+			}
+		}
+	};
 
 
 	/**
 	 * Validating fields and saving new sites in reports window
 	 */
 
-	// Adding inputs placeholders for IE8 with Modernizer
-	if (!Modernizr.input.placeholder) {
-		console.log(Modernizr.input.placeholder);
-
-		var nameArr = UTILS.qsa('.js-site-name'),
-			urlArr = UTILS.qsa('.js-site-url');
-
-		var checkInput = function (e) {
-			target = e.target;
-
-			// Checks if the current value is placeholder and only then removes it
-			if (target.value === 'Site name' || target.value === 'Site URL') {
-				target.value = '';
-			}
-		};
-
-		for (var i = 0; i < nameArr.length; i++) {
-			nameArr[i].value = 'Site name';
-			urlArr[i].value = 'Site URL';
-
-			UTILS.addEvent(nameArr[i], 'focus', checkInput);
-			UTILS.addEvent(urlArr[i], 'focus', checkInput);
-		};
-	 };
-
-	// Adding and removing sites to/from JS Object
-	var sitesCollector = [],
-		site = {};
-
-	var addToCollector = function (siteTitle, siteURL) {
-		site = {
-			title: siteTitle,
-			url: siteURL
-		};
-
-		console.log('Site ' + site.title + ' and URL: ' + site.url);
-		console.log('Array Length: ' + sitesCollector.length);
-
-		for (var i = 0; i < sitesCollector.length; i++) {
-			if (sitesCollector[i].url === siteURL) {
-				return false;
-			}
-
-			console.log('Title: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
-		}
-
-		console.log('Title!!!: ' + sitesCollector[i].title + ' URL: ' + sitesCollector[i].url);
-		sitesCollector.push(site);
-	};
-
-
 	// Checks if some of the inputs is not empty
-	var checkFields = function (curForm, e) {
+	var checkFields = function (parentForm, e) {
 
-		var fields = curForm.querySelectorAll('.report-row'),
+		var fields = parentForm.querySelectorAll('.report-row'),
 			firstInputName = fields[0].querySelector('.js-site-name'),
 			firstInputURL = fields[0].querySelector('.js-site-url'),
-			message = curForm.querySelector('.system-message'),
+			message = parentForm.querySelector('.system-message'),
 			wrongInputs = UTILS.qsa('.wrong'),
+			i,
 			field,
 			siteTitle,
 			siteURL,
 			validationAnswer;
 
+		// Removing all elements from "sitesCollector" array
+		sitesCollector = [];
+
 		// Removing red border from all inputs before running again over them
-		for (var i = 0; i < wrongInputs.length; i++) {
+		for (i = 0; i < wrongInputs.length; i++) {
 			UTILS.removeClass(wrongInputs[i], 'wrong');
-		};
+		}
 
 		// Checks if at least the first fieldset inputs is not empty
 		if (firstInputName.value === '' && firstInputURL.value === '') {
 			message.innerHTML = 'Please, write site name and URL before saving.';
-			UTILS.addClass(firstInputName, 'wrong');
-			UTILS.addClass(firstInputURL, 'wrong');
+
 			firstInputName.focus();
 		}
 
 		// Checks every field in current tab "Report" form
-		for (var i = 0; i < fields.length; i++) {
+		for (i = 0; i < fields.length; i++) {
 			field = fields[i];
 
 			// Variables to check every input value in the Report window
-			siteTitle = field.querySelector('.js-site-name');
+			siteTitle = field.querySelector('.js-site-name'),
 			siteURL = field.querySelector('.js-site-url');
 
 			//	Checks all inputs in Reports window and return some message or func
@@ -284,13 +333,13 @@ window.onload = function() {
 					UTILS.addClass(siteTitle, 'wrong');
 					siteTitle.focus();
 				} else if (siteTitle.value !== '' && siteURL.value !== '') {
+					// Sends url for validation
 					validationAnswer = validateField(siteURL.value);
 
-					// Sends url for validation and
-					// if it's valid add it to list of sites
+					// If it's valid add it to list of sites
 					if (validationAnswer) {
-						saveNewSite(siteTitle.value, siteURL.value, e, curForm);
-						addToCollector(siteTitle.value, siteURL.value);
+						saveNewSite(siteTitle.value, siteURL.value, e, parentForm, field);
+
 					} else {
 						message.innerHTML = 'Please, enter valid URL!';
 						UTILS.addClass(siteURL, 'wrong');
@@ -303,69 +352,79 @@ window.onload = function() {
 
 	// Validating fields
 	var validateField = function (url) {
-		var regEx = /(http|https):\/\/?/;
-		// /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		var regEx = /http(s)?:\/\/w{0,3}.+\.\w{2,4}(.+)?/g;
 		return regEx.test(url);
 	};
 
 	// Preventing default activity of form submition and running checkFields function
 	var checkNewSite = function (e) {
 		var parentForm = e.target.parentNode;
+
 		e.preventDefault();
+
 		checkFields(parentForm, e);
 	};
 
+
 	// Adding new site to the select element
-	var saveNewSite = function (title, url, e, curForm) {
-		var sitesList = curForm.parentNode.querySelector('select'),
-			options = sitesList.querySelectorAll('option'),
+	var saveNewSite = function (title, url, e, parentForm, field) {
+		var sitesList = parentForm.parentNode.querySelector('select'),
 			selectedOpt = sitesList.querySelector('option[selected="selected"]'),
-			message = curForm.querySelector('.system-message'),
+			contentDiv = parentForm.parentNode,
+			activeTab = contentDiv.parentNode.id,
+			fieldID = field.id,
+			site = {},
 			newOption;
 
-			// Checks if new URL provided by user is already exist
-			for (var i = 0; i < options.length; i++) {
-				if (options[i].value === url) {
-					console.log('This site is already exists in the list.');
-					message.innerHTML = 'This site is already exists in the list.';
-					return false;
-				}
-			};
+		// Removing all previously saved sites in the "Select" element
+		sitesList.innerHTML = '';
 
-			newOption = document.createElement('option');
-			newOption.value = url;
+		// Creating "site" object and pushing it to "sitesCollector" array
+		site = {
+			siteName: title,
+			url: url,
+			fieldID: fieldID,
+			formID: parentForm.id
+		};
 
-			// Removing selection from previous item in the list
+		// Creating options in Select for each element in "sitesCollector" array
+		creatingOptions(sitesCollector);
+
+		// Adding the last element separate to give him "selected" attribute
+		sitesCollector.push(site);
+
+		// Adding active-tab at the end of array
+		sitesCollector.push(activeTab);
+
+		// Checking if browser allows to use localStorage and if yes adding
+		// new reports to the localStorage
+		if (Modernizr.localstorage) {
+			// Sets the key "savedReports" and siteCollector array as a value
+			localStorage.savedReports = JSON.stringify(sitesCollector);
+		}
+
+		// Creating new option in select element
+		newOption = document.createElement('option');
+		newOption.value = url;
+
+		// Removing selection from previous item in the list
+		if (selectedOpt) {
 			selectedOpt.removeAttribute('selected');
-			// Adding "selected" attribute to the new list item
-			newOption.setAttribute('selected', 'selected');
+		}
 
-			newOption.innerHTML = title;
-			sitesList.appendChild(newOption);
+		// Adding "selected" attribute to the new list item
+		newOption.setAttribute('selected', 'selected');
 
-			// Call for checkEvent and then for toggle function that checks
-			// if the Reports window was opened and close it.
-			checkEvent(e);
+		newOption.innerHTML = title;
+		sitesList.appendChild(newOption);
+
+		// Call for checkEvent and then for toggle function that checks
+		// if the Reports window was opened and close it.
+		checkEvent(e);
 	};
 
-	var saveBtns = UTILS.qsa('.submit_btn');
-
-	for (var i = 0; i < saveBtns.length; i++) {
-		UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
-	};
-
-	// Listener that checks if anothor site was choosed by user in dropdown list.
-	var selects = UTILS.qsa('select');
-
-	for (var i = 0; i < selects.length; i++) {
-		UTILS.addEvent(selects[i], 'change', loadFrame);
-	};
 
 	// Closing Reports window on pressing "Escape"
-	var reportsDivs = UTILS.qsa('.reports'),
-		inputs = UTILS.qsa('.reports input');
-
-
 	var escapeReports = function (e) {
 		var target = e.target,
 			parent = target.parentNode,
@@ -376,9 +435,190 @@ window.onload = function() {
 		}
 	};
 
-	for (var i = 0; i < inputs.length; i++) {
-		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
-	}
+
+
+	// Init function starts all event listeners on the page and restoring previously
+	// saved data from local storage
+	var init = function(e) {
+		var i;
+
+		// Checking saved key in localStorage
+		savedReports = localStorage.getItem('savedReports');
+		console.log('Init');
+		console.log(savedReports);
+
+
+		/** IE8 PLACEHOLDERS **/
+		// Adding placeholders to Report's inputs for IE8 with Modernizer
+		console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
+
+		// Arrays for IE8 placeholders
+		var nameArr = UTILS.qsa('.js-site-name'),
+			urlArr = UTILS.qsa('.js-site-url'),
+			searchForm = UTILS.qs('#search'),
+			search = UTILS.qs('#search > input');
+
+		// Event listener for "Submit" click for search button
+		UTILS.addEvent(searchForm, 'submit', searchReport);
+
+
+		if (!Modernizr.input.placeholder) {
+
+			var checkInput = function (e) {
+				var target = e.target;
+
+				// Checks if the current value is placeholder and only then removes it
+				if (target.value === 'Site name' || target.value === 'Site URL' ||
+					target.value === 'Search') {
+					target.value = '';
+				}
+			};
+
+			// Adding placeholder and event listener to the Search field in IE8
+			search.value = 'Search';
+			UTILS.addEvent(search, 'focus', checkInput);
+
+			// Adding IE placeholders and event listeners to reports inputs
+			for (i = 0; i < nameArr.length; i++) {
+				nameArr[i].value = 'Site name';
+				urlArr[i].value = 'Site URL';
+
+				UTILS.addEvent(nameArr[i], 'focus', checkInput);
+				UTILS.addEvent(urlArr[i], 'focus', checkInput);
+			}
+		 }
+
+
+		// Checks if localStorage is supported and allowed by the browser
+		if (Modernizr.localstorage) {
+			savedReports = localStorage.getItem('savedReports');
+
+			// Checks if localStorage has "savedReports"
+			if (savedReports) {
+				var parsedData = JSON.parse(savedReports),
+					fieldsetID,
+					fieldset,
+					nameInput,
+					urlInput;
+
+				/** Restoring Reports fields from Local Storage **/
+				for (i = 0; i < parsedData.length; i++) {
+
+					// Checks if current cell is "site" object
+					if (parsedData[i].fieldID) {
+						fieldsetID = parsedData[i].fieldID,
+						fieldset = UTILS.qs('#' + fieldsetID),
+						nameInput = fieldset.querySelector('.js-site-name'),
+						urlInput = fieldset.querySelector('.js-site-url');
+
+						// Adding site name and url to apropriate input fields
+						urlInput.value = parsedData[i].url;
+						nameInput.value = parsedData[i].siteName;
+					}
+				}
+
+				/** Restoring active tab from Local Storage **/
+				if (typeof(parsedData[parsedData.length - 1]) === 'string') {
+					var restoredTab;
+
+					activeTab = UTILS.qs('.active-tab');
+					UTILS.removeClass(activeTab, 'active-tab');
+
+					restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
+					UTILS.addClass(restoredTab, 'active-tab');
+				}
+
+				// Creation options in "Select" dropdown
+				var	sitesCollector = [];
+
+				for (i = 0; i < parsedData.length; i++) {
+					if (typeof parsedData[i] === 'object') {
+						sitesCollector.push(parsedData[i]);
+					}
+				}
+
+				// Adding options to SELECT elements from saved data
+				creatingOptions(sitesCollector);
+			}
+		}
+
+
+		/** NAVIGATION EVENT LISTENER **/
+
+		// Event listeners for shifting between menu items
+		var menuItems = UTILS.qsa('.action-list a');
+
+		for (i = 0; i < menuItems.length; i++ ) {
+			UTILS.addEvent(menuItems[i], 'focus', showMenu);
+		}
+
+		// Event listeneres for closing previous submenus
+		// on focusing of first list items in every category
+		var firstItem = UTILS.qsa('.action-list li:first-child a');
+
+		for (i = 0; i < firstItem.length; i++) {
+			UTILS.addEvent(firstItem[i], 'focus', closeMenu);
+		}
+
+		// Event listeners for closing last category submenu after leaving the last item
+		var lastItem = UTILS.qs('.last-menu-item');
+
+		UTILS.addEvent(lastItem, 'blur', closeMenu);
+
+
+		/** TABS AND REPORTS EVENT LISTENER **/
+
+		// Event Listeners for switching tab function
+		var tabs = UTILS.qsa('.tab');
+
+		for (i = 0; i < tabs.length; i++) {
+			UTILS.addEvent(tabs[i], 'click focus', switchTab);
+		}
+
+		// Event lisnteres that calls to function to open report in new tab
+		var newTabBtn = UTILS.qsa('.new-tab-btn');
+
+		for (i = 0; i < newTabBtn.length; i++ ) {
+			UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
+			UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
+		}
+
+		// Event listeners for "Reports" app button for opening "Reports" section
+		var reportsBtn = UTILS.qsa('.reports-btn');
+
+		for (i = 0; i < reportsBtn.length; i++ ) {
+			UTILS.addEvent(reportsBtn[i], 'click keypress', checkEvent);
+		}
+
+		// Event listeneres for "Cancel" button that closing Reports window
+		var cancelBtn = UTILS.qsa('.cancel-btn');
+
+		for (i = 0; i < cancelBtn.length; i++ ) {
+			UTILS.addEvent(cancelBtn[i], 'click keypress', checkEvent);
+		}
+
+		// Listeners that chekcs "Submit" button click
+		var saveBtns = UTILS.qsa('.submit_btn');
+
+		for (i = 0; i < saveBtns.length; i++) {
+			UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
+		}
+
+		// Listener that checks if anothor site was choosed by user in dropdown list.
+		var selects = UTILS.qsa('select');
+
+		for (i = 0; i < selects.length; i++) {
+			UTILS.addEvent(selects[i], 'change', loadFrame);
+		}
+
+		// Event listeners for escaping "Reports" on "Esc" button
+		var inputs = UTILS.qsa('.reports input');
+
+		for (i = 0; i < inputs.length; i++) {
+			UTILS.addEvent(inputs[i], 'keyup', escapeReports);
+		}
+	};
+
+	init();
+
 };
-
-

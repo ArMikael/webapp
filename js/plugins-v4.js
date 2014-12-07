@@ -25,54 +25,6 @@ var UTILS = (function () {
 			return document.querySelectorAll(selector);
 		},
 
-
-		/**
-		 * Creating handlers hasClass, addClass, removeClass and toggle
-		 */
-		hasClass: function (elm, chkClass) {
-			// elm.classList.contains(chkClass);
-			var className = elm.className,
-				classArr = className.split(' ');
-
-			for (var i = 0; i < classArr.length; i++ ) {
-				if ( classArr[i] === chkClass ) {
-					return true;
-				}
-			}
-			return false;
-		},
-
-		addClass: function (elm, newClass) {
-			// Check current elm class
-			var curClass = elm.className;
-			curClass !== '' ? elm.className = curClass + ' ' + newClass : elm.className = newClass;
-		},
-
-		removeClass: function (elm, rmvClass) {
-			// elm.classList.remove(rmvClass);
-			var className = elm.className,
-				classArr = className.split(' ');
-
-				for (var i = 0; i < classArr.length; i++) {
-					if (classArr[i] === rmvClass) {
-						classArr.splice(i, 1);
-						elm.className = classArr.join(' ');
-					}
-				}
-		},
-
-		toggle: function (elm, className) {
-			// elm.classList.toggle(className);
-			var index = elm.className.indexOf(className);
-
-			if (index === -1) {
-				elm.className = elm.className + ' ' + className;
-			} else {
-				var regEx = new RegExp('(\\s)?' + className + '(\\s)?');
-				elm.className = elm.className.replace(regEx,'');
-			}
-		},
-
 		/**
 		 * Cross browser event handler
 		 *

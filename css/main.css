@@ -105,15 +105,15 @@ body {
 	height: 1600px;
 }
 
-.layout-wrap, .page-body {
-	width: 90%;
-	margin: 0 auto;
-}
-
 header {
 	background-color: black;
 	height: 40px;
 	padding: 20px;
+}
+
+.layout-wrap, .page-body {
+	width: 90%;
+	margin: 0 auto;
 }
 
 .page-body {
@@ -444,9 +444,10 @@ button[type="submit"],
 	color: red;
 	text-align: center;
 	font-size: 1.2rem;
-	margin: 30px 0 0 200px;
+	margin: 30px 0 0 30px;
 	height: 50px;
 	line-height: 50px;
+	width: 60%;
 }
 
 .wrong {
