@@ -22,19 +22,15 @@ window.onload = function() {
 	// 	}
 	// });
 
-	/**
-	 * Tabs Section
-	 */
-	var tab = UTILS.qsa('.tab'),
+ 	/** GLOBAL VARIABLES **/
+	// Array for saving sites as JS Object
+	var sitesCollector = [],
 		activeTab,
 		savedReports;
 
 
 	// Creating "Select" options
 	var creatingOptions = function (sitesCollector) {
-
-		console.log(sitesCollector.length);
-		console.log('sitesCollector type' + typeof sitesCollector);
 
 		for (var i = 0; i < sitesCollector.length; i++) {
 			if (typeof(sitesCollector[i]) === 'object') {
@@ -60,10 +56,12 @@ window.onload = function() {
 				}
 			}
 		}
-
 	};
 
 
+	/**
+	 * Tabs Section
+	 */
 	var switchTab = function(e) {
 		var target = e.currentTarget;
 		activeTab = UTILS.qs('.active-tab');
@@ -84,32 +82,22 @@ window.onload = function() {
 				console.log(typeof(lastCell));
 				console.log(typeof(parsedData));
 				console.log('parsedData before splice: ' + parsedData);
-				// console.log('AAAAAA' + parsedData.splice(lastCell, 1, target.id));
 
 				if (typeof(lastCell) === 'string') {
 					// Removing old active tab
-					var splicer = parsedData.splice(lastIndex, 1, target.id);
+					parsedData.splice(lastIndex, 1, target.id);
 					console.log('parsedData after splice: ' + parsedData);
 				}
 
-				console.log('parsedData after adding new active tab: ' + parsedData);
-
 				localStorage['savedReports'] = JSON.stringify(parsedData);
-				console.log('localStorage[savedReports]' + localStorage['savedReports']);
 
 			} else {
 				var newArray = [target.id];
 				localStorage['savedReports'] = JSON.stringify(newArray);
 				parsedData = JSON.parse(savedReports);
-				console.log(parsedData);
 			}
 		}
 	};
-
-	for (var i = 0; i < tab.length; i++) {
-		UTILS.addEvent(tab[i], 'click', switchTab);
-		UTILS.addEvent(tab[i], 'focus', switchTab);
-	}
 
 
 	/* Function open categories submenus on focus and highlighting currently
@@ -145,30 +133,10 @@ window.onload = function() {
 		}
 	};
 
-	var menuItems = UTILS.qsa('.action-list a');
-
-	for ( var i = 0; i < menuItems.length; i++ ) {
-		UTILS.addEvent(menuItems[i], 'focus', showMenu);
-	}
-
-	// Closing previous submenus on focusing of first list items in every category
-	var firstItem = UTILS.qsa('.action-list li:first-child a');
-
-	for (var i = 0; i < firstItem.length; i++) {
-		UTILS.addEvent(firstItem[i], 'focus', closeMenu);
-	}
-
-	// Closing last category submenu after leaving the last menu item
-	var lastItem = UTILS.qs('.last-menu-item');
-	UTILS.addEvent(lastItem, 'blur', closeMenu);
-
 
 	/**
 	 * Reports section
 	 */
-
-	var reportsBtn = UTILS.qsa('.reports-btn'),
-		selectedOpt;
 
 	// Check if the Reports window in current tab is displayed and show it if needed
 	var openReports = function(e) {
@@ -234,19 +202,6 @@ window.onload = function() {
 		}
 	};
 
-	for ( var i = 0; i < reportsBtn.length; i++ ) {
-		UTILS.addEvent(reportsBtn[i], 'click', checkEvent);
-		UTILS.addEvent(reportsBtn[i], 'keypress', checkEvent);
-	}
-
-	// Cancel button that closing Reports window
-	var cancelBtn = UTILS.qsa('.cancel-btn');
-
-	for ( var i = 0; i < cancelBtn.length; i++ ) {
-		UTILS.addEvent(cancelBtn[i], 'click', checkEvent);
-		UTILS.addEvent(cancelBtn[i], 'keypress', checkEvent);
-	}
-
 	// Function for open in new tab button
 	var openNewTab = function(e) {
 		var iframe = e.currentTarget.parentNode.querySelector('iframe'),
@@ -265,12 +220,6 @@ window.onload = function() {
 		}
 	};
 
-
-	// Arrays for IE8 placeholders and searchReport function
-	var nameArr = UTILS.qsa('.js-site-name'),
-		urlArr = UTILS.qsa('.js-site-url'),
-		searchForm = UTILS.qs('#search'),
-		search = UTILS.qs('#search > input');
 
 	var searchReport = function(e) {
 		var target = e.target,
@@ -326,72 +275,10 @@ window.onload = function() {
 		}
 	};
 
-	UTILS.addEvent(searchForm, 'submit', searchReport);
-
-	// Adding placeholders to Report's inputs for IE8 with Modernizer
-	console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
-
-	if (!Modernizr.input.placeholder) {
-
-		var checkInput = function (e) {
-			var target = e.target;
-
-			// Checks if the current value is placeholder and only then removes it
-			if (target.value === 'Site name' || target.value === 'Site URL' ||
-				target.value === 'Search') {
-				target.value = '';
-			}
-		};
-
-		// Adding placeholder and event listener to the Search field in IE8
-		search.value = 'Search';
-		UTILS.addEvent(search, 'focus', checkInput);
-
-		// Adding IE placeholders and event listeners to reports inputs
-		for (var i = 0; i < nameArr.length; i++) {
-			nameArr[i].value = 'Site name';
-			urlArr[i].value = 'Site URL';
-
-			UTILS.addEvent(nameArr[i], 'focus', checkInput);
-			UTILS.addEvent(urlArr[i], 'focus', checkInput);
-		}
-	 }
 
 	/**
 	 * Validating fields and saving new sites in reports window
 	 */
-
-	// Checks if localStorage is supported and allowed by the browser
-	if (Modernizr.localstorage) {
-		savedReports = localStorage.getItem('savedReports');
-
-		// Checks if localStorage has "savedReports"
-		if (savedReports) {
-			var parsedData = JSON.parse(savedReports),
-			fieldsetID,
-			fieldset,
-			nameInput,
-			urlInput;
-
-			for (var i = 0; i < parsedData.length; i++) {
-
-				// Checks if current cell is "site" object
-				if (parsedData[i].fieldID) {
-					fieldsetID = parsedData[i].fieldID,
-					fieldset = UTILS.qs('#' + fieldsetID),
-					nameInput = fieldset.querySelector('.js-site-name'),
-					urlInput = fieldset.querySelector('.js-site-url');
-
-					// Adding site name and url to apropriate input fields
-					urlInput.value = parsedData[i].url;
-					nameInput.value = parsedData[i].siteName;
-				}
-			}
-		}
-	}
-
-	// Array for saving sites as JS Object
-	var sitesCollector = [];
 
 	// Checks if some of the inputs is not empty
 	var checkFields = function (parentForm, e) {
@@ -490,54 +377,63 @@ window.onload = function() {
 			site = {},
 			newOption;
 
-			// Removing all previously saved sites in the "Select" element
-			sitesList.innerHTML = '';
+		// Removing all previously saved sites in the "Select" element
+		sitesList.innerHTML = '';
 
-			// Creating "site" object and pushing it to "sitesCollector" array
-			site = {
-				siteName: title,
-				url: url,
-				fieldID: fieldID,
-				formID: parentForm.id
-			};
+		// Creating "site" object and pushing it to "sitesCollector" array
+		site = {
+			siteName: title,
+			url: url,
+			fieldID: fieldID,
+			formID: parentForm.id
+		};
 
-			// Creating options in Select for each element in "sitesCollector" array
-			creatingOptions(sitesCollector);
+		// Creating options in Select for each element in "sitesCollector" array
+		creatingOptions(sitesCollector);
 
-			// Adding the last element separate to give him "selected" attribute
-			sitesCollector.push(site);
+		// Adding the last element separate to give him "selected" attribute
+		sitesCollector.push(site);
 
-			// Adding active-tab at the end of array
-			sitesCollector.push(activeTab);
+		// Adding active-tab at the end of array
+		sitesCollector.push(activeTab);
 
-			// Checking if browser allows to use localStorage and if yes adding
-			// new reports to the localStorage
-			if (Modernizr.localstorage) {
-				// Sets the key "savedReports" and siteCollector array as a value
-				localStorage.savedReports = JSON.stringify(sitesCollector);
-				var parsedData = JSON.parse(savedReports);
-				console.log(parsedData);
-			}
+		// Checking if browser allows to use localStorage and if yes adding
+		// new reports to the localStorage
+		if (Modernizr.localstorage) {
+			// Sets the key "savedReports" and siteCollector array as a value
+			localStorage.savedReports = JSON.stringify(sitesCollector);
+		}
 
-			// Creating new option in select element
-			newOption = document.createElement('option');
-			newOption.value = url;
+		// Creating new option in select element
+		newOption = document.createElement('option');
+		newOption.value = url;
 
-			// Removing selection from previous item in the list
-			if (selectedOpt) {
-				selectedOpt.removeAttribute('selected');
-			}
+		// Removing selection from previous item in the list
+		if (selectedOpt) {
+			selectedOpt.removeAttribute('selected');
+		}
 
-			// Adding "selected" attribute to the new list item
-			newOption.setAttribute('selected', 'selected');
+		// Adding "selected" attribute to the new list item
+		newOption.setAttribute('selected', 'selected');
 
-			newOption.innerHTML = title;
-			sitesList.appendChild(newOption);
+		newOption.innerHTML = title;
+		sitesList.appendChild(newOption);
 
-			console.log('before checkEvent');
-			// Call for checkEvent and then for toggle function that checks
-			// if the Reports window was opened and close it.
-			checkEvent(e);
+		// Call for checkEvent and then for toggle function that checks
+		// if the Reports window was opened and close it.
+		checkEvent(e);
+	};
+
+
+	// Closing Reports window on pressing "Escape"
+	var escapeReports = function (e) {
+		var target = e.target,
+			parent = target.parentNode,
+			reportsDiv = parent.parentNode;
+
+		if (e.keyCode === 27) {
+			UTILS.removeClass(reportsDiv, 'active-window');
+		}
 	};
 
 
@@ -545,89 +441,184 @@ window.onload = function() {
 	// Init function starts all event listeners on the page and restoring previously
 	// saved data from local storage
 	var init = function(e) {
+		var i;
+
 		// Checking saved key in localStorage
 		savedReports = localStorage.getItem('savedReports');
 		console.log('Init');
 		console.log(savedReports);
 
 
-		// Restoring active tab
-		if (savedReports !== null) {
-			console.log('Inside savedReport init');
-			var parsedData = JSON.parse(savedReports);
-			if (typeof(parsedData[parsedData.length - 1]) === 'string') {
-				var restoredTab;
+		/** IE8 PLACEHOLDERS **/
+		// Adding placeholders to Report's inputs for IE8 with Modernizer
+		console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
 
-				console.log('Checking typeof');
-				console.log(parsedData[parsedData.length - 1]);
-				activeTab = UTILS.qs('.active-tab');
-				UTILS.removeClass(activeTab, 'active-tab');
+		// Arrays for IE8 placeholders
+		var nameArr = UTILS.qsa('.js-site-name'),
+			urlArr = UTILS.qsa('.js-site-url'),
+			searchForm = UTILS.qs('#search'),
+			search = UTILS.qs('#search > input');
 
-				restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
-				console.log('Restored TAB: ' + restoredTab);
-				UTILS.addClass(restoredTab, 'active-tab');
-			}
-
-			// Creation options in "Select" dropdown
-			var	sitesCollector = [];
-
-			for (var i = 0; i < parsedData.length; i++) {
-				if (typeof parsedData[i] === 'object') {
-					sitesCollector.push(parsedData[i]);
-				}
-			}
-
-			// Adding options to SELECT elements from saved data
-			creatingOptions(sitesCollector);
+		// Event listener for "Submit" click for search button
+		UTILS.addEvent(searchForm, 'submit', searchReport);
 
 
-			// Lisnteres that calls to functuin to open report in new tab
-			var newTabBtn = UTILS.qsa('.new-tab-btn');
+		if (!Modernizr.input.placeholder) {
 
-			for ( var i = 0; i < newTabBtn.length; i++ ) {
-				UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
-				UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
-			}
+			var checkInput = function (e) {
+				var target = e.target;
 
-
-			// Listeners that chekcs "Submit" button click
-			var saveBtns = UTILS.qsa('.submit_btn');
-
-			for (var i = 0; i < saveBtns.length; i++) {
-				UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
-			}
-
-			// Listener that checks if anothor site was choosed by user in dropdown list.
-			var selects = UTILS.qsa('select');
-
-			for (var i = 0; i < selects.length; i++) {
-				UTILS.addEvent(selects[i], 'change', loadFrame);
-			}
-
-
-			// Closing Reports window on pressing "Escape"
-			var escapeReports = function (e) {
-				var target = e.target,
-					parent = target.parentNode,
-					reportsDiv = parent.parentNode;
-
-				if (e.keyCode === 27) {
-					UTILS.removeClass(reportsDiv, 'active-window');
+				// Checks if the current value is placeholder and only then removes it
+				if (target.value === 'Site name' || target.value === 'Site URL' ||
+					target.value === 'Search') {
+					target.value = '';
 				}
 			};
 
-			var inputs = UTILS.qsa('.reports input');
+			// Adding placeholder and event listener to the Search field in IE8
+			search.value = 'Search';
+			UTILS.addEvent(search, 'focus', checkInput);
 
-			for (var i = 0; i < inputs.length; i++) {
-				UTILS.addEvent(inputs[i], 'keyup', escapeReports);
+			// Adding IE placeholders and event listeners to reports inputs
+			for (i = 0; i < nameArr.length; i++) {
+				nameArr[i].value = 'Site name';
+				urlArr[i].value = 'Site URL';
+
+				UTILS.addEvent(nameArr[i], 'focus', checkInput);
+				UTILS.addEvent(urlArr[i], 'focus', checkInput);
 			}
-			// End of Closing Reports on "Esc"
+		 }
 
 
+		// Checks if localStorage is supported and allowed by the browser
+		if (Modernizr.localstorage) {
+			savedReports = localStorage.getItem('savedReports');
+
+			// Checks if localStorage has "savedReports"
+			if (savedReports) {
+				var parsedData = JSON.parse(savedReports),
+					fieldsetID,
+					fieldset,
+					nameInput,
+					urlInput;
+
+				/** Restoring Reports fields from Local Storage **/
+				for (i = 0; i < parsedData.length; i++) {
+
+					// Checks if current cell is "site" object
+					if (parsedData[i].fieldID) {
+						fieldsetID = parsedData[i].fieldID,
+						fieldset = UTILS.qs('#' + fieldsetID),
+						nameInput = fieldset.querySelector('.js-site-name'),
+						urlInput = fieldset.querySelector('.js-site-url');
+
+						// Adding site name and url to apropriate input fields
+						urlInput.value = parsedData[i].url;
+						nameInput.value = parsedData[i].siteName;
+					}
+				}
+
+				/** Restoring active tab from Local Storage **/
+				if (typeof(parsedData[parsedData.length - 1]) === 'string') {
+					var restoredTab;
+
+					activeTab = UTILS.qs('.active-tab');
+					UTILS.removeClass(activeTab, 'active-tab');
+
+					restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
+					UTILS.addClass(restoredTab, 'active-tab');
+				}
+
+				// Creation options in "Select" dropdown
+				var	sitesCollector = [];
+
+				for (i = 0; i < parsedData.length; i++) {
+					if (typeof parsedData[i] === 'object') {
+						sitesCollector.push(parsedData[i]);
+					}
+				}
+
+				// Adding options to SELECT elements from saved data
+				creatingOptions(sitesCollector);
+			}
 		}
 
-	};
 
+		/** NAVIGATION EVENT LISTENER **/
+
+		// Event listeners for shifting between menu items
+		var menuItems = UTILS.qsa('.action-list a');
+
+		for (i = 0; i < menuItems.length; i++ ) {
+			UTILS.addEvent(menuItems[i], 'focus', showMenu);
+		}
+
+		// Event listeneres for closing previous submenus
+		// on focusing of first list items in every category
+		var firstItem = UTILS.qsa('.action-list li:first-child a');
+
+		for (i = 0; i < firstItem.length; i++) {
+			UTILS.addEvent(firstItem[i], 'focus', closeMenu);
+		}
+
+		// Event listeners for closing last category submenu after leaving the last item
+		var lastItem = UTILS.qs('.last-menu-item');
+
+		UTILS.addEvent(lastItem, 'blur', closeMenu);
+
+
+		/** TABS AND REPORTS EVENT LISTENER **/
+
+		// Event Listeners for switching tab function
+		var tabs = UTILS.qsa('.tab');
+
+		for (i = 0; i < tabs.length; i++) {
+			UTILS.addEvent(tabs[i], 'click focus', switchTab);
+		}
+
+		// Event lisnteres that calls to function to open report in new tab
+		var newTabBtn = UTILS.qsa('.new-tab-btn');
+
+		for (i = 0; i < newTabBtn.length; i++ ) {
+			UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
+			UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
+		}
+
+		// Event listeners for "Reports" app button for opening "Reports" section
+		var reportsBtn = UTILS.qsa('.reports-btn');
+
+		for (i = 0; i < reportsBtn.length; i++ ) {
+			UTILS.addEvent(reportsBtn[i], 'click keypress', checkEvent);
+		}
+
+		// Event listeneres for "Cancel" button that closing Reports window
+		var cancelBtn = UTILS.qsa('.cancel-btn');
+
+		for (i = 0; i < cancelBtn.length; i++ ) {
+			UTILS.addEvent(cancelBtn[i], 'click keypress', checkEvent);
+		}
+
+		// Listeners that chekcs "Submit" button click
+		var saveBtns = UTILS.qsa('.submit_btn');
+
+		for (i = 0; i < saveBtns.length; i++) {
+			UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
+		}
+
+		// Listener that checks if anothor site was choosed by user in dropdown list.
+		var selects = UTILS.qsa('select');
+
+		for (i = 0; i < selects.length; i++) {
+			UTILS.addEvent(selects[i], 'change', loadFrame);
+		}
+
+		// Event listeners for escaping "Reports" on "Esc" button
+		var inputs = UTILS.qsa('.reports input');
+
+		for (i = 0; i < inputs.length; i++) {
+			UTILS.addEvent(inputs[i], 'keyup', escapeReports);
+		}
+	};
 
 	init();
 
