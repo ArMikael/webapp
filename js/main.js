@@ -89,12 +89,11 @@ window.onload = function() {
 					console.log('parsedData after splice: ' + parsedData);
 				}
 
-				localStorage['savedReports'] = JSON.stringify(parsedData);
+				localStorage.savedReports = JSON.stringify(parsedData);
 
 			} else {
 				var newArray = [target.id];
-				localStorage['savedReports'] = JSON.stringify(newArray);
-				parsedData = JSON.parse(savedReports);
+				localStorage.savedReports = JSON.stringify(newArray);
 			}
 		}
 	};
@@ -623,5 +622,3 @@ window.onload = function() {
 	init();
 
 };
-
-
