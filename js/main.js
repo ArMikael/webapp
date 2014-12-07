@@ -27,12 +27,12 @@ window.onload = function() {
 	 */
 	var tab = UTILS.qsa('.tab'),
 		activeTab,
-		switchTab,
 		savedReports;
 
 
 	// Creating "Select" options
 	var creatingOptions = function (sitesCollector) {
+
 		console.log(sitesCollector.length);
 		console.log('sitesCollector type' + typeof sitesCollector);
 
@@ -40,62 +40,31 @@ window.onload = function() {
 			if (typeof(sitesCollector[i]) === 'object') {
 				var parentForm = UTILS.qs('#' + sitesCollector[i].formID),
 					select = parentForm.parentNode.querySelector('select'),
-					option = document.createElement('option');
+					option = document.createElement('option'),
+					prevSelect = select.querySelector('option[selected="selected"]'),
+					iframe = parentForm.parentNode.querySelector('iframe');
+
+				// Remove previosly selected item if exist
+				if (prevSelect !== null) {
+					prevSelect.removeAttribute('selected');
+				}
 
 				option.value = sitesCollector[i].url;
 				option.innerHTML = sitesCollector[i].siteName;
+				option.setAttribute('selected', 'selected');
 				select.appendChild(option);
 
-				console.log('URL: ' + sitesCollector[i].url);
-				console.log('Site Name: ' + sitesCollector[i].siteName);
-				console.log('i' + i);
-			}
-		}
-	};
-
-
-	var init = function(e) {
-		// Checking saved key in localStorage
-		savedReports = localStorage.getItem('savedReports');
-		console.log('Init');
-		console.log(savedReports);
-
-
-		// Restoring active tab
-		if (savedReports !== null) {
-			console.log('Inside savedReport init');
-			var parsedData = JSON.parse(savedReports);
-			if (typeof(parsedData[parsedData.length - 1]) === 'string') {
-				var restoredTab;
-
-				console.log('Checking typeof');
-				console.log(parsedData[parsedData.length - 1]);
-				activeTab = UTILS.qs('.active-tab');
-				UTILS.removeClass(activeTab, 'active-tab');
-
-				restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
-				console.log('Restored TAB: ' + restoredTab);
-				UTILS.addClass(restoredTab, 'active-tab');
-			}
-
-			// Creation options in "Select" dropdown
-			var	sitesCollector = [];
-
-			for (var i = 0; i < parsedData.length; i++) {
-				if (typeof parsedData[i] === 'object') {
-					sitesCollector.push(parsedData[i]);
+				// Sending last site url to iframe for loading the web-site
+				if (typeof (sitesCollector[i + 1]) !== 'object') {
+					iframe.setAttribute('src', option.value);
 				}
 			}
-
-			// Adding options to SELECT elements from saved data
-			creatingOptions(sitesCollector);
 		}
 
 	};
 
-	init();
 
-	switchTab = function(e) {
+	var switchTab = function(e) {
 		var target = e.currentTarget;
 		activeTab = UTILS.qs('.active-tab');
 		UTILS.removeClass(activeTab, 'active-tab');
@@ -139,23 +108,20 @@ window.onload = function() {
 
 	for (var i = 0; i < tab.length; i++) {
 		UTILS.addEvent(tab[i], 'click', switchTab);
-		// UTILS.addEvent(tab[i], 'focus', switchTab);
+		UTILS.addEvent(tab[i], 'focus', switchTab);
 	}
 
-	var menus = UTILS.qsa('.action-list');
-	var menuItems = UTILS.qsa('.action-list a');
 
 	/* Function open categories submenus on focus and highlighting currently
 	 selected list items */
 	var showMenu = function(e) {
 		var target = e.target,
 			activeItem = UTILS.qs('.active-item'),
-			parent = target.parentNode,
-			activeParent;
+			parent = target.parentNode;
 
 		if (activeItem !== null) {
 			UTILS.removeClass(activeItem, 'active-item');
-		};
+		}
 
 		UTILS.addClass(target, 'active-item');
 
@@ -179,6 +145,8 @@ window.onload = function() {
 		}
 	};
 
+	var menuItems = UTILS.qsa('.action-list a');
+
 	for ( var i = 0; i < menuItems.length; i++ ) {
 		UTILS.addEvent(menuItems[i], 'focus', showMenu);
 	}
@@ -186,8 +154,8 @@ window.onload = function() {
 	// Closing previous submenus on focusing of first list items in every category
 	var firstItem = UTILS.qsa('.action-list li:first-child a');
 
-	for (var k = 0; k < firstItem.length; k++) {
-		UTILS.addEvent(firstItem[k], 'focus', closeMenu);
+	for (var i = 0; i < firstItem.length; i++) {
+		UTILS.addEvent(firstItem[i], 'focus', closeMenu);
 	}
 
 	// Closing last category submenu after leaving the last menu item
@@ -230,14 +198,20 @@ window.onload = function() {
 			// Finding iframe element in the current tab content
 			iframe = tabContent.querySelector('iframe'),
 			// Finding previously selected item
-			prevSelect = selectedOpt,
+			prevSelect = tabContent.querySelector('option[selected="selected"]'),
 			index,
-			newSelect;
+			newSelect,
+			selectedOpt;
+
+			console.log('prevSelect: ' + prevSelect);
 
 		// Change iframe when user choose another option from the sites dropdown list
 		if (e.type === 'change') {
-			// Removes "selected" attribute from the previously selected item
-			prevSelect.removeAttribute('selected');
+			// Removes "selected" attribute from the previously selected item if exist
+			if (prevSelect !== null) {
+				prevSelect.removeAttribute('selected');
+			}
+
 			index = e.currentTarget.selectedIndex;
 			newSelect = e.currentTarget.options[index];
 			newSelect.setAttribute('selected', 'selected');
@@ -274,8 +248,6 @@ window.onload = function() {
 	}
 
 	// Function for open in new tab button
-	var newTabBtn = UTILS.qsa('.new-tab-btn');
-
 	var openNewTab = function(e) {
 		var iframe = e.currentTarget.parentNode.querySelector('iframe'),
 		src = iframe.getAttribute('src'),
@@ -293,10 +265,6 @@ window.onload = function() {
 		}
 	};
 
-	for ( var i = 0; i < newTabBtn.length; i++ ) {
-		UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
-		UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
-	}
 
 	// Arrays for IE8 placeholders and searchReport function
 	var nameArr = UTILS.qsa('.js-site-name'),
@@ -406,9 +374,6 @@ window.onload = function() {
 			urlInput;
 
 			for (var i = 0; i < parsedData.length; i++) {
-
-				console.log(parsedData[i].fieldID);
-				console.log(parsedData[i]);
 
 				// Checks if current cell is "site" object
 				if (parsedData[i].fieldID) {
@@ -575,35 +540,96 @@ window.onload = function() {
 			checkEvent(e);
 	};
 
-	var saveBtns = UTILS.qsa('.submit_btn');
 
-	for (var i = 0; i < saveBtns.length; i++) {
-		UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
-	}
 
-	// Listener that checks if anothor site was choosed by user in dropdown list.
-	var selects = UTILS.qsa('select');
+	// Init function starts all event listeners on the page and restoring previously
+	// saved data from local storage
+	var init = function(e) {
+		// Checking saved key in localStorage
+		savedReports = localStorage.getItem('savedReports');
+		console.log('Init');
+		console.log(savedReports);
 
-	for (var i = 0; i < selects.length; i++) {
-		UTILS.addEvent(selects[i], 'change', loadFrame);
-	}
 
-	// Closing Reports window on pressing "Escape"
-	var escapeReports = function (e) {
-		var target = e.target,
-			parent = target.parentNode,
-			reportsDiv = parent.parentNode;
+		// Restoring active tab
+		if (savedReports !== null) {
+			console.log('Inside savedReport init');
+			var parsedData = JSON.parse(savedReports);
+			if (typeof(parsedData[parsedData.length - 1]) === 'string') {
+				var restoredTab;
 
-		if (e.keyCode === 27) {
-			UTILS.removeClass(reportsDiv, 'active-window');
+				console.log('Checking typeof');
+				console.log(parsedData[parsedData.length - 1]);
+				activeTab = UTILS.qs('.active-tab');
+				UTILS.removeClass(activeTab, 'active-tab');
+
+				restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
+				console.log('Restored TAB: ' + restoredTab);
+				UTILS.addClass(restoredTab, 'active-tab');
+			}
+
+			// Creation options in "Select" dropdown
+			var	sitesCollector = [];
+
+			for (var i = 0; i < parsedData.length; i++) {
+				if (typeof parsedData[i] === 'object') {
+					sitesCollector.push(parsedData[i]);
+				}
+			}
+
+			// Adding options to SELECT elements from saved data
+			creatingOptions(sitesCollector);
+
+
+			// Lisnteres that calls to functuin to open report in new tab
+			var newTabBtn = UTILS.qsa('.new-tab-btn');
+
+			for ( var i = 0; i < newTabBtn.length; i++ ) {
+				UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
+				UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
+			}
+
+
+			// Listeners that chekcs "Submit" button click
+			var saveBtns = UTILS.qsa('.submit_btn');
+
+			for (var i = 0; i < saveBtns.length; i++) {
+				UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
+			}
+
+			// Listener that checks if anothor site was choosed by user in dropdown list.
+			var selects = UTILS.qsa('select');
+
+			for (var i = 0; i < selects.length; i++) {
+				UTILS.addEvent(selects[i], 'change', loadFrame);
+			}
+
+
+			// Closing Reports window on pressing "Escape"
+			var escapeReports = function (e) {
+				var target = e.target,
+					parent = target.parentNode,
+					reportsDiv = parent.parentNode;
+
+				if (e.keyCode === 27) {
+					UTILS.removeClass(reportsDiv, 'active-window');
+				}
+			};
+
+			var inputs = UTILS.qsa('.reports input');
+
+			for (var i = 0; i < inputs.length; i++) {
+				UTILS.addEvent(inputs[i], 'keyup', escapeReports);
+			}
+			// End of Closing Reports on "Esc"
+
+
 		}
+
 	};
 
-	var inputs = UTILS.qsa('.reports input');
 
-	for (var i = 0; i < inputs.length; i++) {
-		UTILS.addEvent(inputs[i], 'keyup', escapeReports);
-	}
+	init();
 
 };
 
