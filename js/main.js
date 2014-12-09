@@ -32,34 +32,41 @@ if (!window.console) {
 
 
 		// Creating "Select" options
-		var creatingOptions = function (sitesCollector) {
+		var createOptions = function (sitesCollector) {
 
 			for (var i = 0; i < sitesCollector.length; i++) {
 				if (typeof(sitesCollector[i]) === 'object') {
 					var $parentForm = $('#' + sitesCollector[i].formID),
-						$select = $parentForm.parent('select'),
-						option = document.createElement('option'),
+						$select = $parentForm.parent().find('select'),
 						$prevSelect = $select.find('option[selected="selected"]'),
-						$iframe = $parentForm.parent('iframe');
+						$iframe = $parentForm.parent().find('iframe');
 
-						console.log($parentForm);
-						console.log($select);
-						console.log($prevSelect);
-						console.log($iframe);
+						console.log($parentForm[0]);
+						console.log($select[0]);
+						console.log($prevSelect[0]);
+						console.log($iframe[0]);
 
 					// Remove previosly selected item if exist
 					if ($prevSelect !== null) {
 						$prevSelect.removeAttr('selected');
 					}
 
-					option.value = sitesCollector[i].url;
-					option.innerHTML = sitesCollector[i].siteName;
-					option.setAttribute('selected', 'selected');
-					$select.append(option);
+					$('<option>' + sitesCollector[i].siteName + '</option>')
+						//.attr('selected', 'select').appendTo($select);
+						.attr({
+							selected: 'select',
+							value: sitesCollector[i].url
+						})
+						.appendTo($select);
+
+					// option.value = sitesCollector[i].url;
+					// option.innerHTML = sitesCollector[i].siteName;
+					//option.setAttribute('selected', 'selected');
+					// $select.append(option);
 
 					// Sending last site url to iframe for loading the web-site
 					if (typeof (sitesCollector[i + 1]) !== 'object') {
-						$iframe.attr('src', option.value);
+						$iframe.attr('src', sitesCollector[i].siteName);
 					}
 				}
 			}
@@ -395,7 +402,7 @@ if (!window.console) {
 			};
 
 			// Creating options in Select for each element in "sitesCollector" array
-			creatingOptions(sitesCollector);
+			createOptions(sitesCollector);
 
 			// Adding the last element separate to give him "selected" attribute
 			sitesCollector.push(site);
@@ -545,7 +552,7 @@ if (!window.console) {
 					}
 
 					// Adding options to SELECT elements from saved data
-					creatingOptions(sitesCollector);
+					createOptions(sitesCollector);
 				}
 			}
 
