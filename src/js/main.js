@@ -73,17 +73,18 @@ if (!window.console) {
 		var switchTab = function(e) {
 			console.log(e);
 			console.log($(this));
+			console.log($(this.id));
 			console.log('currentTarget ' + $(e.currentTarget));
-			console.log('e.target: ' + $(e.target));
+			console.log('e.target: ' + $(e.target).eq(0));
 			console.log('this: ' + this);
-			var $target = $(e.currentTarget);
+
+			var target = e.currentTarget;
 			$activeTab = $('.active-tab');
 			$activeTab.removeClass('active-tab');
 			// UTILS.addClass(target, 'active-tab');
-			$target.addClass('active-tab');
+			$(target).addClass('active-tab');
 
-			console.log('$target: ' + $target[0]);
-			console.log('jQuery target.id: ' + $target.id);
+			console.log('jQuery target.id: ' + target.id);
 
 
 			// Saving the active tab to localStorage
@@ -103,16 +104,15 @@ if (!window.console) {
 
 					if (typeof(lastCell) === 'string') {
 						// Removing old active tab
-						parsedData.splice(lastIndex, 1, $target.id);
-						console.log('jQuery target.id' + $target.id);
-						console.log('jQuery target.id' + $target.id);
+						parsedData.splice(lastIndex, 1, target.id);
+						console.log('jQuery target.id:   ' + target.id);
 						console.log('parsedData after splice: ' + parsedData);
 					}
 
 					localStorage.savedReports = JSON.stringify(parsedData);
 
 				} else {
-					var newArray = [$target.id];
+					var newArray = [target.id];
 					localStorage.savedReports = JSON.stringify(newArray);
 				}
 			}
