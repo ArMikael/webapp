@@ -119,16 +119,16 @@ if (!window.console) {
 
 		/* Function closes categories */
 		var closeMenu = function(e) {
-			var submenus = UTILS.qsa('.action-list'),
-				target = e.target,
-				parent = target.parentNode;
+			var target = e.target,
+				$parent = $(target).parent(),
+				$submenus = $('.action-list');
 
-			for (var i = 0; i < submenus.length; i++) {
-				UTILS.removeClass(submenus[i], 'active-menu');
-			}
+			$submenus.each(function() {
+				 $(this).removeClass('active-menu');
+			});
 
 			if (e.type === 'focus') {
-				UTILS.addClass(parent.parentNode, 'active-menu');
+				$parent.parent().addClass('active-menu');
 			}
 		};
 
@@ -139,23 +139,23 @@ if (!window.console) {
 
 		// Check if the Reports window in current tab is displayed and show it if needed
 		var openReports = function(e) {
-			var reports;
+			var $reports;
 
 			// Checks if the Event trigger is not on "Open Reports" button
-			if (!UTILS.hasClass(e.currentTarget, 'app-button')) {
-				reports = e.currentTarget.parentNode;
-				UTILS.toggle(reports, 'active-window');
+			if (!$(e.currentTarget).hasClass('app-button')) {
+				$reports = $(e.currentTarget).parent();
+				$reports.toggleClass('active-window');
 
 				// If the clicked button is "Save" run loadFrame function,
 				// otherwise do nothing (for ignoring "Cancel" button).
-				if (UTILS.hasClass(e.currentTarget, 'submit_btn')) {
+				if ($(e.currentTarget).hasClass('submit_btn')) {
 					loadFrame(e);
 				}
+
 			// If not, the trigger was "Reports" button
 			} else {
-				console.log('OPEN REPORTS!!!');
-				reports = e.currentTarget.parentNode.querySelector('.reports');
-				UTILS.toggle(reports, 'active-window');
+				$reports = $(e.currentTarget).parent().find('.reports');
+				$reports.toggleClass('active-window');
 			}
 		};
 
@@ -169,8 +169,6 @@ if (!window.console) {
 				index,
 				newSelect,
 				selectedOpt;
-
-				console.log('prevSelect: ' + prevSelect);
 
 			// Change iframe when user choose another option from the sites dropdown list
 			if (e.type === 'change') {
