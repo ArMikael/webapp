@@ -160,32 +160,32 @@ if (!window.console) {
 		};
 
 		var loadFrame = function (e) {
-			var parent = e.currentTarget.parentNode,
-				tabContent = parent.parentNode,
+			var $parent = $(e.currentTarget).parent(),
+				$tabContent = $parent.parent(),
 				// Finding iframe element in the current tab content
-				iframe = tabContent.querySelector('iframe'),
+				$iframe = $tabContent.find('iframe'),
 				// Finding previously selected item
-				prevSelect = tabContent.querySelector('option[selected="selected"]'),
+				$prevSelect = $tabContent.find('option[selected="selected"]'),
 				index,
-				newSelect,
-				selectedOpt;
+				$newSelect,
+				$selectedOpt;
 
 			// Change iframe when user choose another option from the sites dropdown list
 			if (e.type === 'change') {
 				// Removes "selected" attribute from the previously selected item if exist
-				if (prevSelect !== null) {
-					prevSelect.removeAttribute('selected');
+				if ($prevSelect !== null) {
+					$prevSelect.removeAttr('selected');
 				}
 
 				index = e.currentTarget.selectedIndex;
-				newSelect = e.currentTarget.options[index];
-				newSelect.setAttribute('selected', 'selected');
+				$newSelect = $(e.currentTarget).options[index];
+				$newSelect.attr('selected', 'selected');
 			}
 
 			// Finding the newly selected option
-			selectedOpt = tabContent.querySelector('option[selected="selected"]');
+			$selectedOpt = $tabContent.find('option[selected="selected"]');
 			// Changing iframe src to the choosed or currently added site
-			iframe.setAttribute('src', selectedOpt.value);
+			$iframe.attr('src', $selectedOpt[0].value);
 		};
 
 		// Function that checks what event triggered and if on keypress "Enter" was clicked
@@ -285,6 +285,7 @@ if (!window.console) {
 				firstInputURL = fields[0].querySelector('.js-site-url'),
 				message = parentForm.querySelector('.system-message'),
 				wrongInputs = UTILS.qsa('.wrong'),
+				localSaver = localStorage.savedReports,
 				i,
 				field,
 				siteTitle,
@@ -300,10 +301,26 @@ if (!window.console) {
 			}
 
 			// Checks if at least the first fieldset inputs is not empty
-			if (firstInputName.value === '' && firstInputURL.value === '') {
+			if (firstInputName.value === '' && firstInputURL.value === '' &&
+				// Checks if there is any saved reports in localStorage
+				!localSaver || localSaver.length <= 8) {
 				message.innerHTML = 'Please, write site name and URL before saving.';
 
 				firstInputName.focus();
+			} else if (firstInputName.value === '' && firstInputURL.value === '' &&
+				localSaver.length > 8 ) {
+
+				// Closing the "Report" window
+				$(parentForm).toggleClass('active-window');
+
+				// Removes all sites from 'Select' options list
+				$(parentForm).prev().empty();
+
+				// Cleaning localStorage
+				localStorage.removeItem(savedReports);
+
+				// Removing iframe
+				$(parentForm).next().find('iframe').removeAttr('src');
 			}
 
 			// Checks every field in current tab "Report" form
