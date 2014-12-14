@@ -27,7 +27,7 @@ if (!window.console) {
 	 	/** GLOBAL VARIABLES **/
 		// Array for saving sites as JS Object
 		var sitesCollector = [],
-			activeTab,
+			$activeTab,
 			savedReports;
 
 
@@ -52,17 +52,11 @@ if (!window.console) {
 					}
 
 					$('<option>' + sitesCollector[i].siteName + '</option>')
-						//.attr('selected', 'select').appendTo($select);
 						.attr({
 							selected: 'select',
 							value: sitesCollector[i].url
 						})
 						.appendTo($select);
-
-					// option.value = sitesCollector[i].url;
-					// option.innerHTML = sitesCollector[i].siteName;
-					//option.setAttribute('selected', 'selected');
-					// $select.append(option);
 
 					// Sending last site url to iframe for loading the web-site
 					if (typeof (sitesCollector[i + 1]) !== 'object') {
@@ -77,10 +71,20 @@ if (!window.console) {
 		 * Tabs Section
 		 */
 		var switchTab = function(e) {
-			var target = e.currentTarget;
-			activeTab = UTILS.qs('.active-tab');
-			UTILS.removeClass(activeTab, 'active-tab');
-			UTILS.addClass(target, 'active-tab');
+			console.log(e);
+			console.log($(this));
+			console.log('currentTarget ' + $(e.currentTarget));
+			console.log('e.target: ' + $(e.target));
+			console.log('this: ' + this);
+			var $target = $(e.currentTarget);
+			$activeTab = $('.active-tab');
+			$activeTab.removeClass('active-tab');
+			// UTILS.addClass(target, 'active-tab');
+			$target.addClass('active-tab');
+
+			console.log('$target: ' + $target[0]);
+			console.log('jQuery target.id: ' + $target.id);
+
 
 			// Saving the active tab to localStorage
 			if (Modernizr.localstorage) {
@@ -99,14 +103,16 @@ if (!window.console) {
 
 					if (typeof(lastCell) === 'string') {
 						// Removing old active tab
-						parsedData.splice(lastIndex, 1, target.id);
+						parsedData.splice(lastIndex, 1, $target.id);
+						console.log('jQuery target.id' + $target.id);
+						console.log('jQuery target.id' + $target.id);
 						console.log('parsedData after splice: ' + parsedData);
 					}
 
 					localStorage.savedReports = JSON.stringify(parsedData);
 
 				} else {
-					var newArray = [target.id];
+					var newArray = [$target.id];
 					localStorage.savedReports = JSON.stringify(newArray);
 				}
 			}
@@ -535,8 +541,9 @@ if (!window.console) {
 					if (typeof(parsedData[parsedData.length - 1]) === 'string') {
 						var restoredTab;
 
-						activeTab = UTILS.qs('.active-tab');
-						UTILS.removeClass(activeTab, 'active-tab');
+						$activeTab = $('.active-tab');
+						//UTILS.removeClass(activeTab, 'active-tab');
+						$activeTab.removeClass('active-tab');
 
 						restoredTab = UTILS.qs('#' + parsedData[parsedData.length - 1]);
 						UTILS.addClass(restoredTab, 'active-tab');
@@ -593,8 +600,7 @@ if (!window.console) {
 			var newTabBtn = UTILS.qsa('.new-tab-btn');
 
 			for (i = 0; i < newTabBtn.length; i++ ) {
-				UTILS.addEvent(newTabBtn[i], 'click', checkNewTabEvent);
-				UTILS.addEvent(newTabBtn[i], 'keypress', checkNewTabEvent);
+				UTILS.addEvent(newTabBtn[i], 'click keypress', checkNewTabEvent);
 			}
 
 			// Event listeners for "Reports" app button for opening "Reports" section
