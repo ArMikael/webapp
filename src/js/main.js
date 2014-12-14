@@ -41,11 +41,6 @@ if (!window.console) {
 						$prevSelect = $select.find('option[selected="selected"]'),
 						$iframe = $parentForm.parent().find('iframe');
 
-						console.log($parentForm[0]);
-						console.log($select[0]);
-						console.log($prevSelect[0]);
-						console.log($iframe[0]);
-
 					// Remove previosly selected item if exist
 					if ($prevSelect !== null) {
 						$prevSelect.removeAttr('selected');
@@ -60,7 +55,7 @@ if (!window.console) {
 
 					// Sending last site url to iframe for loading the web-site
 					if (typeof (sitesCollector[i + 1]) !== 'object') {
-						$iframe.attr('src', sitesCollector[i].siteName);
+						$iframe.attr('src', sitesCollector[i].url);
 					}
 				}
 			}
@@ -71,20 +66,12 @@ if (!window.console) {
 		 * Tabs Section
 		 */
 		var switchTab = function(e) {
-			console.log(e);
-			console.log($(this));
-			console.log($(this.id));
-			console.log('currentTarget ' + $(e.currentTarget));
-			console.log('e.target: ' + $(e.target).eq(0));
-			console.log('this: ' + this);
 
 			var target = e.currentTarget;
 			$activeTab = $('.active-tab');
 			$activeTab.removeClass('active-tab');
 			// UTILS.addClass(target, 'active-tab');
 			$(target).addClass('active-tab');
-
-			console.log('jQuery target.id: ' + target.id);
 
 
 			// Saving the active tab to localStorage
@@ -97,16 +84,9 @@ if (!window.console) {
 						lastCell = parsedData[parsedData.length - 1],
 						lastIndex = parsedData.length - 1;
 
-					console.log('last cell: ' + lastCell);
-					console.log(typeof(lastCell));
-					console.log(typeof(parsedData));
-					console.log('parsedData before splice: ' + parsedData);
-
 					if (typeof(lastCell) === 'string') {
 						// Removing old active tab
 						parsedData.splice(lastIndex, 1, target.id);
-						console.log('jQuery target.id:   ' + target.id);
-						console.log('parsedData after splice: ' + parsedData);
 					}
 
 					localStorage.savedReports = JSON.stringify(parsedData);
