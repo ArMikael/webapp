@@ -103,17 +103,17 @@ if (!window.console) {
 		 selected list items */
 		var showMenu = function(e) {
 			var target = e.target,
-				activeItem = UTILS.qs('.active-item'),
-				parent = target.parentNode;
+				$activeItem = $('.active-item'),
+				$parent = $(target).parent();
 
-			if (activeItem !== null) {
-				UTILS.removeClass(activeItem, 'active-item');
+			if ($activeItem !== null) {
+				$activeItem.removeClass('active-item');
 			}
 
-			UTILS.addClass(target, 'active-item');
+			$(target).addClass('active-item');
 
-			if (!UTILS.hasClass(parent.parentNode, 'active-menu')) {
-				UTILS.addClass(parent.parentNode, 'active-menu');
+			if (!$parent.parent().hasClass('active-menu')) {
+				$parent.parent().addClass('active-menu');
 			}
 		};
 
