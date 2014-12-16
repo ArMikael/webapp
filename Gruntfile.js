@@ -91,9 +91,10 @@ module.exports = function (grunt) {
 			server: {
 				options: {
 					port: 9003,
-					target: 'http://localhost:9003',
+					hostname: 'localhost',
 					base: '.',
-					livereload: true
+					livereload: true,
+					open: true
 				}
 			}
 		}
@@ -104,7 +105,8 @@ module.exports = function (grunt) {
 	grunt.registerTask('build-css', ['clean:css', 'sass']);
 	grunt.registerTask('build', ['clean:all', 'build-js', 'build-css']);
 
-	grunt.registerTask('default', ['build', 'connect', 'watch']);
+	grunt.registerTask('serve', ['connect', 'watch']);
+	grunt.registerTask('default', ['build']);
 
 };
 
