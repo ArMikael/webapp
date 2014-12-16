@@ -489,13 +489,13 @@
 			console.log('Modernizr.input.placeholder: ' + Modernizr.input.placeholder);
 
 			// Arrays for IE8 placeholders
-			var nameArr = UTILS.qsa('.js-site-name'),
-				urlArr = UTILS.qsa('.js-site-url'),
-				searchForm = UTILS.qs('#search'),
-				search = UTILS.qs('#search > input');
+			var $nameArr = $('.js-site-name'),
+				$urlArr = $('.js-site-url'),
+				$searchForm = $('#search'),
+				$search = $('#search > input');
 
 			// Event listener for "Submit" click for search button
-			UTILS.addEvent(searchForm, 'submit', searchReport);
+			$searchForm.on('submit', searchReport);
 
 
 			if (!Modernizr.input.placeholder) {
@@ -511,16 +511,16 @@
 				};
 
 				// Adding placeholder and event listener to the Search field in IE8
-				search.value = 'Search';
-				UTILS.addEvent(search, 'focus', checkInput);
+				$search.val('Search');
+				$search.on('focus', checkInput);
 
 				// Adding IE placeholders and event listeners to reports inputs
-				for (i = 0; i < nameArr.length; i++) {
-					nameArr[i].value = 'Site name';
-					urlArr[i].value = 'Site URL';
+				for (i = 0; i < $nameArr.length; i++) {
+					$nameArr.eq(i).val('Site name');
+					$urlArr.eq(i).val('Site URL');
 
-					UTILS.addEvent(nameArr[i], 'focus', checkInput);
-					UTILS.addEvent(urlArr[i], 'focus', checkInput);
+					$nameArr.eq(i).on('focus', checkInput);
+					$urlArr.eq(i).on('focus', checkInput);
 				}
 			 }
 
