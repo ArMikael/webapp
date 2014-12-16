@@ -118,7 +118,7 @@
 		var closeMenu = function(e) {
 			var target = e.target,
 				$parent = $(target).parent(),
-				$submenus = $('.action-list');
+				$submenus = $('.menu-items');
 
 			$submenus.each(function() {
 				 $(this).removeClass('active-menu');
@@ -557,7 +557,7 @@
 			/** NAVIGATION EVENT LISTENER **/
 
 			// Event listeners for shifting between menu items
-			var $menuItems = $('.action-list a');
+			var $menuItems = $('.menu-items a');
 
 			$menuItems.each(function(i) {
 				$menuItems.eq(i).on('focus', showMenu);
@@ -565,7 +565,7 @@
 
 			// Event listeneres for closing previous submenus
 			// on focusing of first list items in every category
-			var $firstItem = $('.action-list li:first-child a');
+			var $firstItem = $('.menu-items li:first-child a');
 
 			$firstItem.each(function(i) {
 				$firstItem.eq(i).on('focus', closeMenu);

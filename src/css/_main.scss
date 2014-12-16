@@ -109,6 +109,23 @@ header {
 	background-color: black;
 	height: 40px;
 	padding: 20px;
+
+	a {
+		display: block;
+		position: relative;
+		text-indent: -999px;
+	}
+
+	a img {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	&:after {
+		content: " ";
+		clear: both;
+	}
 }
 
 .layout-wrap, .page-body {
@@ -127,34 +144,17 @@ header {
 	height: 200px;
 }
 
-#search {
+.search {
 	position: absolute;
 	top: 20px;
 	right: 100px;
+
+	input {
+		height: 30px;
+		padding-left: 10px;
+	}
 }
 
-input[type="search"] {
-	height: 30px;
-	padding-left: 10px;
-
-}
-
-header:after {
-	content: " ";
-	clear: both;
-}
-
-header a {
-	display: block;
-	position: relative;
-	text-indent: -999px;
-}
-
-header a img {
-	position: absolute;
-	top: 0;
-	left: 0;
-}
 
 .notifications {
 	background-color: #E2E2E2;
@@ -172,10 +172,10 @@ header a img {
 	line-height: 40px;
 	position: relative;
 	padding-left: 2%;
-}
 
-.menu-hint p {
-	margin: 0;
+	p {
+		margin: 0;
+	}
 }
 
 .fa-caret-down {
@@ -185,29 +185,47 @@ header a img {
 	font-size: 1.6rem;
 }
 
-.nav-section:hover .fa {
-	transform: rotate(180deg);
-	transition: transform .5s;
-}
-
 .nav-section {
-	display:inline-block;
+	display: inline-block;
 	float: left;
 	position: relative;
-	background-color: black;
-	background-repeat: no-repeat;
-	background-position: center 60px;
+	background: black no-repeat center 60px;
 	margin: 1%;
 	width: 31%;
 	height: 160px;
-}
 
-.nav-section > p {
-    line-height: 50px;
-    height: 120px;
-    margin: 0;
-    text-align: center;
-    color: white;
+	& > p {
+	    line-height: 50px;
+	    height: 120px;
+	    margin: 0;
+	    text-align: center;
+	    color: white;
+	}
+
+	&:hover .menu-items,
+	&:focus .menu-items {
+		height: 160px;
+	}
+
+	&:hover .fa {
+		transform: rotate(180deg);
+		transition: transform .5s;
+	}
+
+	a {
+		display: block;
+		background-color: #FFF;
+		text-decoration: none;
+		color: grey;
+		padding-left: 20px;
+		height: 30px;
+		line-height: 30px;
+		border-bottom: 1px solid grey;
+	}
+
+	a:hover {
+		background-color: #E2E2E2;
+	}
 }
 
 .cat-reports {
@@ -222,7 +240,7 @@ header a img {
 	background-image: url(../../img/icons/actions-help.png);
 }
 
-.action-list {
+.menu-items {
 	height: 0;
 	width: 100%;
 	margin: 0;
@@ -235,34 +253,6 @@ header a img {
 	color: #E2E2E2;
 	transition: height .3s;
 	z-index: 3;
-}
-
-.nav-section:hover ul {
-	height: 160px;
-	z-index: 3;
-}
-
-.nav-section:focus .action-list {
-	height: 160px;
-}
-
-.nav-section a {
-	display: block;
-	background-color: #FFF;
-	text-decoration: none;
-	color: grey;
-	padding-left: 20px;
-	height: 30px;
-	line-height: 30px;
-	border-bottom: 1px solid grey;
-}
-
-.nav-section a:hover {
-	display: block;
-	background-color: #E2E2E2;
-	text-decoration: none;
-	color: grey;
-	padding-left: 20px;
 }
 
 a.active-item {
