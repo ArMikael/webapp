@@ -387,7 +387,7 @@
 		// Adding new site to the select element
 		var saveNewSite = function (title, url, e, parentForm, field) {
 			var $sitesList = $(parentForm).parent().find('select'),
-				$selectedOpt = $sitesList.find('option[selected="selected"]'),
+				$selectedOpt = $sitesList.find(':selected'),
 				$contentDiv = $(parentForm).parent(),
 				$activeTab = $contentDiv.parent().attr('id'),
 				fieldID = field.id,
@@ -441,11 +441,10 @@
 		// Closing Reports window on pressing "Escape"
 		var escapeReports = function (e) {
 			var target = e.target,
-				parent = target.parentNode,
-				reportsDiv = parent.parentNode;
+				$reportsDiv = $(target).parent().parent();
 
 			if (e.keyCode === 27) {
-				UTILS.removeClass(reportsDiv, 'active-window');
+				$reportsDiv.removeClass('active-window');
 			}
 		};
 
@@ -493,13 +492,13 @@
 				$search.on('focus', checkInput);
 
 				// Adding IE placeholders and event listeners to reports inputs
-				for (i = 0; i < $nameArr.length; i++) {
+				$nameArr.each(function(i) {
 					$nameArr.eq(i).val('Site name');
 					$urlArr.eq(i).val('Site URL');
 
 					$nameArr.eq(i).on('focus', checkInput);
 					$urlArr.eq(i).on('focus', checkInput);
-				}
+				});
 			 }
 
 
@@ -546,11 +545,11 @@
 					// Creation options in "Select" dropdown
 					var	sitesCollector = [];
 
-					for (i = 0; i < parsedData.length; i++) {
+					$(parsedData).each(function(i) {
 						if (typeof parsedData[i] === 'object') {
 							sitesCollector.push(parsedData[i]);
 						}
-					}
+					});
 
 					// Adding options to SELECT elements from saved data
 					createOptions(sitesCollector);
@@ -561,79 +560,78 @@
 			/** NAVIGATION EVENT LISTENER **/
 
 			// Event listeners for shifting between menu items
-			var menuItems = UTILS.qsa('.action-list a');
+			var $menuItems = $('.action-list a');
 
-			for (i = 0; i < menuItems.length; i++ ) {
-				UTILS.addEvent(menuItems[i], 'focus', showMenu);
-			}
+			$menuItems.each(function(i) {
+				$menuItems.eq(i).on('focus', showMenu);
+			});
 
 			// Event listeneres for closing previous submenus
 			// on focusing of first list items in every category
-			var firstItem = UTILS.qsa('.action-list li:first-child a');
+			var $firstItem = $('.action-list li:first-child a');
 
-			for (i = 0; i < firstItem.length; i++) {
-				UTILS.addEvent(firstItem[i], 'focus', closeMenu);
-			}
+			$firstItem.each(function(i) {
+				$firstItem.eq(i).on('focus', closeMenu);
+			});
 
 			// Event listeners for closing last category submenu after leaving the last item
-			var lastItem = UTILS.qs('.last-menu-item');
+			var $lastItem = $('.last-menu-item');
 
-			UTILS.addEvent(lastItem, 'blur', closeMenu);
+			$lastItem.on('blur', closeMenu);
 
 
 			/** TABS AND REPORTS EVENT LISTENER **/
 
 			// Event Listeners for switching tab function
-			var tabs = UTILS.qsa('.tab');
+			var $tabs = $('.tab');
 
-			for (i = 0; i < tabs.length; i++) {
-				UTILS.addEvent(tabs[i], 'click focus', switchTab);
-			}
+			$tabs.each(function(i) {
+				$tabs.eq(i).on('click focus', switchTab);
+			});
 
 			// Event lisnteres that calls to function to open report in new tab
-			var newTabBtn = UTILS.qsa('.new-tab-btn');
+			var $newTabBtn = $('.new-tab-btn');
 
-			for (i = 0; i < newTabBtn.length; i++ ) {
-				UTILS.addEvent(newTabBtn[i], 'click keypress', checkNewTabEvent);
-			}
+			$newTabBtn.each(function(i) {
+				$newTabBtn.eq(i).on('click keypress', checkNewTabEvent);
+			});
 
 			// Event listeners for "Reports" app button for opening "Reports" section
-			var reportsBtn = UTILS.qsa('.reports-btn');
+			var $reportsBtn = $('.reports-btn');
 
-			for (i = 0; i < reportsBtn.length; i++ ) {
-				UTILS.addEvent(reportsBtn[i], 'click keypress', checkEvent);
-			}
+			$reportsBtn.each(function(i) {
+				$reportsBtn.eq(i).on('click keypress', checkEvent);
+			});
 
 			// Event listeneres for "Cancel" button that closing Reports window
-			var cancelBtn = UTILS.qsa('.cancel-btn');
+			var $cancelBtn = $('.cancel-btn');
 
-			for (i = 0; i < cancelBtn.length; i++ ) {
-				UTILS.addEvent(cancelBtn[i], 'click keypress', checkEvent);
-			}
+			$cancelBtn.each(function(i) {
+				$cancelBtn.eq(i).on('click keypress', checkEvent);
+			});
 
 			// Listeners that chekcs "Submit" button click
-			var saveBtns = UTILS.qsa('.submit_btn');
+			var $saveBtns = $('.submit_btn');
 
-			for (i = 0; i < saveBtns.length; i++) {
-				UTILS.addEvent(saveBtns[i], 'click', checkNewSite);
-			}
+			$saveBtns.each(function(i) {
+				$saveBtns.eq(i).on('click keypress', checkNewSite);
+			});
 
 			// Listener that checks if anothor site was choosed by user in dropdown list.
-			var selects = UTILS.qsa('select');
+			var $selects = $('select');
 
-			for (i = 0; i < selects.length; i++) {
-				UTILS.addEvent(selects[i], 'change', loadFrame);
-			}
+			$selects.each(function(i) {
+				$selects.eq(i).on('change', loadFrame);
+			});
 
 			// Event listeners for escaping "Reports" on "Esc" button
-			var inputs = UTILS.qsa('.reports input');
+			var $inputs = $('.reports input');
 
-			for (i = 0; i < inputs.length; i++) {
-				UTILS.addEvent(inputs[i], 'keyup', escapeReports);
-			}
+			$inputs.each(function(i) {
+				$inputs.eq(i).on('keyup', escapeReports);
+			});
 		};
 
 		init();
 	};
 }(jQuery));
-
