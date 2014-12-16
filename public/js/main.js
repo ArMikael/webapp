@@ -164,27 +164,10 @@
 				$tabContent = $parent.parent(),
 				// Finding iframe element in the current tab content
 				$iframe = $tabContent.find('iframe'),
-				// Finding previously selected item
-				$prevSelect = $tabContent.find('option[selected="selected"]'),
-				index,
-				$newSelect,
 				$selectedOpt;
 
 			// Change iframe when user choose another option from the sites dropdown list
-			if (e.type === 'change') {
-				// Removes "selected" attribute from the previously selected item if exist
-				if ($prevSelect !== null) {
-					$prevSelect.removeAttr('selected');
-				}
-
-				index = e.currentTarget.selectedIndex;
-				$newSelect = $(e.currentTarget).options[index];
-				$newSelect.attr('selected', 'selected');
-			}
-
-			// Finding the newly selected option
-			$selectedOpt = $tabContent.find('option[selected="selected"]');
-			// Changing iframe src to the choosed or currently added site
+			$selectedOpt = $tabContent.find(':selected');
 			$iframe.attr('src', $selectedOpt[0].value);
 		};
 
@@ -374,8 +357,7 @@
 
 						// If it's valid add it to list of sites
 						if (validationAnswer) {
-							saveNewSite($siteTitle.val(), $siteURL.val(), e, parentForm, $field);
-
+							saveNewSite($siteTitle.val(), $siteURL.val(), e, parentForm, $field[0]);
 						} else {
 							$message.html('Please, enter valid URL!');
 							$siteURL.addClass('wrong');
@@ -404,16 +386,15 @@
 
 		// Adding new site to the select element
 		var saveNewSite = function (title, url, e, parentForm, field) {
-			var sitesList = parentForm.parentNode.querySelector('select'),
-				selectedOpt = sitesList.querySelector('option[selected="selected"]'),
-				contentDiv = parentForm.parentNode,
-				activeTab = contentDiv.parentNode.id,
+			var $sitesList = $(parentForm).parent().find('select'),
+				$selectedOpt = $sitesList.find('option[selected="selected"]'),
+				$contentDiv = $(parentForm).parent(),
+				$activeTab = $contentDiv.parent().attr('id'),
 				fieldID = field.id,
-				site = {},
-				newOption;
+				site = {};
 
 			// Removing all previously saved sites in the "Select" element
-			sitesList.innerHTML = '';
+			$sitesList.empty();
 
 			// Creating "site" object and pushing it to "sitesCollector" array
 			site = {
@@ -430,7 +411,7 @@
 			sitesCollector.push(site);
 
 			// Adding active-tab at the end of array
-			sitesCollector.push(activeTab);
+			sitesCollector.push($activeTab);
 
 			// Checking if browser allows to use localStorage and if yes adding
 			// new reports to the localStorage
@@ -439,20 +420,17 @@
 				localStorage.savedReports = JSON.stringify(sitesCollector);
 			}
 
-			// Creating new option in select element
-			newOption = document.createElement('option');
-			newOption.value = url;
-
 			// Removing selection from previous item in the list
-			if (selectedOpt) {
-				selectedOpt.removeAttribute('selected');
+			if ($selectedOpt) {
+				$selectedOpt.removeAttr('selected');
 			}
 
-			// Adding "selected" attribute to the new list item
-			newOption.setAttribute('selected', 'selected');
-
-			newOption.innerHTML = title;
-			sitesList.appendChild(newOption);
+			// Creating new item in the "Select" elm and adding "selected" attr to it
+			$('<option/>', {
+				value: url,
+				selected: 'selected',
+				text: title
+			}).appendTo($sitesList);
 
 			// Call for checkEvent and then for toggle function that checks
 			// if the Reports window was opened and close it.
@@ -533,9 +511,9 @@
 				if (savedReports) {
 					var parsedData = JSON.parse(savedReports),
 						fieldsetID,
-						fieldset,
-						nameInput,
-						urlInput;
+						$fieldset,
+						$nameInput,
+						$urlInput;
 
 					/** Restoring Reports fields from Local Storage **/
 					for (i = 0; i < parsedData.length; i++) {
@@ -543,13 +521,14 @@
 						// Checks if current cell is "site" object
 						if (parsedData[i].fieldID) {
 							fieldsetID = parsedData[i].fieldID;
-							fieldset = UTILS.qs('#' + fieldsetID);
-							nameInput = fieldset.querySelector('.js-site-name');
-							urlInput = fieldset.querySelector('.js-site-url');
+
+							$fieldset = $('#' + fieldsetID);
+							$nameInput = $fieldset.find('.js-site-name');
+							$urlInput = $fieldset.find('.js-site-url');
 
 							// Adding site name and url to apropriate input fields
-							urlInput.value = parsedData[i].url;
-							nameInput.value = parsedData[i].siteName;
+							$urlInput.val(parsedData[i].url);
+							$nameInput.val(parsedData[i].siteName);
 						}
 					}
 
