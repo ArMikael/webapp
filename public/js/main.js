@@ -8,21 +8,19 @@
 
 	$.ready = function() {
 
-		/* UTILS API  Section */
-		// UTILS.ajax('data/notification.txt', {
-		// done: function(response) {
-		// 		//console.log(response);
-		// 		var text = document.createTextNode(response);
-		// 		var paragraph = document.createElement('p');
-		// 		var notification = UTILS.qs('.notifications');
-		// 		paragraph.appendChild(text);
-		// 		notification.appendChild(paragraph);
-		// 	},
+		/** AJAX  Section **/
+		var $notification = $('.notifications');
 
-		// fail: function(err) {
-		// 	document.querySelector('#xhr');
-		// 	}
-		// });
+		$.ajax({
+			url: '../data/notification.txt'
+		})
+		.done(function(response){
+			$notification.html('<p>' + response + '</p>');
+		})
+		.fail(function(error){
+			$notification.html('<p>' + error + '</p>');
+		});
+
 
 	 	/** GLOBAL VARIABLES **/
 		// Array for saving sites as JS Object
@@ -70,7 +68,6 @@
 			var target = e.currentTarget;
 			$activeTab = $('.active-tab');
 			$activeTab.removeClass('active-tab');
-			// UTILS.addClass(target, 'active-tab');
 			$(target).addClass('active-tab');
 
 
@@ -242,28 +239,28 @@
 					 '" is found.' + '</p>');
 
 					// Finding the parent tab of input for activation
-					var content = UTILS.qs('#' + sitesCollector[i].formID).parentNode,
-						tab = content.parentNode,
-						activeTab = UTILS.qs('.active-tab'),
-						iframe = content.querySelector('iframe'),
-						preSelect,
-						newSelect;
+					var $content = $('#' + sitesCollector[i].formID).parent(),
+						$tab = $content.parent(),
+						$activeTab = $('.active-tab'),
+						$iframe = $content.find('iframe'),
+						$preSelect,
+						$newSelect;
 
 					// Changing active tab
-					UTILS.removeClass(activeTab, 'active-tab');
-					UTILS.addClass(tab, 'active-tab');
+					$activeTab.removeClass('active-tab');
+					$tab.addClass('active-tab');
 
 					// Removing selection from previous item in the list
-					preSelect = content.querySelector('option[selected="selected"]');
-					preSelect.removeAttribute('selected');
+					$preSelect = $content.find(':selected');
+					$preSelect.removeAttr('selected');
 
 					// Adding "selected" attribute to the searched report
-					newSelect = content.querySelector('option[value="' +
-					 sitesCollector[i].url + '"]');
-					newSelect.setAttribute('selected', 'selected');
+					$newSelect = $content.find('option[value="' +
+						sitesCollector[i].url + '"]');
+					$newSelect.attr('selected', 'selected');
 
 					// Changing iframe src to the searched one
-					iframe.setAttribute('src', newSelect.value);
+					$iframe.attr('src', $newSelect.val());
 
 				} else {
 					$notification.html('<p>' + 'The searched report "' +
