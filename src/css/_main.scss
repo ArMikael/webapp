@@ -93,14 +93,6 @@ textarea {
 	padding: 0.2em 0;
 }
 
-/* ==========================================================================
-   Author's custom variables
-   ========================================================================== */
-$lightgrey: #E2E2E2;
-$color-black: black;
-$color-yellow: yellow;
-
-
 
 /* ==========================================================================
    Author's custom styles
@@ -274,104 +266,6 @@ header {
 
 .active-menu {
 	height: 160px;
-}
-
-
-/* ==========================================================================
-   Tabs
-   ========================================================================== */
-.tabs {
-	position: relative;
-	margin: 10px auto;
-	min-height: 1200px;
-	margin: 0 1% 2% 1%;
-	width: 97%;
-}
-
-.tab {
-	float: left;
-	height: 22px;
-	width: 22.5%;
-	margin-right: 3.33%;
-	display: inline-block;
-	background-color: #646464;
-	color: #fff;
-	padding: 10px 0;
-	cursor: pointer;
-	text-align: center;
-}
-
-.last-tab {
-	margin-right: 0;
-}
-
-.tab-icon {
-	font-size: 1rem;
-}
-
-.active-tab {
-	background-color: $lightgrey;
-	color: $color-black;
-}
-
-.content {
-	position: absolute;
-	top: 42px;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: $lightgrey;
-	padding: 20px;
-	color: $color-black;
-	display: none;
-
-	.active-tab & {
-		display: block;
-	}
-}
-
-select {
-	float: left;
-	margin: 10px 0;
-	width: 160px;
-
-	/* Accessibility for Tabs */
-	&:focus {
-		background-color: $color-yellow;
-	}
-}
-
-/* ==========================================================================
-Reports Block
-========================================================================== */
-
-.site-frame	{
-	height: 1200px;
-}
-
-.iframe {
-	overflow: hidden;
-	height: 100%;
-}
-
-.my-folders-frame,
-.public-folders-frame {
-	margin-top:40px;
-}
-
-.system-message {
-	color: red;
-	text-align: center;
-	font-size: 1.2rem;
-	margin: 30px 0 0 30px;
-	height: 50px;
-	line-height: 50px;
-	width: 60%;
-}
-
-.wrong {
-	border: 1px solid red;
-	outline: none;
 }
 
 
