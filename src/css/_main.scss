@@ -341,90 +341,9 @@ select {
 	}
 }
 
-
-
-/*
-   Reports Block
-   ========================================================================== */
-
-.reports {
-	position: absolute;
-	left: 18px;
-	top: 60px;
-	display: none;
-	z-index: 2;
-	background-color: white;
-	width: 95%;
-	height: 260px;
-	padding: 10px;
-	text-align: left;
-
-	input {
-		width: 30%;
-		height: 30px;
-		color: blue;
-	}
-}
-
-.report-row {
-	margin: 10px;
-	padding: 10px;
-	background-color: #d9d9d9;
-
-	span {
-		margin-right: 20px;
-	}
-}
-
-.site-url {
-	margin-left: 10%;
-}
-
-.app-button {
-	position: absolute;
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	text-decoration: none;
-
-	&:hover,
-	&:focus {
-		background-color: #fff;
-		cursor: pointer;
-	}
-}
-
-.active-window {
-	display: block;
-}
-
-.new-tab-btn {
-	right: 60px;
-	top: 20px;
-	background: url(../../img/icons/expand.png) no-repeat 50% 50%;
-}
-
-.reports-btn {
-	right: 20px;
-	top: 20px;
-	background: url(../../img/icons/settings.png) no-repeat 50% 50%;
-}
-
-.alone-btn {
-	right: 20px;
-	top: 20px;
-}
-
-.submit_btn,
-.cancel-btn {
-	height: 30px;
-	float: right;
-	margin: 10px;
-	background-color: #000;
-	color: white;
-	width: 100px;
-	border: none;
-}
+/* ==========================================================================
+Reports Block
+========================================================================== */
 
 .site-frame	{
 	height: 1200px;
