@@ -94,8 +94,20 @@ textarea {
 }
 
 /* ==========================================================================
+   Author's custom variables
+   ========================================================================== */
+$lightgrey: #E2E2E2;
+$color-black: black;
+$color-yellow: yellow;
+
+
+
+/* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
+
+
 
 body {
 	background: url("../../img/body-background.jpg") no-repeat;
@@ -106,7 +118,7 @@ body {
 }
 
 header {
-	background-color: black;
+	background-color: $color-black;
 	height: 40px;
 	padding: 20px;
 
@@ -157,7 +169,7 @@ header {
 
 
 .notifications {
-	background-color: #E2E2E2;
+	background-color: $lightgrey;
 	height: 30px;
 	line-height: 30px;
 	padding: 0 2%;
@@ -166,7 +178,7 @@ header {
 }
 
 .menu-hint {
-	background-color: #E2E2E2;
+	background-color: $lightgrey;
 	height: 40px;
 	text-align: left;
 	line-height: 40px;
@@ -189,7 +201,7 @@ header {
 	display: inline-block;
 	float: left;
 	position: relative;
-	background: black no-repeat center 60px;
+	background: $color-black no-repeat center 60px;
 	margin: 1%;
 	width: 31%;
 	height: 160px;
@@ -223,8 +235,8 @@ header {
 		border-bottom: 1px solid grey;
 	}
 
-	a:hover {
-		background-color: #E2E2E2;
+	a:hover, a:focus {
+		background-color: $color-yellow;
 	}
 }
 
@@ -250,20 +262,19 @@ header {
 	position: absolute;
 	left: 0;
 	top: 160px;
-	color: #E2E2E2;
+	color: $lightgrey;
 	transition: height .3s;
 	z-index: 3;
 }
 
-a.active-item {
-	background-color: yellow;
+.active-item {
+	background-color: $color-yellow;
 	transition: background-color .4s;
 }
 
 .active-menu {
 	height: 160px;
 }
-
 
 
 /* ==========================================================================
@@ -290,8 +301,7 @@ a.active-item {
 	text-align: center;
 }
 
-
-.tab:last-child {
+.last-tab {
 	margin-right: 0;
 }
 
@@ -300,8 +310,8 @@ a.active-item {
 }
 
 .active-tab {
-	background-color: #EBEBEB;
-	color: black;
+	background-color: $lightgrey;
+	color: $color-black;
 }
 
 .content {
@@ -310,26 +320,28 @@ a.active-item {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #EBEBEB;
+	background-color: $lightgrey;
 	padding: 20px;
-	color: black;
+	color: $color-black;
 	display: none;
-}
 
-.active-tab .content {
-	display: block;
+	.active-tab & {
+		display: block;
+	}
 }
 
 select {
 	float: left;
 	margin: 10px 0;
 	width: 160px;
+
+	/* Accessibility for Tabs */
+	&:focus {
+		background-color: $color-yellow;
+	}
 }
 
-/* Accessibility for Tabs */
-select:focus {
-	background-color: yellow;
-}
+
 
 /*
    Reports Block
@@ -346,27 +358,26 @@ select:focus {
 	height: 260px;
 	padding: 10px;
 	text-align: left;
-}
 
+	input {
+		width: 30%;
+		height: 30px;
+		color: blue;
+	}
+}
 
 .report-row {
 	margin: 10px;
 	padding: 10px;
 	background-color: #d9d9d9;
-}
 
-.reports input {
-	width: 30%;
-	height: 30px;
-	color: blue;
+	span {
+		margin-right: 20px;
+	}
 }
 
 .site-url {
 	margin-left: 10%;
-}
-
-.report-row span {
-	margin-right: 20px;
 }
 
 .app-button {
@@ -375,7 +386,12 @@ select:focus {
 	height: 40px;
 	display: inline-block;
 	text-decoration: none;
-	background-color: #E2E2E2;
+
+	&:hover,
+	&:focus {
+		background-color: #fff;
+		cursor: pointer;
+	}
 }
 
 .active-window {
@@ -394,18 +410,12 @@ select:focus {
 	background: url(../../img/icons/settings.png) no-repeat 50% 50%;
 }
 
-.alone {
+.alone-btn {
 	right: 20px;
 	top: 20px;
 }
 
-.app-button:hover,
-.app-button:focus {
-	background-color: #fff;
-	cursor: pointer;
-}
-
-button[type="submit"],
+.submit_btn,
 .cancel-btn {
 	height: 30px;
 	float: right;
