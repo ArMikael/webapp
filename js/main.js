@@ -7,20 +7,19 @@ window.onload = function() {
 	'use strict';
 
 	/* UTILS API  Section */
-	// UTILS.ajax('data/notification.txt', {
-	// done: function(response) {
-	// 		//console.log(response);
-	// 		var text = document.createTextNode(response);
-	// 		var paragraph = document.createElement('p');
-	// 		var notification = UTILS.qs('.notifications');
-	// 		paragraph.appendChild(text);
-	// 		notification.appendChild(paragraph);
-	// 	},
+	UTILS.ajax('data/notification.txt', {
+	done: function(response) {
+			var text = document.createTextNode(response);
+			var paragraph = document.createElement('p');
+			var notification = UTILS.qs('.notifications');
+			paragraph.appendChild(text);
+			notification.appendChild(paragraph);
+		},
 
-	// fail: function(err) {
-	// 	document.querySelector('#xhr');
-	// 	}
-	// });
+	fail: function(err) {
+		document.querySelector('#xhr');
+		}
+	});
 
  	/** GLOBAL VARIABLES **/
 	// Array for saving sites as JS Object
@@ -508,7 +507,7 @@ window.onload = function() {
 					if (parsedData[i].fieldID) {
 						fieldsetID = parsedData[i].fieldID,
 						fieldset = UTILS.qs('#' + fieldsetID),
-						nameInput = fieldset.querySelector('.js-site-name'),
+						nameInput = fieldset.querySelector('.js-site-name');
 						urlInput = fieldset.querySelector('.js-site-url');
 
 						// Adding site name and url to apropriate input fields
